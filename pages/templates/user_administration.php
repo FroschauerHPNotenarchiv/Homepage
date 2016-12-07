@@ -1,3 +1,7 @@
+<?php
+	include_once 'functions.php';
+?>
+
 <!doctype html>
 <html>
 	<head>
@@ -9,14 +13,16 @@
 				width: 12.08%;
 				list-style: none;
 				
-				border: 1px solid rgba(150, 150, 150, 0.8);
-				background-color: rgba(150, 150, 150, 0.5);
+				color: white;
+				
+				border: 1px solid rgba(150, 15, 15, 0.8);
+				background-color: rgba(150, 15, 15, 0.5);
 				text-align: center;
 				padding: 2px;
 			}
 			
 			.menu_item:hover {
-				background-color: rgba(150, 150, 150, 0.2);
+				background-color: rgba(150, 15, 15, 0.4);
 				transition: background-color 0.1s ease-in;
 			}
 			
@@ -24,7 +30,7 @@
 				clear: both;
 				margin-left: 42px;
 				width: 24%;
-				height: 600px;
+				height: 420px;
 				background-color: rgba(150, 150, 150, 0.1);
 				border: 1px solid rgba(150, 150, 150, 0.8);
 				padding: 2px;
@@ -33,7 +39,7 @@
 			.group_box {
 				border: 1px solid rgb(200, 15, 15);
 				background-color: white;
-				overflow: auto;
+				margin: 2px;
 			}
 			
 			.group_box .header {
@@ -64,9 +70,22 @@
 			
 			button {
 				width: 100%;
-				border: 1p solid rgb(150, 15, 15);
+				border: 1px solid rgb(150, 15, 15);
 				background-color: white;
+				color: rgb(150, 15, 15);
 				padding: 2px;
+			}
+			
+			button:hover {
+				border: 4px solid rgb(150, 15, 15);
+				background-color: white;
+				color: rgb(150, 15, 15);
+				padding: 2px;
+				transition: border .2s ease-in;
+			}
+			
+			.selection_box {
+				width: 100%;
 			}
 			
 		</style>
@@ -83,9 +102,23 @@
 		
 		<div class="content user_creation_content" >
 			<form>
-				<p>E-Mail: <input type="text" name="user_email" /></p>
-				<p>Passwort: <input type="text" name="user_email" /></p>
-				<p>Tel.: <input type="text" name="user_phone" /></p>
+				<div class="group_box">
+					<p class="header">Allgemeines</p>
+					<table>
+						<tr class="item">
+							<td class="header">E-Mail:</td>
+							<td><input type="text" name="user_email" /></td>
+						</tr>
+						<tr class="item">
+							<td class="header">Passwort:</td>
+							<td><input type="text" name="users_password" /></td>
+						</tr>
+						<tr class="item">
+							<td class="header">Tel.:</td>
+							<td><input type="text" name="user_phone" /></td>
+						</tr>
+					</table>
+				</div>
 				
 				<div class="group_box">
 					<p class="header">Adresse</p>
@@ -108,9 +141,39 @@
 							<td><input type="text" name="user_house_number" /></td>
 						</tr>
 					</table>
-					
-					<button type="submit">bestätigen</button>
 				</div>
+				
+				<div class="group_box">
+					<p class="header">Stimme</p>
+					<table>
+						<tr class="item">
+							<td class="header">Stimmgattung:</td>
+							<td>
+								<select class="selection_box" name="user_voice" >
+									<!-- insert php code here: voices are fetched from database -->
+									<?php
+									
+										connect("127.0.0.1", 5432, "Homepage");
+										
+										$result = query("SELECT voice_display_name
+											             FROM voices;");
+										
+										while($row = fetch_next_row($result)) {
+											?>
+												<option><?php echo $row[0] ?></option>
+											<?php
+										}
+										
+										disconnect();
+									
+									?>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<button type="submit">Bestätigen</button>
 			</form>
 		</div>
 		
