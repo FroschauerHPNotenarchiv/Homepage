@@ -1,95 +1,31 @@
 <?php
+	session_start();
 	include_once 'functions.php';
+	
+	if(isset($_POST['user_email'])) {
+		// form has been submitted
+		
+		default_connect();
+		$result = query("SELECT voice_id
+						 FROM voices
+						 WHERE voice_display_name = '{$_POST['user_voice']}'");
+		$voice_id = fetch_next_row($result)[0];
+		insert($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_EMAIL"] => $_POST["user_email"],
+											  $GLOBALS["COLUMN_USER_PASSWORD"] => hash("sha256", $_POST["user_password"]),
+											  $GLOBALS["COLUMN_USER_PHONE"] => $_POST["user_phone"],
+											  $GLOBALS["COLUMN_USER_PLACE"] => $_POST["user_place"],
+											  $GLOBALS["COLUMN_USER_POSTAL_CODE"] => $_POST["user_postal_code"],
+											  $GLOBALS["COLUMN_USER_STREET"] => $_POST["user_street"],
+											  $GLOBALS["COLUMN_USER_HOUSE_NUMBER"] => $_POST["user_house_number"],
+											  $GLOBALS["COLUMN_VOICE_ID"] => $voice_id));
+	    $_SESSION[$GLOBALS["CURRENT_USER"]] = $_POST["user_email"];
+	}
 ?>
 
 <!doctype html>
 <html>
 	<head>
-	
-		<style>
-			.menu_item {
-				float: left;
-				margin: 1px;
-				width: 12.08%;
-				list-style: none;
-				
-				color: white;
-				
-				border: 1px solid rgba(150, 15, 15, 0.8);
-				background-color: rgba(150, 15, 15, 0.5);
-				text-align: center;
-				padding: 2px;
-			}
-			
-			.menu_item:hover {
-				background-color: rgba(150, 15, 15, 0.4);
-				transition: background-color 0.1s ease-in;
-			}
-			
-			.content {
-				clear: both;
-				margin-left: 42px;
-				width: 24%;
-				height: 420px;
-				background-color: rgba(150, 150, 150, 0.1);
-				border: 1px solid rgba(150, 150, 150, 0.8);
-				padding: 2px;
-			}
-			
-			.group_box {
-				border: 1px solid rgb(200, 15, 15);
-				background-color: white;
-				margin: 2px;
-			}
-			
-			.group_box .header {
-				text-align: center;
-				margin: 5px 0px 0px 0px;
-				height: 30px;
-				color: rgb(150, 15, 15);
-				border-bottom: 1px solid rgb(200, 15, 15);
-			}
-			
-			.group_box .item {
-				width: 100%;
-				height: 20px;
-			}
-			
-			.group_box .item .header {
-				text-align: right;
-				width: 50%;
-				margin: 5px 0px 0px 0px;
-				height: 30px;
-				color: rgb(150, 15, 15);
-				border-bottom: none;
-			}
-			
-			.group_box .item input {
-				margin: 5px;
-			}
-			
-			button {
-				width: 100%;
-				border: 1px solid rgb(150, 15, 15);
-				background-color: white;
-				color: rgb(150, 15, 15);
-				padding: 2px;
-			}
-			
-			button:hover {
-				border: 4px solid rgb(150, 15, 15);
-				background-color: white;
-				color: rgb(150, 15, 15);
-				padding: 2px;
-				transition: border .2s ease-in;
-			}
-			
-			.selection_box {
-				width: 100%;
-			}
-			
-		</style>
-	
+		<link rel="stylesheet" href="user_administration.css" />	
 	</head>
 	<body>
 
@@ -101,21 +37,21 @@
 		</ul>
 		
 		<div class="content user_creation_content" >
-			<form>
+			<form action="user_administration.php" method="post">
 				<div class="group_box">
 					<p class="header">Allgemeines</p>
 					<table>
 						<tr class="item">
 							<td class="header">E-Mail:</td>
-							<td><input type="text" name="user_email" /></td>
+							<td><input spellcheck="false" type="text" name="user_email" /></td>
 						</tr>
 						<tr class="item">
 							<td class="header">Passwort:</td>
-							<td><input type="text" name="users_password" /></td>
+							<td><input spellcheck="false" type="password" name="user_password" /></td>
 						</tr>
 						<tr class="item">
 							<td class="header">Tel.:</td>
-							<td><input type="text" name="user_phone" /></td>
+							<td><input spellcheck="false" type="text" name="user_phone" /></td>
 						</tr>
 					</table>
 				</div>
@@ -126,19 +62,19 @@
 					<table>
 						<tr class="item">
 							<td class="header">Ort:</td>
-							<td><input type="text" name="user_place" /></td>
+							<td><input spellcheck="false" type="text" name="user_place" /></td>
 						</tr>
 						<tr class="item">
 							<td class="header">PLZ:</td>
-							<td><input type="text" name="user_postal_code" /></td>
+							<td><input spellcheck="false" type="text" name="user_postal_code" /></td>
 						</tr>
 						<tr class="item">
 							<td class="header">Straße:</td>
-							<td><input type="text" name="user_street" /></td>
+							<td><input spellcheck="false" type="text" name="user_street" /></td>
 						</tr>
 						<tr class="item">
 							<td class="header">Hausnummer:</td>
-							<td><input type="text" name="user_house_number" /></td>
+							<td><input spellcheck="false" type="text" name="user_house_number" /></td>
 						</tr>
 					</table>
 				</div>
@@ -153,7 +89,7 @@
 									<!-- insert php code here: voices are fetched from database -->
 									<?php
 									
-										connect("127.0.0.1", 5432, "Homepage");
+										default_connect();
 										
 										$result = query("SELECT voice_display_name
 											             FROM voices;");

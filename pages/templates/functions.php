@@ -1,9 +1,13 @@
 <?php
 
-$GLOBALS["DB_CONNECTION"] = "DB_CONNECTION";
+include "constants.php";
 
 function print_debug($message) {
 	?><script>document.body.innerHTML = "<p class='internal_error'><?php echo $message ?></p>";</script><?php
+}
+
+function default_connect() {
+	connect("127.0.0.1", 5432, "Homepage");
 }
 
 function connect($host, $port, $dbname) {
@@ -12,6 +16,11 @@ function connect($host, $port, $dbname) {
 		$_SESSION[$GLOBALS["DB_CONNECTION"]] = $connection;
 	else
 		print_debug("The database connection was not successfully established!");
+}
+
+function insert($table_name, $values) {
+	pg_insert($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values);
+		//print_debug("Insert failed! Try again with different table_name or values!");
 }
 
 function query($sql) {
@@ -30,7 +39,7 @@ function disconnect() {
 	if($_SESSION[$GLOBALS["DB_CONNECTION"]] === null)
 		print_debug("The database connection was closed prior to the invocation of the disconnect function!");
 	else {
-		pg_close($connection);
+		pg_close($_SESSION[$GLOBALS["DB_CONNECTION"]]);
 		$_SESSION[$GLOBALS["DB_CONNECTION"]] = null;
 	}
 		
