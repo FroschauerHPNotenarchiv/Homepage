@@ -3,7 +3,7 @@
 require_once __DIR__.'/vendor/autoload.php';
 
 $_PUBLIC_CALENDAR_ID = 'ool425dd1d9cja0gbttopntlb8@group.calendar.google.com';
-$_INTERN_CALENDAR_ID = 'ool425dd1d9cja0gbttopntlb8@group.calendar.google.com';
+$_INTERN_CALENDAR_ID = 'gaomf02l3av7q9bon3d3ng3vr8@group.calendar.google.com';
 
 function deleteEvents($service) {
 	$response = $service->events->listEvents($_PUBLIC_CALENDAR_ID);
