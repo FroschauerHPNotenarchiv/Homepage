@@ -1,59 +1,90 @@
+<?php
+	session_start();
+	require_once 'func.php';
+
+	$client = getClient();
+	$service = new Google_Service_Calendar($client);
+	
+	$_SESSION['email'] = 'hi'; 
+	
+	$internEvents;
+	$publicEvents;
+	
+	if(isLoggedIn()) {
+		$internEvents = $service->events->listEvents($_INTERN_CALENDAR_ID);
+	}
+	$publicEvents = $service->events->listEvents($_PUBLIC_CALENDAR_ID);
+	
+	function isLoggedIn() {
+		if(isset($_SESSION['email'])) {
+			return true;
+		}
+		return false;
+	}
+	
+	function populateCalendar($events) {
+		
+		echo '<script type="text/javascript">',
+				'removeCalendarNodes();',
+			'</script>';
+		
+		while(true) {
+				foreach ($events->getItems() as $event) {
+					$lol = $event->getStart()->getDateTime();
+					$date = date("d.m.Y - h:i", strtotime($lol));
+					$click = "onclick=\"calendarClick('" . $event->getSummary() . "', '" . $event->getDescription() . "', '" . $date . "')\"";
+					?>
+					<div class="calendar-entry" <?php echo $click ?>>
+						
+						<p>  <?php echo $event->getSummary(); ?> </p>
+						<p class="entry-date"> <?php echo $date ?></p>
+						
+					</div>
+					<?php
+				}
+					
+					
+				$pageToken = $events->getNextPageToken();
+				if ($pageToken) {
+					$optParams = array('pageToken' => $pageToken);
+					if(isLoggedIn()) {
+						$events = $service->events->listEvents($_INTERN_CALENDAR_ID, $optParams);
+					} else {
+						$events = $service->events->listEvents($_PUBLIC_CALENDAR_ID, $optParams);
+					}
+					
+				} else {
+					break;
+				}
+			}
+			}
+			?>
+	
+?>
 <!DOCTYPE html>
 <html>
-<?php
-
-require_once 'func.php';
-
-$client = getClient();
-$service = new Google_Service_Calendar($client);
-$events = $service->events->listEvents($_PUBLIC_CALENDAR_ID);
-
-?>
 	<head>
 		<title>Google Calendar Test</title>
-		<link rel="stylesheet" type="text/css" href="../../res/modal-style.css">
+		<link rel="stylesheet" href="../../res/calendar-style.css">
+		<link rel="stylesheet" href="../../res/modal-style.css">		
 	</head>
 	
-	<style>
-		.event-title {
-			font-family: Arial;
-			font-size: 1em;
-		}
-		
-		.calendar-entry {
-			margin-bottom: 3%;
-			font-family: Arial;
-			background: #b7babf;
-			padding: 2px 6px;
-			border-radius: 20px;
-		}
-		
-		.calendar-entry:hover {
-			background: #c6c9ce;
-			cursor: pointer;
-		}
-		
-		.calendar {
-			width: 30%;
-		}
-		
-		.entry-date {
-			
-			color: gray;
-			font-size: 0.9em;
-			margin-top: -5px;
-			
-		}
-		
-		
-		
-		
-	</style>
 	
 	<body>
 		<h1>Calendar Entrys</h1>
+		<?php
+			if(isLoggedIn()) {
+				?> <label class='switch'>
+					<input id="checkbox" type='checkbox' onclick='checkboxClick()'>
+					  <div class='slider round'></div>
+					</label>
+					<p id="whatToShow"> Anzeigen: Chorinterne Termine</p>
+					<?php
+			}
+		?>
 		
 			<div id="myModal" class="modal">
+			
 
 		  <!-- Modal content -->
 		  <div class="modal-content">
@@ -71,33 +102,9 @@ $events = $service->events->listEvents($_PUBLIC_CALENDAR_ID);
 
 		</div>
 		
-			<div class="calendar">
+			<div class="calendar" id="calendar">
 			<?php 
-			
-			while(true) {
-				foreach ($events->getItems() as $event) {
-					$lol = $event->getStart()->getDateTime();
-					$date = date("d.m.Y - h:i", strtotime($lol));
-					$click = "onclick=\"calendarClick('" . $event->getSummary() . "', '" . $event->getDescription() . "', '" . $date . "')\"";
-					?>
-					<div class="calendar-entry" <?php echo $click ?>>
-						
-						<p>  <?php echo $event->getSummary(); ?> </p>
-						<p class="entry-date"> <?php echo $date ?></p>
-						
-					</div>
-					<?php
-				}
-					
-				$pageToken = $events->getNextPageToken();
-				if ($pageToken) {
-					$optParams = array('pageToken' => $pageToken);
-					$events = $service->events->listEvents($_PUBLIC_CALENDAR_ID, $optParams);
-				} else {
-					break;
-				}
-			}
-			
+				populateCalendar($internEvents);
 			?>
 			</div>
 		
@@ -129,6 +136,29 @@ $events = $service->events->listEvents($_PUBLIC_CALENDAR_ID);
 		document.getElementById("modalContent").innerHTML = description;
 		document.getElementById("modalFooter").innerHTML = date;
 		modal.style.display = "block";
+	}
+	
+	function removeCalendarNodes() {
+		var calendar = document.getElementById('calendar');
+		while (calendar.hasChildNodes()) {
+			calendar.removeChild(calendar.lastChild);
+		}
+	}
+	
+	function checkboxClick() {
+		
+		var text = document.getElementById("whatToShow");
+		var box = document.getElementById("checkbox");
+		
+		if(box.checked) {
+			text.innerHTML = "Anzeigen: Externe Termine";
+		} else {
+			text.innerHTML = "Anzeigen: Chorinterne Termine";
+		}
+		
+		
+		
+		
 	}
 		
 	
