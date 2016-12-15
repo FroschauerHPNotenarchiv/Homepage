@@ -10,5 +10,7 @@
 	$GLOBALS["COLUMN_USER_POSTAL_CODE"] = "user_postal_code";
 	$GLOBALS["COLUMN_USER_STREET"] = "user_street";
 	$GLOBALS["COLUMN_USER_HOUSE_NUMBER"] = "user_house_number";
+	$GLOBALS["COLUMN_USER_FIRSTNAME"] = "user_firstname";
+	$GLOBALS["COLUMN_USER_LASTNAME"] = "user_lastname";
 	$GLOBALS["COLUMN_VOICE_ID"] = "voice_id";
 ?>

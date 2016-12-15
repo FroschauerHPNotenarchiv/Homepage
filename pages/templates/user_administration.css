@@ -21,7 +21,7 @@
 	clear: both;
 	margin-left: 42px;
 	width: 24%;
-	height: 420px;
+	height: 500px;
 	background-color: rgba(150, 150, 150, 0.1);
 	border: 1px solid rgba(150, 150, 150, 0.8);
 	padding: 2px;
@@ -39,6 +39,12 @@
 	height: 30px;
 	color: rgb(150, 15, 15);
 	border-bottom: 1px solid rgb(200, 15, 15);
+}
+
+.group_box .text {
+	text-align: left;
+	margin: 5px;
+	width: 80%;
 }
 
 .group_box .item {

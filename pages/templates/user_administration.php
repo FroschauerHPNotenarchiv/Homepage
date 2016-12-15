@@ -11,6 +11,8 @@
 						 WHERE voice_display_name = '{$_POST['user_voice']}'");
 		$voice_id = fetch_next_row($result)[0];
 		insert($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_EMAIL"] => $_POST["user_email"],
+											  $GLOBALS["COLUMN_USER_FIRSTNAME"] => $_POST["user_firstname"],
+											  $GLOBALS["COLUMN_USER_LASTNAME"] => $_POST["user_lastname"],
 											  $GLOBALS["COLUMN_USER_PASSWORD"] => hash("sha256", $_POST["user_password"]),
 											  $GLOBALS["COLUMN_USER_PHONE"] => $_POST["user_phone"],
 											  $GLOBALS["COLUMN_USER_PLACE"] => $_POST["user_place"],
@@ -41,6 +43,14 @@
 				<div class="group_box">
 					<p class="header">Allgemeines</p>
 					<table>
+						<tr class="item">
+							<td class="header">Vorname:</td>
+							<td><input spellcheck="false" type="text" name="user_firstname" /></td>
+						</tr>
+						<tr class="item">
+							<td class="header">Nachname:</td>
+							<td><input spellcheck="false" type="text" name="user_lastname" /></td>
+						</tr>
 						<tr class="item">
 							<td class="header">E-Mail:</td>
 							<td><input spellcheck="false" type="text" name="user_email" /></td>
@@ -114,7 +124,26 @@
 		</div>
 		
 		<div class="content user_alteration_content">
-			benutzer bearbeiten
+			<?php 
+				default_connect();
+				$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS['COLUMN_USER_FIRSTNAME']}, {$GLOBALS["COLUMN_USER_LASTNAME"]}
+								 FROM {$GLOBALS['USERS_TABLE']};");
+				while($row = fetch_next_row($result)) {
+					?>
+						<div class="group_box">
+							<table>
+								<tr class="item">
+									<td class="header"><?php echo $row[0] ?></td>
+									<br />
+									<td class="text"><?php echo $row[1] . " " . $row[2] ?></td>
+								</tr>
+							</table>
+						</div>
+					<?php
+				}
+				
+				disconnect();
+			?>
 		</div>
 		
 		<script>
@@ -124,7 +153,7 @@
 			}
 			
 			hideAllContentContainers();
-			$(".user_creation_content").show(); // default setting ; display change page for users
+			$(".user_alteration_content").show(); // default setting ; display change page for users
 			
 		
 			$(".user_creation").click(function() {
