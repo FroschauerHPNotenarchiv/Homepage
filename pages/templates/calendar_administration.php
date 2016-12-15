@@ -4,24 +4,34 @@
 	<style>
 	
 		.administration {
-			width: 20%;
+			width: 30%;
 			background: lightgray;
 			border: 2px solid black;
-			padding: 5px 15px;
+			padding: 5px 10px;
 		}
 		
 		.calendar-input {
-			width: 90%;
+			width: 100%;
+		}
+		
+		p {
+			margin-bottom: 10px;
 		}
 		
 		.calendar-input:focus {
-			width: 90%;
-			background: lightyellow;
+			background: #8ef78c;
 			text-decoration: none;
 		}
 		
 		.submit {
 			margin-top: 5px;
+			width: 100%;
+			text-align: center;
+		}
+		
+		.submit:hover {
+			font-weight: bold;
+			cursor: pointer;
 		}
 	</style>
 	<head>
@@ -31,9 +41,9 @@
 	<body>
 		<div class="administration">
 			
-			<p>Interne Kalender-ID: </p>
+			<p>Interne Google-Kalender-ID: </p>
 			<input class="calendar-input" type="text"/>
-			<p>Externe Kalender-ID: </p>
+			<p>Externe Google-Kalender-ID: </p>
 			<input class="calendar-input" type="text"/>
 			<button class="submit">Speichern</button>
 			
