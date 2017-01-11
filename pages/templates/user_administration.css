@@ -21,7 +21,7 @@
 	clear: both;
 	margin-left: 42px;
 	width: 24%;
-	height: 500px;
+	height: 465px;
 	background-color: rgba(150, 150, 150, 0.1);
 	border: 1px solid rgba(150, 150, 150, 0.8);
 	padding: 2px;
@@ -36,7 +36,7 @@
 .group_box .header {
 	text-align: center;
 	margin: 5px 0px 0px 0px;
-	height: 30px;
+	height: 23px;
 	color: rgb(150, 15, 15);
 	border-bottom: 1px solid rgb(200, 15, 15);
 }
@@ -63,7 +63,14 @@
 
 .group_box .item input {
 	margin: 5px;
-	width: 80%;
+	width: 120%;
+}
+
+.group_box .item select {
+	width: 100px;
+	text-align: center;
+	padding: 2px;
+	margin: 2px;
 }
 
 button {
@@ -83,5 +90,5 @@ button:hover {
 }
 
 .selection_box {
-	width: 100%;
+	width: 80%;
 }
