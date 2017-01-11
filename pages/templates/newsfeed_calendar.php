@@ -1,64 +1,37 @@
 <?php
 	session_start();
 	require_once 'func.php';
+	include_once 'functions.php';
 
-	$client = getClient();
-	$service = new Google_Service_Calendar($client);
-	
-	$_SESSION['email'] = 'hi'; 
-	
-	$internEvents;
-	$publicEvents;
-	
-	if(isLoggedIn()) {
-		$internEvents = $service->events->listEvents($_INTERN_CALENDAR_ID);
-	}
-	$publicEvents = $service->events->listEvents($_PUBLIC_CALENDAR_ID);
-	
-	function isLoggedIn() {
-		if(isset($_SESSION['email'])) {
-			return true;
+	$_SESSION['email'] = 'hi';
+	try {
+		$client = getClient();
+		$service = new Google_Service_Calendar($client);
+				
+		// Do not fetch entrys from past events
+		$queryParams = array(
+			'orderBy' => 'startTime',
+			'singleEvents' => true,
+			'maxResults' => 10,
+			'timeMin' => date_format(new DateTime('now'), DateTime::ATOM)
+		);
+			
+		if(isLoggedIn()) {
+			$events = $service->events->listEvents($_INTERN_CALENDAR_ID, $queryParams);
+		} else {
+			$events = $service->events->listEvents($_PUBLIC_CALENDAR_ID, $queryParams);
 		}
-		return false;
+	} catch(Exception $exception) {
+		echo "Google Calendar Error: Unable to fetch events from calendar!";
+		echo $exception->getMessage();
 	}
 	
-	function populateCalendar($events) {
-		
-		echo '<script type="text/javascript">',
-				'removeCalendarNodes();',
-			'</script>';
-		
-		while(true) {
-				foreach ($events->getItems() as $event) {
-					$lol = $event->getStart()->getDateTime();
-					$date = date("d.m.Y - h:i", strtotime($lol));
-					$click = "onclick=\"calendarClick('" . $event->getSummary() . "', '" . $event->getDescription() . "', '" . $date . "')\"";
-					?>
-					<div class="calendar-entry" <?php echo $click ?>>
-						
-						<p>  <?php echo $event->getSummary(); ?> </p>
-						<p class="entry-date"> <?php echo $date ?></p>
-						
-					</div>
-					<?php
-				}
-					
-					
-				$pageToken = $events->getNextPageToken();
-				if ($pageToken) {
-					$optParams = array('pageToken' => $pageToken);
-					if(isLoggedIn()) {
-						$events = $service->events->listEvents($_INTERN_CALENDAR_ID, $optParams);
-					} else {
-						$events = $service->events->listEvents($_PUBLIC_CALENDAR_ID, $optParams);
-					}
-					
-				} else {
-					break;
-				}
-			}
-			}
-			?>
+function isLoggedIn() {
+	if(isset($_SESSION['email'])) {
+		return true;
+	}
+	return false;
+}
 	
 ?>
 <!DOCTYPE html>
@@ -72,17 +45,7 @@
 	
 	<body>
 		<h1>Calendar Entrys</h1>
-		<?php
-			if(isLoggedIn()) {
-				?> <label class='switch'>
-					<input id="checkbox" type='checkbox' onclick='checkboxClick()'>
-					  <div class='slider round'></div>
-					</label>
-					<p id="whatToShow"> Anzeigen: Chorinterne Termine</p>
-					<?php
-			}
-		?>
-		
+
 			<div id="myModal" class="modal">
 			
 
@@ -104,7 +67,36 @@
 		
 			<div class="calendar" id="calendar">
 			<?php 
-				populateCalendar($internEvents);
+				/* Fetching calendar events and displaying them */
+					while(true) {
+						foreach ($events->getItems() as $event) {
+							$lol = $event->getStart()->getDateTime();
+							$date = date("d.m.Y - h:i", strtotime($lol));
+							$click = "onclick=\"calendarClick('" . $event->getSummary() . "', '" . $event->getDescription() . "', '" . $date . "')\"";
+							?>
+							<div class="calendar-entry" <?php echo $click ?>>
+								
+								<p>  <?php echo $event->getSummary(); ?> </p>
+								<p class="entry-date"> <?php echo $date ?></p>
+								
+							</div>
+							<?php
+						}
+				
+				
+					$pageToken = $events->getNextPageToken();
+					if ($pageToken) {
+						$optParams = array('pageToken' => $pageToken);
+						if(isLoggedIn()) {
+							$events = $service->events->listEvents($_INTERN_CALENDAR_ID, $optParams);
+						} else {
+							$events = $service->events->listEvents($_PUBLIC_CALENDAR_ID, $optParams);
+						}
+						
+					} else {
+						break;
+					}
+		}
 			?>
 			</div>
 		
@@ -155,8 +147,6 @@
 		} else {
 			text.innerHTML = "Anzeigen: Chorinterne Termine";
 		}
-		
-		
 		
 		
 	}
