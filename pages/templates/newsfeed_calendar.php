@@ -12,6 +12,7 @@
 		$queryParams = array(
 			'orderBy' => 'startTime',
 			'singleEvents' => true,
+			'maxResults' => 10,
 			'timeMin' => date_format(new DateTime('now'), DateTime::ATOM)
 		);
 			
@@ -22,6 +23,7 @@
 		}
 	} catch(Exception $exception) {
 		echo "Google Calendar Error: Unable to fetch events from calendar!";
+		echo $exception->getMessage();
 	}
 	
 function isLoggedIn() {

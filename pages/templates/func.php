@@ -2,9 +2,15 @@
 
 require_once __DIR__.'/vendor/autoload.php';
 
-/* Add code to fetch calendar ids here, static ids for test purposes*/
-$_PUBLIC_CALENDAR_ID = 'ool425dd1d9cja0gbttopntlb8@group.calendar.google.com';
-$_INTERN_CALENDAR_ID = 'gaomf02l3av7q9bon3d3ng3vr8@group.calendar.google.com';
+
+$json = json_decode(file_get_contents('results.json'), true);
+$_PUBLIC_CALENDAR_ID = $json['extern'];
+$_INTERN_CALENDAR_ID = $json['intern'];
+
+
+//$_PUBLIC_CALENDAR_ID = 'ool425dd1d9cja0gbttopntlb8@group.calendar.google.com';
+//$_INTERN_CALENDAR_ID = 'gaomf02l3av7q9bon3d3ng3vr8@group.calendar.google.com';
+
 
 function deleteEvents($service) {
 	$response = $service->events->listEvents($_PUBLIC_CALENDAR_ID);
@@ -25,6 +31,18 @@ function deleteEvents($service) {
 		echo 'Sucessfully deleted ' . $i . ' calendar entrys!';
 	}
 
+}
+
+function verifyCalendar($calendarId) {
+	$client = getClient();
+	$service = new Google_Service_Calendar($client);
+	
+	try {
+		$data = $service->calendars->get($calendarId);
+		return true;
+	} catch(Exception $e) {
+		return false;
+	}
 }
 
 function createEvent($service, $summary, $location = 'Somewhere', $description = "Adequate Description") {

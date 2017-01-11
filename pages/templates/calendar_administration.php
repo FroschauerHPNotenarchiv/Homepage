@@ -1,37 +1,71 @@
+<?php 
+	session_start();
+	require_once 'func.php';
+	
+	if(isset($_POST['verify'])) {
+		
+		if(verifyCalendar($_POST['internId'])) {
+			$intern = "../../res/verify-ok.png";
+		} else {
+			$intern = "../../res/verify-fail.png";
+		}
+		if(verifyCalendar($_POST['externId'])) {
+			$extern = "../../res/verify-ok.png";
+		} else {
+			$extern = "../../res/verify-fail.png";
+		}
+	}
+	else if(isset($_POST['save'])) {
+		$response = array(
+			'intern' => $_POST['internId'],
+			'extern' => $_POST['externId']
+		);
+		$fp = fopen('results.json', 'w');
+		fwrite($fp, json_encode($response));
+		fclose($fp);
+	} else {
+		$_POST['externId'] = $_PUBLIC_CALENDAR_ID;
+		$_POST['internId'] = $_INTERN_CALENDAR_ID;
+	}
+	
+?>
+
 <!DOCTYPE html>
 <html>
 
 	<style>
-	
-		.administration {
-			width: 30%;
-			background: lightgray;
-			border: 2px solid black;
-			padding: 5px 10px;
-		}
-		
-		.calendar-input {
-			width: 100%;
+		label {
+			text-align: left;
+			float: left;
+			width: 100px;
+			font-weight: bold;
 		}
 		
 		p {
-			margin-bottom: 10px;
+			clear: both;
+			font-family: Trebuchet MS;
 		}
 		
-		.calendar-input:focus {
-			background: #8ef78c;
-			text-decoration: none;
+		input {
+			width: 80%;
 		}
 		
-		.submit {
-			margin-top: 5px;
-			width: 100%;
-			text-align: center;
+		form {
+			width: 300px;
 		}
 		
-		.submit:hover {
-			font-weight: bold;
-			cursor: pointer;
+		img {
+			width: 24px;
+			height: 24px;
+		}
+		
+		p.changed {
+			color: green;
+			padding: 5px;
+			font-family: Tahoma;
+			background: lime;
+			border-radius: 10px;
+			
 		}
 	</style>
 	<head>
@@ -39,14 +73,34 @@
 	</head>
 	
 	<body>
-		<div class="administration">
+		
+		<form action="calendar_administration.php" method="post">
+			<fieldset>
+				<legend>Kalenderdaten</legend>
+				<p><label>Interne ID:</label>
+					<input name="internId" value="<?php echo $_POST['internId'] ?>"></input>
+					
+					<?php if(isset($_POST['verify'])) : ?>
+						<img src="<?php echo $intern;?>"></img>
+					<?php endif; ?>
+					
+				</p>
+				
+				
+				<p><label>Externe ID:</label><input name="externId" value="<?php echo $_POST['externId'] ?>"></input>
+				<?php if(isset($_POST['verify'])) : ?>
+						<img src="<?php echo $extern;?>"></img>
+					<?php endif; ?>
+				</p>
+				<p><button name="verify" type="submit">Verifizieren</button><button name="save" type="submit">Speichern</button></p>
+				
+				<?php if(isset($_POST['save'])) : ?>
+			<p class="changed">Die Kalenderdaten wurden erfolgreich geändert!</p>
+			<?php endif;?>
 			
-			<p>Interne Google-Kalender-ID: </p>
-			<input class="calendar-input" type="text"/>
-			<p>Externe Google-Kalender-ID: </p>
-			<input class="calendar-input" type="text"/>
-			<button class="submit">Speichern</button>
+			</fieldset>
 			
-		</div>
+		</form>
+		
 	</body>
 </html>
