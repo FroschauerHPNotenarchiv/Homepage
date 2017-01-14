@@ -23,6 +23,14 @@ function insert($table_name, $values) {
 		//print_debug("Insert failed! Try again with different table_name or values!");
 }
 
+function delete_entries($table_name, $values) {
+	pg_delete($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values);
+}
+
+function update($table_name, $values, $conditions) {
+	pg_update($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values, $conditions);
+}
+
 function query($sql) {
 	$result = pg_query($_SESSION[$GLOBALS["DB_CONNECTION"]], $sql);
 	if($result === null)
@@ -43,6 +51,19 @@ function disconnect() {
 		$_SESSION[$GLOBALS["DB_CONNECTION"]] = null;
 	}
 		
+}
+
+function request_voice_and_role_id() {
+	$var = query("SELECT {$GLOBALS["COLUMN_VOICES_ID"]}
+					 FROM {$GLOBALS["VOICES_TABLE"]}
+					 WHERE {$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"]} = '{$_POST['user_voice']}'");
+	$voice_id = fetch_next_row($var)[0];
+	
+	$var = query("SELECT {$GLOBALS["COLUMN_ROLES_ID"]}
+					 FROM {$GLOBALS["ROLES_TABLE"]}
+					 WHERE {$GLOBALS["COLUMN_ROLES_DISPLAY_NAME"]} = '{$_POST['user_role']}'");
+	$role_id = fetch_next_row($var)[0];
+	return array($voice_id, $role_id);
 }
 
 ?>
