@@ -19,11 +19,16 @@
 	$GLOBALS["COLUMN_USER_LASTNAME"] = "user_lastname";
 	$GLOBALS["COLUMN_VOICE_ID"] = "voice_id";
 	
+	$GLOBALS["COLUMN_PORTRAIT_PATH"] = "portrait_path";
+	
 	$GLOBALS["COLUMN_VOICES_ID"] = "voice_id";
 	$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"] = "voice_display_name";
 	
 	$GLOBALS["ACTION_DELETE"] = "delete";
 	$GLOBALS["ACTION_ALTER"] = "alter";
+	$GLOBALS["ACTION_CREATE"] = "create";
 	
 	$GLOBALS["PARAM_EMAIL"] = "email";
+	
+	$GLOBALS["MEMBER_PICTURE_PATH"] = "Root/Picture Gallary/Member Pictures";
 ?>

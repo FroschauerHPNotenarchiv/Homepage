@@ -6,6 +6,13 @@
 		default_connect();
 		
 		if($_GET["action"] === $GLOBALS["ACTION_DELETE"]) {
+			$result = query("SELECT{$GLOBALS["COLUMN_PORTRAIT_PATH"]}
+							 FROM {$GLOBALS["USERS_TABLE"]}
+							 WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$_GET["email"]}'");
+			
+			$result = fetch_next_row($result);
+			unlink($result[0]);
+			
 			delete_entries($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_EMAIL"] => $_GET["email"]));
 		}
 		
@@ -13,7 +20,7 @@
 			
 			$ids = request_voice_and_role_id();
 			
-			$result = query("SELECT {$GLOBALS["COLUMN_USER_PASSWORD"]}
+			$result = query("SELECT {$GLOBALS["COLUMN_USER_PASSWORD"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}
 							 FROM {$GLOBALS["USERS_TABLE"]}
 							 WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$_GET[$GLOBALS["PARAM_EMAIL"]]}'");
 			$result = fetch_next_row($result);
@@ -21,6 +28,14 @@
 			$newUserPassword = $result[0];
 			if($_POST["user_password"] !== "")
 				$newUserPassword = hash("sha256", $_POST["user_password"]);
+			
+			$newPortraitPath = $result[1];
+			if(strlen($_FILES["user_portrait"]['name']) >= 0) {
+				unlink($newPortraitPath);
+				$internalPath = $_SERVER['DOCUMENT_ROOT'] . "/{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . pathinfo($_FILES["user_portrait"]['name'], PATHINFO_EXTENSION);
+				move_uploaded_file($_FILES["user_portrait"]['tmp_name'], $internalPath);
+				$newPortraitPath = $internalPath;
+			}
 			
 			update($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_EMAIL"] => $_POST["user_email"],
 												  $GLOBALS["COLUMN_USER_FIRSTNAME"] => $_POST["user_firstname"],
@@ -32,34 +47,43 @@
 											      $GLOBALS["COLUMN_USER_STREET"] => $_POST["user_street"],
 											      $GLOBALS["COLUMN_USER_HOUSE_NUMBER"] => $_POST["user_house_number"],
 											      $GLOBALS["COLUMN_VOICE_ID"] => $ids[0],
-											      $GLOBALS["COLUMN_ROLES_ID"] => $ids[1]), 
+											      $GLOBALS["COLUMN_ROLES_ID"] => $ids[1],
+												  $GLOBALS["COLUMN_PORTRAIT_PATH"] => $newPortraitPath), 
 											array($GLOBALS["COLUMN_USER_EMAIL"] => $_GET[$GLOBALS["PARAM_EMAIL"]]));
+											
+		}
+		
+		if($_GET["action"] === $GLOBALS["ACTION_CREATE"]) {
+			if(isset($_POST['user_email'])) {
+				// form has been submitted
+				
+				default_connect();
+				$ids = request_voice_and_role_id();
+				
+				$internalPath = $_SERVER['DOCUMENT_ROOT'] . "/{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . pathinfo($_FILES["user_portrait"]['name'], PATHINFO_EXTENSION);
+				
+				insert($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_EMAIL"] => $_POST["user_email"],
+													  $GLOBALS["COLUMN_USER_FIRSTNAME"] => $_POST["user_firstname"],
+													  $GLOBALS["COLUMN_USER_LASTNAME"] => $_POST["user_lastname"],
+													  $GLOBALS["COLUMN_USER_PASSWORD"] => hash("sha256", $_POST["user_password"]),
+													  $GLOBALS["COLUMN_USER_PHONE"] => $_POST["user_phone"],
+													  $GLOBALS["COLUMN_USER_PLACE"] => $_POST["user_place"],
+													  $GLOBALS["COLUMN_USER_POSTAL_CODE"] => $_POST["user_postal_code"],
+													  $GLOBALS["COLUMN_USER_STREET"] => $_POST["user_street"],
+													  $GLOBALS["COLUMN_USER_HOUSE_NUMBER"] => $_POST["user_house_number"],
+													  $GLOBALS["COLUMN_VOICE_ID"] => $ids[0],
+													  $GLOBALS["COLUMN_ROLES_ID"] => $ids[1],
+													  $GLOBALS["COLUMN_PORTRAIT_PATH"] => $internalPath));
+				$_SESSION[$GLOBALS["CURRENT_USER"]] = $_POST["user_email"];
+				
+				move_uploaded_file($_FILES["user_portrait"]['tmp_name'], $internalPath);
+				
+				disconnect();
+			}
 		}
 		
 		$_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'));
 		header("Location: {$_SERVER['REQUEST_URI']}");
-		
-		disconnect();
-	}
-	
-	if(isset($_POST['user_email'])) {
-		// form has been submitted
-		
-		default_connect();
-		$ids = request_voice_and_role_id();
-		
-		insert($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_EMAIL"] => $_POST["user_email"],
-											  $GLOBALS["COLUMN_USER_FIRSTNAME"] => $_POST["user_firstname"],
-											  $GLOBALS["COLUMN_USER_LASTNAME"] => $_POST["user_lastname"],
-											  $GLOBALS["COLUMN_USER_PASSWORD"] => hash("sha256", $_POST["user_password"]),
-											  $GLOBALS["COLUMN_USER_PHONE"] => $_POST["user_phone"],
-											  $GLOBALS["COLUMN_USER_PLACE"] => $_POST["user_place"],
-											  $GLOBALS["COLUMN_USER_POSTAL_CODE"] => $_POST["user_postal_code"],
-											  $GLOBALS["COLUMN_USER_STREET"] => $_POST["user_street"],
-											  $GLOBALS["COLUMN_USER_HOUSE_NUMBER"] => $_POST["user_house_number"],
-											  $GLOBALS["COLUMN_VOICE_ID"] => $ids[0],
-											  $GLOBALS["COLUMN_ROLES_ID"] => $ids[1]));
-	    $_SESSION[$GLOBALS["CURRENT_USER"]] = $_POST["user_email"];
 		
 		disconnect();
 	}
@@ -97,7 +121,7 @@
 			?>
 		
 		
-			<form action="user_administration.php<?php if($editMode) echo "?action={$GLOBALS['ACTION_ALTER']}&{$GLOBALS['PARAM_EMAIL']}={$_GET[$GLOBALS['PARAM_EMAIL']]}" ?>" method="post">
+			<form action="user_administration.php<?php if($editMode) echo "?action={$GLOBALS['ACTION_ALTER']}&{$GLOBALS['PARAM_EMAIL']}={$_GET[$GLOBALS['PARAM_EMAIL']]}"; else echo "?action={$GLOBALS['ACTION_CREATE']}" ?>" method="post" enctype="multipart/form-data">
 				<div class="group_box">
 					<p class="header">Allgemeines</p>
 					<table>					
@@ -143,6 +167,15 @@
 						<tr class="item">
 							<td class="header">Hausnummer:</td>
 							<td><input spellcheck="false" type="text" name="user_house_number" value="<?php if($editMode) echo $result[5]; ?>" /></td>
+						</tr>
+					</table>
+				</div>
+					
+				<div class="group_box">
+					<p class="header">Portrait</p>
+					<table>
+						<tr class="item">
+							<td><p style="position: relative" class="user_portrait"><input style="opacity: 1; width: 100%; border: 1px solid black;" type="file" name="user_portrait" /></p></td>
 						</tr>
 					</table>
 				</div>
