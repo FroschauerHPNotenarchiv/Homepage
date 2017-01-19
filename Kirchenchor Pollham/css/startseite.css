@@ -1,0 +1,25 @@
+@charset "utf-8";
+.left_article div .icon_bearbeiten {
+	float: right;
+	width: 30px;
+	height: 30px;
+}
+.left_article div .titel_startseite {
+	float: left;
+	width: 80%;
+}
+
+.left_article div .btn.btn-sm.btn-default.button_bearbeiten {
+	margin-top: 4%;
+
+}
+section .left_article .format_leftarticle {
+	float: none;
+	width: 100%;
+}
+section .left_article .image_leftarticle {
+	float: none;
+	width: 90%;
+	padding-top: 5%;
+	margin-left: 5%;
+}
