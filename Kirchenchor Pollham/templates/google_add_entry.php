@@ -133,7 +133,7 @@
 
 		for (var i = min; i<=max; i++){
 			var opt = document.createElement('option');
-			opt.value = i;
+			opt.value = i-1;
 			opt.innerHTML = i + " Uhr";
 			element.appendChild(opt);
 		}

@@ -74,7 +74,7 @@
 	
 	<body>
 		
-		<form action="calendar_administration.php" method="post">
+		<form method="post">
 			<fieldset>
 				<legend>Kalenderdaten</legend>
 				<p><label>Interne ID:</label>

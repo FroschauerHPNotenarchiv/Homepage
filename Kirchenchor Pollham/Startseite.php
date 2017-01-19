@@ -1,6 +1,6 @@
 <?php
 	// Newsflash Logic:
-	require_once "google newsfeed func.php";
+	require_once "templates/google newsfeed func.php";
 ?>
 <!doctype html>
 <html>
@@ -19,7 +19,7 @@
 <body>
 
 <form action="" method="post">
-			<div id="myModal" class="modal" style="display: block;">
+			<div id="myModal" class="modal" style="">
 			
 
 		  <!-- Modal content -->
@@ -81,26 +81,22 @@
     <h3>Newsflash:</h3>
     <div class="list-group">
 	
-      <h4 class="list-group-item-heading">Titel1</h4>
-      <p class="list-group-item-text">Text1</p>
-      </a>
-      <h4 class="list-group-item-heading">Titel2</h4>
-      <p class="list-group-item-text">Text2</p>
-       <h4 class="list-group-item-heading">Titel3</h4>
-      <p class="list-group-item-text">Text3</p>
 	  <div class="calendar" id="calendar">
 			<?php 
-			
+			if(count($events->getItems()) < 1) {
+				echo "Derzeit ist leider nichts eingetragen, sorry!";
+			}
 				/* Fetching calendar events and displaying them */
 					while(true) {
+						
 						foreach ($events->getItems() as $event) {
 							$lol = $event->getStart()->getDateTime();
-							$date = date("d.m.Y - h:i", strtotime($lol));
+							$date = date("d.m.Y - H:i", strtotime($lol));
 							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . $event->getDescription() . "', '" . $date . "')\"";
 							?>
-							<div <?php echo $click ?>>
+							<div <?php echo $click ?> style="background: lightblue; width: 100%;">
 								
-								<h4>  <?php echo $event->getSummary(); ?> </h4>
+								<h4 class="list-group-item-heading" style="width: 100%;">  <?php echo $event->getSummary(); ?> </h4>
 								<?php $desc = $event->getDescription();
 									if(strlen($desc) < 1) {
 										$desc = "Keine Beschreibung";
@@ -108,7 +104,8 @@
 										$desc = substr($desc, 0, 20);
 									}
 								?>
-								<p><?php echo $desc ?></p>
+								<p class="list-group-item-text"><?php echo $desc ?></p>
+								<p>   </p>
 								
 							</div>
 							<?php

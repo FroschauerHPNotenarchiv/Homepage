@@ -1,7 +1,6 @@
 <?php
 	session_start();
-	require_once 'func.php';
-	include_once 'functions.php';
+	require_once 'google calendar general func.php';
 	
 	$client = getClient();
 	$service = new Google_Service_Calendar($client);
@@ -12,7 +11,7 @@
 	
 	if(isset($_POST['alteration'])) {
 		//$service->events->delete($_PUBLIC_CALENDAR_ID, $_POST['alteration']);
-		header("Location: lol.php?" . 'id=' . $_POST['alteration']);
+		header("Location: google_add_entry.php?" . 'id=' . $_POST['alteration']);
 	}
 	$_SESSION['email'] = 'hi';
 	try {		

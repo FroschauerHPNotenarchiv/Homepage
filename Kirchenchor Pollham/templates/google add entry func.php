@@ -1,5 +1,8 @@
 <?php
 	session_start();
+	
+	$CLIENT_PATH = '../scripts/service-account.json';
+	
 	require_once 'google calendar general func.php';
 	
 	$buttonText = isset($_GET['id']) /* && isAdmin() */ ? 'Korrigieren' : 'Hinzugeben';
@@ -20,10 +23,10 @@
 		$date = $_POST['date'];
 		$desc = $_POST['message'];
 		
-		$firstTime = $_POST['selectFrom'];
+		$firstTime = $_POST['selectFrom'] + 1;
 		$secondTime = $_POST['selectTo'];
 	}
-	else if( isset($_GET['id'])) { // AND isAdmin()
+	else if( isset($_GET['id']) && !isset($_POST['form-sent'])) { // AND isAdmin()
 		$client = getClient();
 		$service = new Google_Service_Calendar($client);
 		
@@ -56,12 +59,15 @@
 				$event->setDescription($desc);
 				
 				$gdate = new Google_Service_Calendar_EventDateTime();
+				$gdate2 = new Google_Service_Calendar_EventDateTime();
 				$gdate->setDateTime(date_format(date_create_from_format('d.m.Y:G', $date . ':' . $firstTime), DateTime::ATOM));
 				$event->setStart($gdate);
-				$gdate->setDateTime(date_format(date_create_from_format('d.m.Y:G', $date . ':' . $secondTime), DateTime::ATOM));
-				$event->setEnd($gdate);
+				$gdate2->setDateTime(date_format(date_create_from_format('d.m.Y:G', $date . ':' . $secondTime), DateTime::ATOM));
+				$event->setEnd($gdate2);
 				
 				$service->events->update($_PUBLIC_CALENDAR_ID, $event->getId(), $event);
+				
+				header("Location: ../Startseite.php");
 		} else {
 			if($selectCalendar === "intern") {
 				addEntry($_INTERN_CALENDAR_ID, $title, $place, $desc, $date, $firstTime, $secondTime);
@@ -80,6 +86,7 @@
 	}
 	
 	function addEntry($calendarId, $title, $place, $desc, $date, $startTime = 5, $endTime = 6) {
+		echo __DIR__;
 		$client = getClient();
 		$service = new Google_Service_Calendar($client);
 		
