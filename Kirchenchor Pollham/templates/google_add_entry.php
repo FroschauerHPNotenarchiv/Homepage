@@ -1,5 +1,5 @@
 <?php
-	require_once "add_entry_func.php";
+	require_once "google add entry func.php";
 ?>
 
 <!DOCTYPE html>

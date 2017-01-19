@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	require_once 'func.php';
+	require_once 'google calendar general func.php';
 	
 	$buttonText = isset($_GET['id']) /* && isAdmin() */ ? 'Korrigieren' : 'Hinzugeben';
 	$selectedCalendar = "";
@@ -46,7 +46,7 @@
 	if(isset($_POST['form-sent']) && !empty($title) && !empty($date) && validateDate($date, 'd.m.Y')) {
 		// Parameters are correct
 		
-		if($buttonText == "Korrigieren") {
+		if($buttonText == "Korrigieren") { // AND isAdmin()
 			$client = getClient();
 			$service = new Google_Service_Calendar($client);
 			

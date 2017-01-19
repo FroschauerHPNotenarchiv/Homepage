@@ -93,7 +93,7 @@ function listEvents($service) {
 }
 
 function getClient() {
-	putenv('GOOGLE_APPLICATION_CREDENTIALS=../../res/service-account.json');
+	putenv('GOOGLE_APPLICATION_CREDENTIALS=../scripts/service-account.json');
 	
 	$client = new Google_Client();
 	$client->useApplicationDefaultCredentials();

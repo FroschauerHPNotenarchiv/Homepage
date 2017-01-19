@@ -1,18 +1,18 @@
 <?php 
 	session_start();
-	require_once 'func.php';
+	require_once 'google calendar general func.php';
 	
 	if(isset($_POST['verify'])) {
 		
 		if(verifyCalendar($_POST['internId'])) {
-			$intern = "../../res/verify-ok.png";
+			$intern = "../images/verify-ok.png";
 		} else {
-			$intern = "../../res/verify-fail.png";
+			$intern = "../images/verify-fail.png";
 		}
 		if(verifyCalendar($_POST['externId'])) {
-			$extern = "../../res/verify-ok.png";
+			$extern = "../images/verify-ok.png";
 		} else {
-			$extern = "../../res/verify-fail.png";
+			$extern = "../images/verify-fail.png";
 		}
 	}
 	else if(isset($_POST['save'])) {

@@ -1,6 +1,6 @@
 <?php 
 	session_start();
-	require_once 'func.php';
+	require_once 'google calendar general func.php';
 	
 	if(isset($_POST['verify'])) {
 		
