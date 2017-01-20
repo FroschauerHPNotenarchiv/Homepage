@@ -1,18 +1,18 @@
 		// Get the modal
-	var modal = document.getElementById('myModal');
+	var modal1 = document.getElementById('myModal');
 
 	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 
 	// When the user clicks on <span> (x), close the modal
 	span.onclick = function() {
-		modal.style.display = "none";
+		modal1.style.display = "none";
 	}
 
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
-		if (event.target == modal) {
-			modal.style.display = "none";
+		if (event.target == modal1) {
+			modal1.style.display = "none";
 		}
 	}
 	
@@ -20,7 +20,7 @@
 		document.getElementById("modalHeader").innerHTML = title;
 		document.getElementById("modalContent").innerHTML = description;
 		document.getElementById("modalFooter").innerHTML = date;
-		modal.style.display = "block";
+		modal1.style.display = "block";
 		
 		var delBtn = document.getElementById("deleteBtn");
 		var altBtn = document.getElementById("alterBtn");

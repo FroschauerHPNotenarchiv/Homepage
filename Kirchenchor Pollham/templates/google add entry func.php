@@ -67,7 +67,7 @@
 				
 				$service->events->update($_PUBLIC_CALENDAR_ID, $event->getId(), $event);
 				
-				header("Location: ../Startseite.php");
+				
 		} else {
 			if($selectCalendar === "intern") {
 				addEntry($_INTERN_CALENDAR_ID, $title, $place, $desc, $date, $firstTime, $secondTime);
@@ -82,7 +82,7 @@
 		}
 		
 		
-		echo "Kalender hinzugefügt!";
+		header("Location: ../Startseite.php");
 	}
 	
 	function addEntry($calendarId, $title, $place, $desc, $date, $startTime = 5, $endTime = 6) {

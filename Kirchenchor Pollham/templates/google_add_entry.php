@@ -78,7 +78,7 @@
 			  <div>
 			   <button class="btn btn-primary" name="form-sent" type="submit">
 				<?php echo $buttonText?>
-			   </button>
+			   </button> oder <a href="../Startseite.php">Zurück zur Startseite</a>
 			  </div>
 			 </div>
 			</form>
@@ -122,7 +122,12 @@
 		}
 	}
 	
+function validate(text) {
 
+	if(text == "Eintrag löschen") {
+		return confirm('Wollen Sie diesen Eintrag wirklich löschen?');
+	}
+}
 	
 
 	

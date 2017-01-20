@@ -1,6 +1,7 @@
 <?php
 	// Newsflash Logic:
 	require_once "templates/google newsfeed func.php";
+	require_once "templates/startseite_logic.php";
 ?>
 <!doctype html>
 <html>
@@ -17,7 +18,6 @@
 <link rel="stylesheet" href="css/modal-style.css">	
 </head>
 <body>
-
 <form action="" method="post">
 			<div id="myModal" class="modal" style="">
 			
@@ -44,6 +44,28 @@
 
 		</div>
 		</form>
+		
+		<form method="post">
+		<div id="editModal" class="editbg">
+	
+		  <!-- Modal content -->
+		  <div class="edit-content">
+			<span class="editclose">&times;</span>
+			<h3>STARTSEITE BEARBEITEN</h3>
+			<h4>Überschrift</h4>
+			<input style="width: 50%;" type="text" name="editHeader" id="editHeader"/>
+			</br>
+			<h4>Startseitenbild</h4>
+			<input type="file" name="editImage"/>
+			</br>
+			<h4>Startseitentext</h4>
+			<textarea id="editText" style="width: 90%; clear: both;" rows="10" cols="50" name="editText"></textarea>
+			</br>
+			<button style="btn btn-sm btn-default" name="action-edit" 
+				type="submit">Bestätigen</button>
+		  </div>
+		</div>
+		</form>
 
 <div class="container">
   <header>
@@ -54,8 +76,12 @@
       <ul>
         <li>Startseite</li>
         <li>Mitglieder</li>
+		
         <li>News/Termine</li>
+		
+		<?php if(isLoggedIn()) : ?>
         <li>Benachrichtigungen</li>
+		<?php endif; ?>
         <li>Administration</li>
       </ul>
     </nav>
@@ -64,22 +90,24 @@
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
     <div>
-      <h3 class="titel_startseite">Unser Kirchenchor:</h3>
-      <button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
+      <h3 class="titel_startseite"><?php echo $title ?></h3>
+      <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . $text . "'" ?>)"
+	  type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
     </div>
       
       <img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">
       
-      <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-      
-      <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <p><?php echo $text ?></p>
   
       
       
     </article>
     <aside class="right_article">
     <h3>Newsflash:</h3>
-    <div class="list-group">
+	<?php if(isLoggedIn()) : ?>
+	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
+	<?php endif;?>
+    <div class="list-group" style="width:200%;">
 	
 	  <div class="calendar" id="calendar">
 			<?php 
@@ -94,18 +122,20 @@
 							$date = date("d.m.Y - H:i", strtotime($lol));
 							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . $event->getDescription() . "', '" . $date . "')\"";
 							?>
-							<div <?php echo $click ?> style="background: lightblue; width: 100%;">
+							<div class="calendar-entry" <?php echo $click ?>>
 								
 								<h4 class="list-group-item-heading" style="width: 100%;">  <?php echo $event->getSummary(); ?> </h4>
 								<?php $desc = $event->getDescription();
 									if(strlen($desc) < 1) {
 										$desc = "Keine Beschreibung";
-									} else if(strlen($desc > 20)) {
-										$desc = substr($desc, 0, 20);
+									} else if(strlen($desc) > 100) {
+										$desc = substr($desc, 0, 100);
+										$desc = $desc . '...';
 									}
 								?>
-								<p class="list-group-item-text"><?php echo $desc ?></p>
-								<p>   </p>
+								<p class="list-group-item-text"><?php echo $date ?></p>
+								<p style="text-transform: none;"class="list-group-item-text"><?php echo $desc ?></p>
+								
 								
 							</div>
 							<?php
@@ -138,5 +168,6 @@
 </body>
 
 <script type="text/javascript" src="templates/google newsfeed modal.js"></script>
+<script type="text/javascript" src="scripts/indexpage-edit.js"></script>
 
 </html>

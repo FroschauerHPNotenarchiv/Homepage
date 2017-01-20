@@ -96,6 +96,7 @@
 				
 				<?php if(isset($_POST['save'])) : ?>
 			<p class="changed">Die Kalenderdaten wurden erfolgreich geändert!</p>
+			<a class="changed" href="../Startseite.php">Zurück zur Startseite!</a> 
 			<?php endif;?>
 			
 			</fieldset>
