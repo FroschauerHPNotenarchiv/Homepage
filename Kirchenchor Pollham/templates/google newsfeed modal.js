@@ -16,10 +16,10 @@
 		}
 	}
 	
-	function calendarClick(id, title, description, date) {
+	function calendarClick(id, title, description, date, place) {
 		document.getElementById("modalHeader").innerHTML = title;
 		document.getElementById("modalContent").innerHTML = description;
-		document.getElementById("modalFooter").innerHTML = date;
+		document.getElementById("modalFooter").innerHTML = place + ", " + date;
 		modal1.style.display = "block";
 		
 		var delBtn = document.getElementById("deleteBtn");

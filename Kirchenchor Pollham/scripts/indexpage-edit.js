@@ -11,9 +11,14 @@ var span = document.getElementsByClassName("editclose")[0];
 
 function editClicked(title, desc) {
 	document.getElementById('editHeader').value = title;
-	document.getElementById('editText').innerHTML = desc;
+	document.getElementById('editText').innerHTML = desc.replaceAll("</br>", "\r\n");
     modal.style.display = "block";
 }
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {

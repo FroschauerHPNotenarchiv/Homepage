@@ -61,3 +61,9 @@ section .left_article .image_leftarticle {
     text-decoration: none;
     cursor: pointer;
 }
+
+.upload-info {
+	margin: 10px;
+	font-weight: bold;
+	color: green;
+}

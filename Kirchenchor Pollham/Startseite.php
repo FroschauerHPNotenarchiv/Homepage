@@ -45,7 +45,7 @@
 		</div>
 		</form>
 		
-		<form method="post">
+		<form method="post" enctype="multipart/form-data">
 		<div id="editModal" class="editbg">
 	
 		  <!-- Modal content -->
@@ -85,19 +85,27 @@
         <li>Administration</li>
       </ul>
     </nav>
+	
+	<!-- Will be shown if the file upload goes wrong! -->
+	<?php
+		if(!empty($uploadText)) : ?>
+			<p class="upload-info"><?php echo $uploadText?></p>
+		<?php endif;
+	?>
+	
   </header>
   <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
     <div>
       <h3 class="titel_startseite"><?php echo $title ?></h3>
-      <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . $text . "'" ?>)"
-	  type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
+      <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . str_replace("\r\n", "</br>", $text) . "'" ?>)" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" />
+	  </button>
     </div>
       
-      <img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">
+      <img class="image_leftarticle" src="images/index-image.<?php echo $extension?>" alt="Picture">
       
-      <p><?php echo $text ?></p>
+      <p><?php echo str_replace("\r\n", "</br>", $text) ?></p>
   
       
       
@@ -120,12 +128,12 @@
 						foreach ($events->getItems() as $event) {
 							$lol = $event->getStart()->getDateTime();
 							$date = date("d.m.Y - H:i", strtotime($lol));
-							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . $event->getDescription() . "', '" . $date . "')\"";
+							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . str_replace("\r\n", "</br>", $event->getDescription()) . "', '" . $date . "', '" . $event->getLocation() . "')\"";
 							?>
 							<div class="calendar-entry" <?php echo $click ?>>
 								
 								<h4 class="list-group-item-heading" style="width: 100%;">  <?php echo $event->getSummary(); ?> </h4>
-								<?php $desc = $event->getDescription();
+								<?php $desc = str_replace("\r\n", "</br>", $event->getDescription());
 									if(strlen($desc) < 1) {
 										$desc = "Keine Beschreibung";
 									} else if(strlen($desc) > 100) {
