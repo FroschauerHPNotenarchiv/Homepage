@@ -1,6 +1,6 @@
 <?php
 
-include "constants.php";
+include "admin_constants.php";
 
 function print_debug($message) {
 	?><script>document.body.innerHTML = "<p class='internal_error'><?php echo $message ?></p>";</script><?php

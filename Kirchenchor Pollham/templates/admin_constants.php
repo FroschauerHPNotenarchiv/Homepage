@@ -30,5 +30,5 @@
 	
 	$GLOBALS["PARAM_EMAIL"] = "email";
 	
-	$GLOBALS["MEMBER_PICTURE_PATH"] = "Root/Picture Gallary/Member Pictures";
+	$GLOBALS["MEMBER_PICTURE_PATH"] = "../images/Member Images";
 ?>

@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include_once 'functions.php';
+	include_once 'admin_user_administration_func.php';
 	
 	if(isset($_GET["action"])) {
 		default_connect();
@@ -30,9 +30,9 @@
 				$newUserPassword = hash("sha256", $_POST["user_password"]);
 			
 			$newPortraitPath = $result[1];
-			if(strlen($_FILES["user_portrait"]['name']) >= 0) {
+			if(strlen($_FILES["user_portrait"]['name']) > 0) {
 				unlink($newPortraitPath);
-				$internalPath = $_SERVER['DOCUMENT_ROOT'] . "/{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . pathinfo($_FILES["user_portrait"]['name'], PATHINFO_EXTENSION);
+				$internalPath = /*$_SERVER['DOCUMENT_ROOT'] . */"{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . pathinfo($_FILES["user_portrait"]['name'], PATHINFO_EXTENSION);
 				move_uploaded_file($_FILES["user_portrait"]['tmp_name'], $internalPath);
 				$newPortraitPath = $internalPath;
 			}
@@ -60,7 +60,7 @@
 				default_connect();
 				$ids = request_voice_and_role_id();
 				
-				$internalPath = $_SERVER['DOCUMENT_ROOT'] . "/{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . pathinfo($_FILES["user_portrait"]['name'], PATHINFO_EXTENSION);
+				$internalPath = /* $_SERVER['DOCUMENT_ROOT'] . */ "{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . pathinfo($_FILES["user_portrait"]['name'], PATHINFO_EXTENSION);
 				
 				insert($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_EMAIL"] => $_POST["user_email"],
 													  $GLOBALS["COLUMN_USER_FIRSTNAME"] => $_POST["user_firstname"],
@@ -93,11 +93,11 @@
 <!doctype html>
 <html>
 	<head>
-		<link rel="stylesheet" href="user_administration.css" />	
+		<link rel="stylesheet" href="../css/admin_user_administration.css" />	
 	</head>
 	<body>
 
-		<script src="../../res/jquery-3.1.1.min.js"></script>
+		<script src="../scripts/jquery-3.1.1.min.js"></script>
 	
 		<ul>
 			<li class="menu_item user_creation" >Benutzer Anlegen</li>
@@ -110,7 +110,7 @@
 				
 				$editMode = isset($_GET[$GLOBALS["PARAM_EMAIL"]]);
 				if($editMode) {
-					$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS["COLUMN_USER_PHONE"]}, {$GLOBALS["COLUMN_USER_PLACE"]}, {$GLOBALS["COLUMN_USER_POSTAL_CODE"]}, {$GLOBALS["COLUMN_USER_STREET"]}, {$GLOBALS["COLUMN_USER_HOUSE_NUMBER"]}, {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICE_ID"]}, {$GLOBALS["COLUMN_ROLES_ID"]}
+					$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS["COLUMN_USER_PHONE"]}, {$GLOBALS["COLUMN_USER_PLACE"]}, {$GLOBALS["COLUMN_USER_POSTAL_CODE"]}, {$GLOBALS["COLUMN_USER_STREET"]}, {$GLOBALS["COLUMN_USER_HOUSE_NUMBER"]}, {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICE_ID"]}, {$GLOBALS["COLUMN_ROLES_ID"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}
 									 FROM {$GLOBALS["USERS_TABLE"]}
 									 WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$_GET["email"]}'");
 					
@@ -121,7 +121,7 @@
 			?>
 		
 		
-			<form action="user_administration.php<?php if($editMode) echo "?action={$GLOBALS['ACTION_ALTER']}&{$GLOBALS['PARAM_EMAIL']}={$_GET[$GLOBALS['PARAM_EMAIL']]}"; else echo "?action={$GLOBALS['ACTION_CREATE']}" ?>" method="post" enctype="multipart/form-data">
+			<form action="admin_user_administration.php<?php if($editMode) echo "?action={$GLOBALS['ACTION_ALTER']}&{$GLOBALS['PARAM_EMAIL']}={$_GET[$GLOBALS['PARAM_EMAIL']]}"; else echo "?action={$GLOBALS['ACTION_CREATE']}" ?>" method="post" enctype="multipart/form-data">
 				<div class="group_box">
 					<p class="header">Allgemeines</p>
 					<table>					
@@ -175,7 +175,11 @@
 					<p class="header">Portrait</p>
 					<table>
 						<tr class="item">
-							<td><p style="position: relative" class="user_portrait"><input style="opacity: 1; width: 100%; border: 1px solid black;" type="file" name="user_portrait" /></p></td>
+						<div>
+							<td class="header">Bild wählen</td>
+							<td><p class="user_portrait"><input style="opacity: 0; width: 400%; margin-left: -250%" type="file" name="user_portrait" /></p></td>
+						</div>
+						<td><img style="margin-left: -15%;width: 200px" alt="Kein Bild" src="<?php if($editMode) echo $result[10] ?>" /></td>
 						</tr>
 					</table>
 				</div>
@@ -264,7 +268,7 @@
 								<tr name="<?php echo $row[0] ?>"  class="item">
 									<td style="width: 60%; color: rgb(150, 15, 15);" class="text clickable_item"><?php echo $row[0] ?></td>
 									<td class="text clickable_item"><?php echo $row[1] . " " . $row[2] ?></td>
-									<td><img class="deletion_image" alt="Delete" src="../../res/Red_Cross.png" width="20" /></td>
+									<td><img class="deletion_image" alt="Delete" src="../images/red cross.png" width="20" /></td>
 								</tr>
 							</table>
 						</div>
