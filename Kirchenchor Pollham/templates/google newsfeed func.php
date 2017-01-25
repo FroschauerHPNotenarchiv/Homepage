@@ -6,7 +6,12 @@
 	$service = new Google_Service_Calendar($client);
 
 	if(isset($_POST['deletion'])) {
-		$service->events->delete($_PUBLIC_CALENDAR_ID, $_POST['deletion']);
+		try {
+			$service->events->delete($_PUBLIC_CALENDAR_ID, $_POST['deletion']);
+		} catch(Exception $ex) {
+			
+		}
+		
 	}
 	
 	if(isset($_POST['alteration'])) {

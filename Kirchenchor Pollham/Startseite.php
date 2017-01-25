@@ -19,7 +19,7 @@
 </head>
 <body>
 <form action="" method="post">
-			<div id="myModal" class="modal" style="">
+			<div id="myModal" class="modal">
 			
 
 		  <!-- Modal content -->
@@ -45,6 +45,7 @@
 		</div>
 		</form>
 		
+		<?php  // if( isAdmin() ) : ?>
 		<form method="post" enctype="multipart/form-data">
 		<div id="editModal" class="editbg">
 	
@@ -66,6 +67,7 @@
 		  </div>
 		</div>
 		</form>
+		<?php //endif; ?>
 
 <div class="container">
   <header>
@@ -99,8 +101,9 @@
     <article class="left_article">
     <div>
       <h3 class="titel_startseite"><?php echo $title ?></h3>
-      <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . str_replace("\r\n", "</br>", $text) . "'" ?>)" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" />
-	  </button>
+	  <?php // if ( isAdmin() ) : ?>
+      <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . str_replace("\r\n", "</br>", $text) . "'" ?>)" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
+	  <?php // endif; ?>
     </div>
       
       <img class="image_leftarticle" src="images/index-image.<?php echo $extension?>" alt="Picture">
@@ -115,7 +118,7 @@
 	<?php if(isLoggedIn()) : ?>
 	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
 	<?php endif;?>
-    <div class="list-group" style="width:200%;">
+    <div class="list-group" style="width:250%;">
 	
 	  <div class="calendar" id="calendar">
 			<?php 

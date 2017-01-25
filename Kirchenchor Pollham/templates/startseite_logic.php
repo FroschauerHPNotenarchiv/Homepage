@@ -12,17 +12,22 @@
 			$fileOk = 1;
 			
 			// If there has been selected a file to upload
-			if(!empty($_FILES["editImage"]["tmp_name"]) && getimagesize($_FILES["editImage"]["tmp_name"]) !== false) {
+			if(!empty($_FILES["editImage"]["tmp_name"])) {
 				
-				// Max File Size: 5 MB
-				if($_FILES["editImage"]["size"] > 5000000) {
+				// Max File Size: 3 MB
+				if($_FILES["editImage"]["size"] > 3000000) {
 					$fileOk = 0;
-					$uploadText = "Fehler. Maximale Bildgröße: 5MB";
+					$uploadText = "FEHLER: Maximale Bildgröße: 3MB";
+				}
+				
+				if(getimagesize($_FILES["editImage"]["tmp_name"]) == false) {
+					$uploadText = "FEHLER: Die gewählte Datei (." . $type . ") scheint kein Bild zu sein";
+					$fileOk = 0;
 				}
 				
 				if($type !== "jpg" && $type !== "png" && $type !== "jpeg") {
 					$fileOk = 0;
-					$uploadText = "Fehler. Unterstützte Dateiformate: jpg, png, jpeg";
+					$uploadText = "FEHLER: Der Dateityp ." . $type . " wird nicht unterstützt! Mögliche Dateiformate: jpg, png, jpeg";
 				}
 				
 				if($fileOk == 1) {
@@ -50,7 +55,7 @@
 			'extension' => json_decode(file_get_contents('scripts/indexpage-data.json'), true)['extension']
 		);
 		
-		if(!empty($_FILES["editImage"]["tmp_name"]) && $fileOk == 1) {
+		if(!empty($_FILES["editImage"]["tmp_name"])&& $fileOk == 1) {
 			$json['extension'] = $type;
 		}
 		

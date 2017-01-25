@@ -1,7 +1,7 @@
 				
+
 		.calendar {
 			width: 30%;
-			
 		}
 		
 		.event-title {
@@ -16,7 +16,7 @@
 		}
 		
 		.calendar-entry:hover {
-			background: lightgray;
+			background: #ffbcbc;
 			cursor: pointer;
 		}
 		
