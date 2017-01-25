@@ -1,9 +1,13 @@
 <?php
 
-require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
-
-$json = json_decode(file_get_contents('results.json'), true);
+	if(file_exists('templates/results.json')) {
+		$json = json_decode(file_get_contents('templates/results.json'), true);
+	} else {
+		$json = json_decode(file_get_contents('results.json'), true);
+	}
+	
 $_PUBLIC_CALENDAR_ID = $json['extern'];
 $_INTERN_CALENDAR_ID = $json['intern'];
 
@@ -31,6 +35,12 @@ function deleteEvents($service) {
 		echo 'Sucessfully deleted ' . $i . ' calendar entrys!';
 	}
 
+}
+
+function validateDate($date, $format = 'Y-m-d H:i:s')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
 }
 
 function verifyCalendar($calendarId) {
@@ -92,8 +102,29 @@ function listEvents($service) {
 	}
 }
 
+function page_title($url) {
+        $fp = file_get_contents($url);
+        if (!$fp) 
+            return null;
+
+        $res = preg_match("/<title>(.*)<\/title>/siU", $fp, $title_matches);
+        if (!$res) 
+            return null; 
+
+        // Clean up title: remove EOL's and excessive whitespace.
+        $title = preg_replace('/\s+/', ' ', $title_matches[1]);
+        $title = trim($title);
+        return $title;
+    }
+
 function getClient() {
-	putenv('GOOGLE_APPLICATION_CREDENTIALS=../scripts/service-account.json');
+	
+	if (file_exists('scripts/service-account.json')) {
+		putenv('GOOGLE_APPLICATION_CREDENTIALS=scripts/service-account.json');
+	} else {
+		putenv('GOOGLE_APPLICATION_CREDENTIALS=../scripts/service-account.json');
+	}
+
 	
 	$client = new Google_Client();
 	$client->useApplicationDefaultCredentials();

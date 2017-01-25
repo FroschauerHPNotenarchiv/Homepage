@@ -25,9 +25,10 @@
 			  <input required class="form-control" id="name" name="eventname" type="text" value="<?php echo $title; ?>"/>
 			 </div>
 			 <div class="form-group ">
-			  <label class="control-label " for="select">
+			  <label id="lab" class="control-label " for="select">
 			   Kalender <span class="required-field">*</span>
 			  </label>
+			  <p for="lab">Nur Termine im externen Kalender werden im Newsflash sichtbar sein.</p>
 			  <select class="select form-control" id="select" name="selectCalendar" value="both"/>
 			   <option value="intern">
 				Interner Kalender 
@@ -50,7 +51,7 @@
 			  <label class="control-label " for="message">
 			   Message
 			  </label>
-			  <textarea class="form-control" placeholder="Beschreiben Sie den Termin in ein paar Sätzen ..." cols="40" id="message" name="message" rows="10"><?php echo $desc?></textarea>
+			  <textarea class="form-control" placeholder="Beschreiben Sie den Termin in ein paar Sätzen ..." cols="40" id="message" name="message" rows="8"><?php echo $desc?></textarea>
 			 </div>
 			 <div class="form-group ">
 			  <label class="control-label " for="date">
@@ -78,7 +79,7 @@
 			  <div>
 			   <button class="btn btn-primary" name="form-sent" type="submit">
 				<?php echo $buttonText?>
-			   </button>
+			   </button> oder <a href="../Startseite.php">Zurück zur Startseite</a>
 			  </div>
 			 </div>
 			</form>
@@ -122,7 +123,12 @@
 		}
 	}
 	
+function validate(text) {
 
+	if(text == "Eintrag löschen") {
+		return confirm('Wollen Sie diesen Eintrag wirklich löschen?');
+	}
+}
 	
 
 	
@@ -133,7 +139,7 @@
 
 		for (var i = min; i<=max; i++){
 			var opt = document.createElement('option');
-			opt.value = i;
+			opt.value = i-1;
 			opt.innerHTML = i + " Uhr";
 			element.appendChild(opt);
 		}

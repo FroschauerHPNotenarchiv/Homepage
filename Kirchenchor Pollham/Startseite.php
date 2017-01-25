@@ -1,6 +1,7 @@
 <?php
 	// Newsflash Logic:
-	require_once "google newsfeed func.php";
+	require_once "templates/google newsfeed func.php";
+	require_once "templates/startseite_logic.php";
 ?>
 <!doctype html>
 <html>
@@ -17,9 +18,8 @@
 <link rel="stylesheet" href="css/modal-style.css">	
 </head>
 <body>
-
 <form action="" method="post">
-			<div id="myModal" class="modal" style="display: block;">
+			<div id="myModal" class="modal">
 			
 
 		  <!-- Modal content -->
@@ -44,6 +44,30 @@
 
 		</div>
 		</form>
+		
+		<?php  // if( isAdmin() ) : ?>
+		<form method="post" enctype="multipart/form-data">
+		<div id="editModal" class="editbg">
+	
+		  <!-- Modal content -->
+		  <div class="edit-content">
+			<span class="editclose">&times;</span>
+			<h3>STARTSEITE BEARBEITEN</h3>
+			<h4>Überschrift</h4>
+			<input style="width: 50%;" type="text" name="editHeader" id="editHeader"/>
+			</br>
+			<h4>Startseitenbild</h4>
+			<input type="file" name="editImage"/>
+			</br>
+			<h4>Startseitentext</h4>
+			<textarea id="editText" style="width: 90%; clear: both;" rows="10" cols="50" name="editText"></textarea>
+			</br>
+			<button style="btn btn-sm btn-default" name="action-edit" 
+				type="submit">Bestätigen</button>
+		  </div>
+		</div>
+		</form>
+		<?php //endif; ?>
 
 <div class="container">
   <header>
@@ -54,61 +78,75 @@
       <ul>
         <li>Startseite</li>
         <li>Mitglieder</li>
+		
         <li>News/Termine</li>
+		
+		<?php if(isLoggedIn()) : ?>
         <li>Benachrichtigungen</li>
+		<?php endif; ?>
         <li>Administration</li>
       </ul>
     </nav>
+	
+	<!-- Will be shown if the file upload goes wrong! -->
+	<?php
+		if(!empty($uploadText)) : ?>
+			<p class="upload-info"><?php echo $uploadText?></p>
+		<?php endif;
+	?>
+	
   </header>
   <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
     <div>
-      <h3 class="titel_startseite">Unser Kirchenchor:</h3>
-      <button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
+      <h3 class="titel_startseite"><?php echo $title ?></h3>
+	  <?php // if ( isAdmin() ) : ?>
+      <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . str_replace("\r\n", "</br>", $text) . "'" ?>)" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
+	  <?php // endif; ?>
     </div>
       
-      <img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">
+      <img class="image_leftarticle" src="images/index-image.<?php echo $extension?>" alt="Picture">
       
-      <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-      
-      <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <p><?php echo str_replace("\r\n", "</br>", $text) ?></p>
   
       
       
     </article>
     <aside class="right_article">
     <h3>Newsflash:</h3>
-    <div class="list-group">
+	<?php if(isLoggedIn()) : ?>
+	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
+	<?php endif;?>
+    <div class="list-group" style="width:250%;">
 	
-      <h4 class="list-group-item-heading">Titel1</h4>
-      <p class="list-group-item-text">Text1</p>
-      </a>
-      <h4 class="list-group-item-heading">Titel2</h4>
-      <p class="list-group-item-text">Text2</p>
-       <h4 class="list-group-item-heading">Titel3</h4>
-      <p class="list-group-item-text">Text3</p>
 	  <div class="calendar" id="calendar">
 			<?php 
-			
+			if(count($events->getItems()) < 1) {
+				echo "Derzeit ist leider nichts eingetragen, sorry!";
+			}
 				/* Fetching calendar events and displaying them */
 					while(true) {
+						
 						foreach ($events->getItems() as $event) {
 							$lol = $event->getStart()->getDateTime();
-							$date = date("d.m.Y - h:i", strtotime($lol));
-							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . $event->getDescription() . "', '" . $date . "')\"";
+							$date = date("d.m.Y - H:i", strtotime($lol));
+							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . str_replace("\r\n", "</br>", $event->getDescription()) . "', '" . $date . "', '" . $event->getLocation() . "')\"";
 							?>
-							<div <?php echo $click ?>>
+							<div class="calendar-entry" <?php echo $click ?>>
 								
-								<h4>  <?php echo $event->getSummary(); ?> </h4>
-								<?php $desc = $event->getDescription();
+								<h4 class="list-group-item-heading" style="width: 100%;">  <?php echo $event->getSummary(); ?> </h4>
+								<?php $desc = str_replace("\r\n", "</br>", $event->getDescription());
 									if(strlen($desc) < 1) {
 										$desc = "Keine Beschreibung";
-									} else if(strlen($desc > 20)) {
-										$desc = substr($desc, 0, 20);
+									} else if(strlen($desc) > 100) {
+										$desc = substr($desc, 0, 100);
+										$desc = $desc . '...';
 									}
 								?>
-								<p><?php echo $desc ?></p>
+								<p class="list-group-item-text"><?php echo $date ?></p>
+								<p style="text-transform: none;"class="list-group-item-text"><?php echo $desc ?></p>
+								
 								
 							</div>
 							<?php
@@ -141,5 +179,6 @@
 </body>
 
 <script type="text/javascript" src="templates/google newsfeed modal.js"></script>
+<script type="text/javascript" src="scripts/indexpage-edit.js"></script>
 
 </html>
