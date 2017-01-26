@@ -20,7 +20,7 @@
 			
 			$ids = request_voice_and_role_id();
 			
-			$result = query("SELECT {$GLOBALS["COLUMN_USER_PASSWORD"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}
+			$result = query("SELECT {$GLOBALS["COLUMN_USER_PASSWORD"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}, {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}
 							 FROM {$GLOBALS["USERS_TABLE"]}
 							 WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$_GET[$GLOBALS["PARAM_EMAIL"]]}'");
 			$result = fetch_next_row($result);
@@ -35,7 +35,13 @@
 				$internalPath = /*$_SERVER['DOCUMENT_ROOT'] . */"{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . pathinfo($_FILES["user_portrait"]['name'], PATHINFO_EXTENSION);
 				move_uploaded_file($_FILES["user_portrait"]['tmp_name'], $internalPath);
 				$newPortraitPath = $internalPath;
+			} else if ($result[2] != $_POST["user_firstname"] || $result[3] != $_POST["user_lastname"]) {
+				$internalPath = "{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . explode(".", $result[1])[3];
+				rename("{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$result[3]}_{$result[2]}." . explode(".", $result[1])[3], 
+					   $internalPath);
+				$newPortraitPath = $internalPath;
 			}
+			
 			
 			update($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_EMAIL"] => $_POST["user_email"],
 												  $GLOBALS["COLUMN_USER_FIRSTNAME"] => $_POST["user_firstname"],
@@ -171,15 +177,15 @@
 					</table>
 				</div>
 					
-				<div class="group_box">
+				<div class="group_box" id="portrait_group_box" >
 					<p class="header">Portrait</p>
 					<table>
 						<tr class="item">
 						<div>
-							<td class="header">Bild wählen</td>
-							<td><p class="user_portrait"><input style="opacity: 0; width: 400%; margin-left: -250%" type="file" name="user_portrait" /></p></td>
+							<td class="header" style="width: 75%; text-align: center">Bild wählen</td>
+							<td><p class="user_portrait"><input id="user_portrait_input" style="position: absolute; opacity: 0; width: 100%;border: 1px solid blue" type="file" name="user_portrait" /></p></td>
 						</div>
-						<td><img style="margin-left: -15%;width: 200px" alt="Kein Bild" src="<?php if($editMode) echo $result[10] ?>" /></td>
+						<td><img style="width: 200px" alt="Kein Bild" src="<?php if($editMode) echo $result[10] ?>" /></td>
 						</tr>
 					</table>
 				</div>
@@ -319,7 +325,23 @@
 				hideAllContentContainers();
 				$(".user_alteration_content").show();
 			});
-
+			
+			setInterval(function() {
+				var contentWidth = parseInt($(".content").css("width"));
+				if(contentWidth / 2 <= 300)
+					$(".menu_item").css("width", contentWidth + "px");
+				else
+					$(".menu_item").css("width", contentWidth / 2 + "px");
+				
+				console.log(contentWidth / 2);
+				
+				var groupBoxWidthPortrait = parseInt($("#portrait_group_box").css("width"));
+				$("#user_portrait_input").css("width", groupBoxWidthPortrait);
+				$("#user_portrait_input").css("left", parseInt($("#portrait_group_box").position().left) + "px");
+				$("#user_portrait_input").css("top", parseInt($("#portrait_group_box").position().top) + 25 + "px");
+				$("#user_portrait_input").css("height", parseInt($("#portrait_group_box").css("height")) - 25 + "px");
+				$("#user_portrait_input").css("width", parseInt($("#portrait_group_box").css("width")) - 10 + "px");
+			}, 30);
 		
 		</script>
 	</body>

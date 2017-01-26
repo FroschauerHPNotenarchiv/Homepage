@@ -1,5 +1,7 @@
 body {
-	width: 40%;
+	width: 60%;
+	min-width: 400px;
+	margin: 0px auto;
 }
 
 table {
@@ -17,7 +19,7 @@ table {
 	border: 1px solid rgba(150, 15, 15, 0.8);
 	background-color: rgba(150, 15, 15, 0.8);
 	text-align: center;
-	margin: 0px 0px 2px 1px;
+	margin: 0px 0px 4px 1px;
 }
 
 .menu_item:hover {
@@ -94,10 +96,11 @@ table {
 
 button {
 	width: 100%;
-	border: 1px solid rgb(150, 15, 15);
+	border: 2px solid rgb(150, 15, 15);
 	background-color: white;
 	color: rgb(150, 15, 15);
 	padding: 2px;
+	margin: 2px;
 }
 
 button:hover {
