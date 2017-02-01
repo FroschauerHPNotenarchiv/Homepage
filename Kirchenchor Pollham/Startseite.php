@@ -1,8 +1,10 @@
+
 <?php
 	// Newsflash Logic:
 	require_once "templates/google newsfeed func.php";
 	require_once "templates/startseite_logic.php";
 ?>
+
 <!doctype html>
 <html>
 <head>
@@ -16,7 +18,17 @@
 <link href="css/startseite.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="css/calendar-style.css">
 <link rel="stylesheet" href="css/modal-style.css">	
+
+<!-- random stuff -->
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- end of useless comment section -->
+
 </head>
+
 <body>
 <form action="" method="post">
 			<div id="myModal" class="modal">
@@ -88,12 +100,9 @@
       </ul>
     </nav>
 	
-	<!-- Will be shown if the file upload goes wrong! -->
-	<?php
-		if(!empty($uploadText)) : ?>
-			<p class="upload-info"><?php echo $uploadText?></p>
-		<?php endif;
-	?>
+	<!-- Will be shown if the file upload has been either successful or miserable! -->
+	<!--	// if(!empty($uploadText)) : ?> -->
+	<p class="upload-info"><?php echo $uploadText?></p>
 	
   </header>
   <section>
@@ -170,9 +179,40 @@
   </section>
 <div class="row blockDisplay"> </div>
 <footer class="secondary_header footer">
-    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
+    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | ^eb?sti°n M\n!l</div>
     <div>
-      <button type="button" class="btn btn-sm btn-default btn_login">Login</button>
+	<!--  -------------------------------------------------------------------------------------------- -->
+      <!-- Trigger the modal with a button -->
+	  <button type="button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button>
+
+	  <!-- Modal -->
+	  <div class="modal fade" id="LoginModal" role="dialog">
+		<div class="modal-dialog">
+		
+		  <!-- Modal content-->
+		  <form action="" method="post" class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Anmeldung</h4>
+			</div>
+			<div class="modal-body">
+			  <div class="form-group">
+				<label for="usr">Name:</label>
+				<input type="text" name="email" class="form-control" id="usr">
+			  </div>
+			  <div class="form-group">
+				<label for="pwd">Password:</label>
+				<input type="password" name="password" class="form-control" id="pwd">
+			  </div>
+			</div>
+			<div class="modal-footer">
+			  <button type="submit" class="btn btn-default">Anmelden</button>
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Beenden</button>
+			</div>
+		  </form>
+		  
+		</div>
+	<!-- ---------------------------------------------------------------------------------------------- -->
     </div>
   </footer>
 </div>
@@ -182,3 +222,7 @@
 <script type="text/javascript" src="scripts/indexpage-edit.js"></script>
 
 </html>
+
+<?php
+	require_once "templates/admin_login.php";
+?>

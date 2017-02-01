@@ -1,4 +1,8 @@
 <?php
+	$GLOBALS["ROLES_ADMIN"] = 1; 
+	$GLOBALS["ROLES_SUBADMIN"] = 2; 
+	$GLOBALS["ROLES_MEMBER"] = 3; 
+
 	$GLOBALS["DB_CONNECTION"] = "DB_CONNECTION";
 	$GLOBALS["CURRENT_USER"] = "CURRENT_USER";
 	$GLOBALS["USERS_TABLE"] = "users";
@@ -29,6 +33,9 @@
 	$GLOBALS["ACTION_CREATE"] = "create";
 	
 	$GLOBALS["PARAM_EMAIL"] = "email";
+	$GLOBALS["PARAM_PASSWORD"] = "password";
+	
+	$GLOBALS["SESSION_EMAIL"] = "session_user_email";
 	
 	$GLOBALS["MEMBER_PICTURE_PATH"] = "../images/Member Images";
 ?>

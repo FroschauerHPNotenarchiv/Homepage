@@ -327,13 +327,17 @@
 			});
 			
 			setInterval(function() {
-				var contentWidth = parseInt($(".content").css("width"));
-				if(contentWidth / 2 <= 300)
+				/*var contentWidth = $(".content").width();
+				if($("#user_alteration_content").css("display") !== "none")
+					contentWidth /= 2;
+				
+				if(contentWidth <= 300)
 					$(".menu_item").css("width", contentWidth + "px");
 				else
-					$(".menu_item").css("width", contentWidth / 2 + "px");
-				
-				console.log(contentWidth / 2);
+					if($("#user_alteration_content").css("display") !== "none")
+						$(".menu_item").css("width", contentWidth / 1.67 + "px");
+					else
+						$(".menu_item").css("width", contentWidth / 2 + "px");*/
 				
 				var groupBoxWidthPortrait = parseInt($("#portrait_group_box").css("width"));
 				$("#user_portrait_input").css("width", groupBoxWidthPortrait);

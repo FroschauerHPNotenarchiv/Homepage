@@ -39,6 +39,17 @@ function query($sql) {
 		return $result;
 }
 
+function getUserRole($email) {
+	$result =	query("SELECT {$GLOBALS["COLUMN_ROLES_ID"]}
+					   FROM {$GLOBALS["USERS_TABLE"]}
+			           WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$email}'");
+	return fetch_next_row($result)[0];
+}
+
+function getUserEmail() {
+	return $_SESSION[$GLOBALS["SESSION_EMAIL"]];
+}
+
 function fetch_next_row($result_set) {
 	return pg_fetch_row($result_set);
 }
