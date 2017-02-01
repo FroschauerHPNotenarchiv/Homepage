@@ -4,12 +4,15 @@
 	
 	if(isset($_POST['verify'])) {
 		
-		if(verifyCalendar($_POST['internId'])) {
+		$externId = verifyCalendar($_POST['externId']);
+		$internId = verifyCalendar($_POST['internId']);
+		
+		if($internId) {
 			$intern = "../images/verify-ok.png";
 		} else {
 			$intern = "../images/verify-fail.png";
 		}
-		if(verifyCalendar($_POST['externId'])) {
+		if($externId) {
 			$extern = "../images/verify-ok.png";
 		} else {
 			$extern = "../images/verify-fail.png";
@@ -84,12 +87,20 @@
 						<img src="<?php echo $intern;?>"></img>
 					<?php endif; ?>
 					
+					<?php if(isset($_POST['verify'])) : ?>
+						<p><?php echo $internId ?></p>
+					<?php endif; ?>
+					
 				</p>
 				
 				
 				<p><label>Externe ID:</label><input name="externId" value="<?php echo $_POST['externId'] ?>"></input>
 				<?php if(isset($_POST['verify'])) : ?>
 						<img src="<?php echo $extern;?>"></img>
+					<?php endif; ?>
+					
+					<?php if(isset($_POST['verify'])) : ?>
+						<p><?php echo $externId ?></p>
 					<?php endif; ?>
 				</p>
 				<p><button name="verify" type="submit">Verifizieren</button><button name="save" type="submit">Speichern</button></p>

@@ -9,7 +9,6 @@
 		try {
 			$service->events->delete($_PUBLIC_CALENDAR_ID, $_POST['deletion']);
 		} catch(Exception $ex) {
-			
 		}
 		
 	}
