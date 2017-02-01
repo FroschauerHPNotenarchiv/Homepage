@@ -49,9 +49,9 @@ function verifyCalendar($calendarId) {
 	
 	try {
 		$data = $service->calendars->get($calendarId);
-		return true;
+		return $data->getSummary();
 	} catch(Exception $e) {
-		return false;
+		return null;
 	}
 }
 
