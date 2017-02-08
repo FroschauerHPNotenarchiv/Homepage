@@ -75,7 +75,8 @@
 		
 		$result = query("SELECT {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}, {$GLOBALS["COLUMN_USER_EMAIL"]}
 						 FROM {$GLOBALS["USERS_TABLE"]} users
-						 INNER JOIN {$GLOBALS["VOICES_TABLE"]} voices ON (users.{$GLOBALS["COLUMN_VOICES_ID"]} = voices.{$GLOBALS["COLUMN_VOICES_ID"]})");
+						 INNER JOIN {$GLOBALS["VOICES_TABLE"]} voices ON (users.{$GLOBALS["COLUMN_VOICES_ID"]} = voices.{$GLOBALS["COLUMN_VOICES_ID"]})
+						 ORDER BY {$GLOBALS["COLUMN_USER_FIRSTNAME"]} ASC, {$GLOBALS["COLUMN_USER_LASTNAME"]} ASC");
 		
 		$row = null;
 		while(($row = fetch_next_row($result))) {
@@ -84,7 +85,7 @@
 			      <img src="<?php echo $row[3] ?>" alt="" class="thumbnail"/>
 				  <h4><?php echo "{$row[0]} {$row[1]}" ?></h4>
 				  <h5 class="mitglieder_infos">Stimme: <?php echo $row[2] ?></h5>
-				  <h5 class="mitglieder_infos">Info: Mitglied seit 1.1.2017 </h5>
+				  <h5 class="mitglieder_infos">Info: Mitglied seit Christi-Geburt </h5>
 				</div>
 			<?php
 		}
@@ -116,15 +117,17 @@
 			disconnect();
 		?>
 
+		
 		$("#edit_button").click(function() {
 			$(".columns").hover(function() {
 				$(this).css("background-color", "rgba(150, 15, 15, 0.1)");
-			}, function() {
-				$(this).css("background-color", "white");
-			});
+				}, function() {
+					$(this).css("background-color", "white");
+				});
 			$(".columns").click(function() {		
 				window.location.href += "?<?php echo $GLOBALS["PARAM_EMAIL"] ?>=" + $(this).attr("value");		
-			});
+			});			
+			
 		});
 	</script>
 </body>
