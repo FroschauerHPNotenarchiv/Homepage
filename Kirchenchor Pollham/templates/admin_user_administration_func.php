@@ -40,6 +40,9 @@ function query($sql) {
 }
 
 function getUserRole($email) {
+	if($email === null)
+		return -1;
+	
 	$result =	query("SELECT {$GLOBALS["COLUMN_ROLES_ID"]}
 					   FROM {$GLOBALS["USERS_TABLE"]}
 			           WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$email}'");
@@ -47,7 +50,10 @@ function getUserRole($email) {
 }
 
 function getUserEmail() {
-	return $_SESSION[$GLOBALS["SESSION_EMAIL"]];
+	if(isset($_SESSION[$GLOBALS["SESSION_EMAIL"]]))
+		return $_SESSION[$GLOBALS["SESSION_EMAIL"]];
+	else
+		return null;
 }
 
 function fetch_next_row($result_set) {

@@ -1,4 +1,4 @@
-body {
+#admin_body {
 	width: 60%;
 	min-width: 400px;
 	margin: 0px auto;
@@ -37,8 +37,8 @@ table {
 	margin-left: 42px;
 	width: 90.5%;
 	height: 483px;
-	background-color: rgba(230, 230, 230, 0.1);
-	border: 1px solid rgba(230, 230, 230, 0.8);
+	//background-color: rgba(230, 230, 230, 0.1);
+	//border: 1px solid rgba(230, 230, 230, 0.8);
 	padding: 2px;
 }
 
@@ -76,25 +76,25 @@ table {
 	border-bottom: none;
 }
 
-.group_box .item input {
+.group_box .item .admin_input {
 	margin: 5px;
 	padding: 2px;
 	width: 75%;
 }
 
-.group_box .item input:focus {
+.group_box .item .admin_input:focus {
 	padding: 5px;
 	transition: padding 0.1s ease-in;
 	text-align: center;
 	font-size: 1.025em;
 }
 
-.group_box .item input:not(:focus) {
+.group_box .item .admin_input:not(:focus) {
 	padding: 2px;
 	transition: padding 0.1s ease-in;
 }
 
-button {
+.admin_button {
 	width: 100%;
 	border: 2px solid rgb(150, 15, 15);
 	background-color: white;
@@ -103,7 +103,7 @@ button {
 	margin: 2px;
 }
 
-button:hover {
+.admin_button:hover {
 	border: 5px solid rgb(150, 15, 15);
 	background-color: white;
 	color: rgb(150, 15, 15);
