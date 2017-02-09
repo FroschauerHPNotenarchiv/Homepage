@@ -180,7 +180,7 @@
 						<p class="header">Info Text</p>
 						<table>
 							<tr class="item">
-								<textarea style="resize: none" rows="5" col="200"></textarea>				
+								<textarea style="resize: none; width: 95%; margin: 15px" rows="5" cols="10"></textarea>				
 							</tr>
 						</table>
 					</div>
@@ -263,6 +263,11 @@
 								</td>
 							</tr>
 						</table>
+						
+						<tr class="item">
+								<td class="header" style="width: 25%;">Mitglied seit?: </td>
+								</td>
+						</tr>
 					</div>
 					
 					<button type="submit" class="admin_button">Bestätigen</button>
