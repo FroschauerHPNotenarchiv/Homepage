@@ -88,15 +88,15 @@
     </div>
     <nav class="secondary_header" id="menu">
       <ul>
-        <li>Startseite</li>
-        <li>Mitglieder</li>
+       <li><a href="Startseite.html">Startseite</a></li>
+        <li><a href="Mitglieder.html">Mitglieder</a></li>
 		
-        <li>News/Termine</li>
+        <li><a href="News.html">News/Termine</a></li>
 		
 		<?php if(isLoggedIn()) : ?>
-        <li>Benachrichtigungen</li>
+        <li><a href="Infos.html">Infos</a></li>
 		<?php endif; ?>
-        <li>Administration</li>
+        <li><a href="Administration.html">Administration</a></li>
       </ul>
     </nav>
 	
@@ -183,7 +183,8 @@
     <div>
 	<!--  -------------------------------------------------------------------------------------------- -->
       <!-- Trigger the modal with a button -->
-	  <button type="button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button>
+	  <!--<button type="button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button> -->
+      <button type="button" class="btn btn-sm btn-default btn_login" data-toggle="modal" data-target="#LoginModal">Login</button>
 
 	  <!-- Modal -->
 	  <div class="modal fade" id="LoginModal" role="dialog">
