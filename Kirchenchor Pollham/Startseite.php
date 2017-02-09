@@ -88,8 +88,8 @@
     </div>
     <nav class="secondary_header" id="menu">
       <ul>
-        <li>Startseite</li>
-        <li>Mitglieder</li>
+        <li><a href="Startseite.php">Startseite</a></li>
+        <li><a href="Mitglieder.php">Mitglieder</a></li>
 		
         <li>News/Termine</li>
 		
@@ -179,14 +179,14 @@
   </section>
 <div class="row blockDisplay"> </div>
 <footer class="secondary_header footer">
-    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | ^eb?sti°n M\n!l</div>
+    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
     <div>
 	<!--  -------------------------------------------------------------------------------------------- -->
       <!-- Trigger the modal with a button -->
-	  <button type="button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button>
+	  <button type="button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#MemberModal">Login</button>
 
 	  <!-- Modal -->
-	  <div class="modal fade" id="LoginModal" role="dialog">
+	  <div class="modal fade" id="MemberModal" role="dialog">
 		<div class="modal-dialog">
 		
 		  <!-- Modal content-->

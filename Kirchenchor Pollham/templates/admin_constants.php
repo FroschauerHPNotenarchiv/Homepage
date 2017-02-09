@@ -37,5 +37,5 @@
 	
 	$GLOBALS["SESSION_EMAIL"] = "session_user_email";
 	
-	$GLOBALS["MEMBER_PICTURE_PATH"] = "../images/Member Images";
+	$GLOBALS["MEMBER_PICTURE_PATH"] = "images/Member Images";
 ?>
