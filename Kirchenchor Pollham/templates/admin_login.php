@@ -14,7 +14,7 @@
 		$result = fetch_next_row($result);
 		if($result[0] == 1) { // input data coincides with user data
 			$_SESSION[$GLOBALS["SESSION_EMAIL"]] = $email;
-			echo "<script>console.log('user logged in successfully');</script>";
+			echo "<script>console.log('signed up as: {$email}')</script>";
 		} else {
 			?>
 			<script>
