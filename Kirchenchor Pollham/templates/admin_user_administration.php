@@ -175,6 +175,15 @@
 							</tr>
 						</table>
 					</div>
+					
+					<div class="group_box">
+						<p class="header">Info Text</p>
+						<table>
+							<tr class="item">
+								<textarea style="resize: none" rows="5" col="200"></textarea>				
+							</tr>
+						</table>
+					</div>
 						
 					<div class="group_box" id="portrait_group_box" >
 						<p class="header">Portrait</p>
