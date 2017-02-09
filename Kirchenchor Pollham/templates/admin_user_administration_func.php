@@ -7,7 +7,7 @@ function print_debug($message) {
 }
 
 function default_connect() {
-	connect("127.0.0.1", 5432, "Homepage");
+	connect("localhost", 5432, "Homepage");
 }
 
 function connect($host, $port, $dbname) {
