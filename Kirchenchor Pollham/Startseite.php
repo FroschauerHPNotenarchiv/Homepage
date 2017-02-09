@@ -21,7 +21,7 @@
 
 <!-- random stuff -->
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -88,8 +88,6 @@
     </div>
     <nav class="secondary_header" id="menu">
       <ul>
-       <li><a href="Startseite.html">Startseite</a></li>
-        <li><a href="Mitglieder.html">Mitglieder</a></li>
 		
         <li><a href="News.html">News/Termine</a></li>
 		
@@ -179,15 +177,17 @@
   </section>
 <div class="row blockDisplay"> </div>
 <footer class="secondary_header footer">
-    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | ^eb?sti°n M\n!l</div>
+    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
     <div>
 	<!--  -------------------------------------------------------------------------------------------- -->
       <!-- Trigger the modal with a button -->
+
 	  <!--<button type="button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button> -->
       <button type="button" class="btn btn-sm btn-default btn_login" data-toggle="modal" data-target="#LoginModal">Login</button>
+	 
 
 	  <!-- Modal -->
-	  <div class="modal fade" id="LoginModal" role="dialog">
+	  <div class="modal fade" id="MemberModal" role="dialog">
 		<div class="modal-dialog">
 		
 		  <!-- Modal content-->
