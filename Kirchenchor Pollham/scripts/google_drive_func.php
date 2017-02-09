@@ -5,11 +5,6 @@
 	$client = getClient();
 	$service = new Google_Service_Drive($client);
 	
-	$fileId = uploadPdf($service, "test.pdf", "DASTESTPDF.pdf");
-	echo "PDF Hochgeladen!</br>";
-	downloadPdf($service, $fileId, "MEIN_TEST_PDF.pdf");
-	echo "PDF wurde als MEIN_TEST_PDF heruntergeladenwfeojsndkmd";
-	
 	function retrieveAllFiles($service, $query = null) {
 	  $result = array();
 	  $pageToken = NULL;
@@ -105,10 +100,3 @@
 		return $client;
 	}
 ?>
-<html>
-	<head></head>
-	
-	<body>
-		<h1>Fuck</h1>
-	</body>
-</html>
