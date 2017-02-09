@@ -2,13 +2,13 @@
 	REQUIRE_ONCE "../vendor/autoload.php";
 	INCLUDE "google drive constants.php";
 	
-	$service = new Google_Service_Drive(getClient());
-	$filters = retrieveAllFiles($service, "'0BxWIS_jgbetbRDhuT2ZCU3VhTFk' in parents and mimeType = '" . $CONST["MIMETYPE_FOLDER"] . "'");
+	$client = getClient();
+	$service = new Google_Service_Drive($client);
 	
-	// 0BxWIS_jgbetbdzh1akhfUlVuajQ
-	// 0BxWIS_jgbetbRDhuT2ZCU3VhTFk - The root FOLDER
-	
-	// Scan for Files:  mimeType != 'application/vnd.google-apps.folder'
+	$fileId = uploadPdf($service, "test.pdf", "DASTESTPDF.pdf");
+	echo "PDF Hochgeladen!</br>";
+	downloadPdf($service, $fileId, "MEIN_TEST_PDF.pdf");
+	echo "PDF wurde als MEIN_TEST_PDF heruntergeladenwfeojsndkmd";
 	
 	function retrieveAllFiles($service, $query = null) {
 	  $result = array();
@@ -32,6 +32,50 @@
 		}
 	  } while ($pageToken);
 	  return $result;
+	}
+	
+	function deleteFile($service, $fileId) {
+		try {
+			$service->files->delete($fileId);
+			return true;
+		} catch(Exception $e) {
+			print $e->getMessage();
+			return false;
+		}
+	}
+	
+	function uploadPdf($service, $filename, $title) {
+		try {
+			$fileMetadata = new Google_Service_Drive_DriveFile(array(
+				'name' => $title,
+				'mimeType' => "application/pdf"
+			));
+	
+		$content = file_get_contents('test.pdf');
+		$file = $service->files->create($fileMetadata, array(
+			'data' => $content,
+			'mimeType' => "application/pdf",
+			'uploadType' => 'multipart',
+			'fields' => 'id'));
+			
+			return $file->getId();
+		} catch(Exception $e) {
+			print $e->getMessage();
+			return NULL;
+		}
+		
+		
+	}
+	
+	function downloadPdf($service, $fileId, $saveName) {
+		try 
+		{
+			$response = $service->files->get($fileId, array('alt' => 'media'));
+			file_put_contents($saveName, $response->getBody()->getContents());
+			
+		} catch(Exception $e) {
+			print "Error: " . $e->getMessage();
+		}
 	}
 	
 	
@@ -65,40 +109,6 @@
 	<head></head>
 	
 	<body>
-		<h1>All Available Filters:</h1>
-		<form method="post" action="">
-			<select id="filter" name="filter">
-				<?php
-					foreach($filters as $folder) {
-						?> <option value="<?php echo $folder->getId()?>"><?php echo $folder->getName()?></option><?php
-					}
-				?>
-			</select>
-			<input type="text" name="query" placeholder="Nach Dateinamen suchen ..."/>
-			
-			<button name="search" value="yes">Suchen!</button>
-		</form>
-		
-		<?php
-			if(isset($_POST["search"])) {
-				$id = $_POST["filter"];
-				$name = $_POST["query"];
-				if( strlen($name) < 1) {
-					$q = " '" . $id . "' in parents";
-				} else {
-					$q = " '" . $id . "' in parents and name contains '" . $name . "'";
-				}
-				
-				$arr = retrieveAllFiles($service, $q);
-				
-				foreach($arr as $entry) { ?> 
-					<div style="margin: 10px">
-					<img src="../images/pdficon.png" style="width:30px;"/>
-					<label><?php echo $entry->getName(); ?></label>
-					</div>
-					<?php
-				}
-			}
-		?>
+		<h1>Fuck</h1>
 	</body>
 </html>
