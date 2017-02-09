@@ -7,7 +7,7 @@
 		default_connect();
 		
 		if($_GET["action"] === $GLOBALS["ACTION_DELETE"]) {
-			$result = query("SELECT{$GLOBALS["COLUMN_PORTRAIT_PATH"]}
+			$result = query("SELECT {$GLOBALS["COLUMN_PORTRAIT_PATH"]}
 							 FROM {$GLOBALS["USERS_TABLE"]}
 							 WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$_GET["email"]}'");
 			
@@ -37,8 +37,8 @@
 				move_uploaded_file($_FILES["user_portrait"]['tmp_name'], $internalPath);
 				$newPortraitPath = $internalPath;
 			} else if ($result[2] != $_POST["user_firstname"] || $result[3] != $_POST["user_lastname"]) {
-				$internalPath = "{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . explode(".", $result[1])[3];
-				rename("{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$result[3]}_{$result[2]}." . explode(".", $result[1])[3], 
+				$internalPath = "{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . explode(".", $result[1])[1];
+				rename("{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$result[3]}_{$result[2]}." . explode(".", $result[1])[1], 
 					   $internalPath);
 				$newPortraitPath = $internalPath;
 			}
@@ -105,8 +105,8 @@
 			<script src="scripts/jquery-3.1.1.min.js"></script>
 
 			<ul>
-				<li class="menu_item user_creation" >Benutzer Anlegen</li>
-				<li class="menu_item user_alteration " >Benutzer Bearbeiten</li>
+				<li class="menu_item user_creation" >Benutzer Erstellen / Bearbeiten</li>
+				<li class="menu_item user_alteration " >Benutzer Liste</li>
 			</ul>
 			
 			<div class="content user_creation_content" >
@@ -271,9 +271,9 @@
 							<div class="group_box">
 								<table class="hoverable">
 									<tr name="<?php echo $row[0] ?>"  class="item">
-										<td style="width: 60%; color: rgb(150, 15, 15);" class="text clickable_item"><?php echo $row[0] ?></td>
+										<td style="width: 60%; color: rgb(150, 15, 15); padding: 5px" class="text clickable_item"><?php echo $row[0] ?></td>
 										<td class="text clickable_item"><?php echo $row[1] . " " . $row[2] ?></td>
-										<td><img class="deletion_image" alt="Delete" src="images/red cross.png" width="20" /></td>
+										<td><img class="deletion_image" style="margin: 2px" alt="Delete" src="images/red cross.png" width="20" /></td>
 									</tr>
 								</table>
 							</div>

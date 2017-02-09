@@ -113,10 +113,17 @@
 		if(window.location.href.includes("<?php echo $GLOBALS["PARAM_EMAIL"] ?>") && <?php echo getUserRole(getUserEmail()) ?> == <?php echo $GLOBALS["ROLES_ADMIN"] ?>)
 			$("#MemberModal").modal("show");
 		
+		 $("#MemberModal").on("hidden.bs.modal", function(event) {
+			window.location.href = window.location.href.substr(0, window.location.href.indexOf('?'));
+		 });
+		
 		<?php
 			disconnect();
 		?>
-
+		
+		$("#edit_button").dblclick(function() {
+			$("#MemberModal").modal("show");
+		});
 		
 		$("#edit_button").click(function() {
 			$(".columns").hover(function() {
