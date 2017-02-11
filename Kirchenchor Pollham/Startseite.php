@@ -27,6 +27,12 @@
 
 <!-- end of useless comment section -->
 
+<style>
+	.modal-backdrop {
+		background-color: rgba(255, 255, 255, 0.2);
+	}
+</style>
+
 </head>
 
 <body>
