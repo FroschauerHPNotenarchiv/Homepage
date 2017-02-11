@@ -99,14 +99,14 @@
 	
 ?>
 
-<div class="modal fade" id="MemberModal" role="dialog">
-	<div class="modal-dialog">
+<div class="modal fade" style="margin: 5px" id="MemberModal" role="dialog">
+	<div class="modal-dialog" style="margin-top: 5px">
 		<div id="admin_body" class="modal-content">
 			<script src="scripts/jquery-3.1.1.min.js"></script>
 
 			<ul>
-				<li class="menu_item user_creation" >Benutzer Erstellen / Bearbeiten</li>
-				<li class="menu_item user_alteration " >Benutzer Liste</li>
+				<li class="menu_item user_creation" >Benutzer erstellen<br />und bearbeiten</li>
+				<li class="menu_item user_alteration " >Benutzer Liste<br />anzeigen</li>
 			</ul>
 			
 			<div class="content user_creation_content" >
@@ -180,7 +180,7 @@
 						<p class="header">Info Text</p>
 						<table>
 							<tr class="item">
-								<textarea style="resize: none; width: 95%; margin: 15px" rows="5" cols="10"></textarea>				
+								<textarea style="resize: none; width: 95%; margin: 12px" rows="5" cols="10"></textarea>				
 							</tr>
 						</table>
 					</div>
@@ -193,7 +193,7 @@
 								<td class="header" style="width: 75%; text-align: center">Bild wählen</td>
 								<td><p class="user_portrait"><input id="user_portrait_input" style="position: absolute; opacity: 0; width: 100%;border: 1px solid blue" type="file" name="user_portrait" /></p></td>
 							</div>
-							<td><img style="width: 200px" alt="Kein Bild" src="<?php if($editMode) echo $result[10] ?>" /></td>
+							<td><img style="width: 200px; margin: 10px" alt="Kein Bild" src="<?php if($editMode) echo $result[10] ?>" /></td>
 							</tr>
 						</table>
 					</div>
