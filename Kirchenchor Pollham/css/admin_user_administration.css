@@ -10,16 +10,16 @@ table {
 
 .menu_item {
 	float: left;
-	padding: 6px 1px 6px 1px;
-	width: 49%;
+	padding: .5% .5% .5% .5%;
+	width: 48.75%;
 	list-style: none;
 	
 	color: white;
 	
-	border: 1px solid rgba(150, 15, 15, 1);
+	border: 0.5% solid rgba(150, 15, 15, 1);
 	background-color: rgba(150, 15, 15, 1);
 	text-align: center;
-	margin: 0px 2px 4px 1px;
+	margin: .25% .25% .25% .25%;
 }
 
 .menu_item:hover {
@@ -34,8 +34,8 @@ table {
 
 .content {
 	clear: both;
-	margin-left: 42px;
-	width: 91.8%;
+	margin-left: 35px;
+	width: 94%;
 	height: 483px;
 	//background-color: rgba(230, 230, 230, 0.1);
 	//border: 1px solid rgba(230, 230, 230, 0.8);

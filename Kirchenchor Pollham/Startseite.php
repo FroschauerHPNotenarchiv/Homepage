@@ -21,11 +21,17 @@
 
 <!-- random stuff -->
 
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!-- end of useless comment section -->
+
+<style>
+	.modal-backdrop {
+		background-color: rgba(255, 255, 255, 0.2);
+	}
+</style>
 
 </head>
 
