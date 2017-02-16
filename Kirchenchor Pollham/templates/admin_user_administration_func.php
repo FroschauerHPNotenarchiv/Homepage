@@ -41,7 +41,7 @@ function query($sql) {
 
 function getUserRole($email) {
 	if($email === null)
-		return -1;
+		return 1000;
 	
 	$result =	query("SELECT {$GLOBALS["COLUMN_ROLES_ID"]}
 					   FROM {$GLOBALS["USERS_TABLE"]}
