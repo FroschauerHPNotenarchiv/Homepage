@@ -73,7 +73,7 @@
 	<?php
 		default_connect();
 		
-		$result = query("SELECT {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}, {$GLOBALS["COLUMN_USER_EMAIL"]}
+		$result = query("SELECT {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}, {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS["COLUMN_INFO_TEXT"]}, {$GLOBALS["COLUMN_ACCESSION_DATE"]}
 						 FROM {$GLOBALS["USERS_TABLE"]} users
 						 INNER JOIN {$GLOBALS["VOICES_TABLE"]} voices ON (users.{$GLOBALS["COLUMN_VOICES_ID"]} = voices.{$GLOBALS["COLUMN_VOICES_ID"]})
 						 ORDER BY {$GLOBALS["COLUMN_USER_FIRSTNAME"]} ASC, {$GLOBALS["COLUMN_USER_LASTNAME"]} ASC");
@@ -85,7 +85,8 @@
 			      <img src="<?php echo $row[3] ?>" alt="" class="thumbnail"/>
 				  <h4><?php echo "{$row[0]} {$row[1]}" ?></h4>
 				  <h5 class="mitglieder_infos">Stimme: <?php echo $row[2] ?></h5>
-				  <h5 class="mitglieder_infos">Info: Mitglied seit Christi-Geburt </h5>
+				  <h5 class="mitglieder_infos">Beitrittsdatum: <?php echo $row[6] ?></h5>
+				  <h5 class="mitglieder_infos"><br /> <?php echo str_replace("\r", "<br />", $row[5]) ?></h5>
 				</div>
 			<?php
 		}

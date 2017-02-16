@@ -55,7 +55,9 @@
 											      $GLOBALS["COLUMN_USER_HOUSE_NUMBER"] => $_POST["user_house_number"],
 											      $GLOBALS["COLUMN_VOICE_ID"] => $ids[0],
 											      $GLOBALS["COLUMN_ROLES_ID"] => $ids[1],
-												  $GLOBALS["COLUMN_PORTRAIT_PATH"] => $newPortraitPath), 
+												  $GLOBALS["COLUMN_PORTRAIT_PATH"] => $newPortraitPath,
+												  $GLOBALS["COLUMN_INFO_TEXT"] => $_POST["info_text"],
+												  $GLOBALS["COLUMN_ACCESSION_DATE"] => $_POST["accession_date"]),
 											array($GLOBALS["COLUMN_USER_EMAIL"] => $_GET[$GLOBALS["PARAM_EMAIL"]]));
 											
 		}
@@ -80,7 +82,9 @@
 													  $GLOBALS["COLUMN_USER_HOUSE_NUMBER"] => $_POST["user_house_number"],
 													  $GLOBALS["COLUMN_VOICE_ID"] => $ids[0],
 													  $GLOBALS["COLUMN_ROLES_ID"] => $ids[1],
-													  $GLOBALS["COLUMN_PORTRAIT_PATH"] => $internalPath));
+													  $GLOBALS["COLUMN_PORTRAIT_PATH"] => $internalPath,
+													  $GLOBALS["COLUMN_INFO_TEXT"] => $_POST["info_text"],
+													  $GLOBALS["COLUMN_ACCESSION_DATE"] => $_POST["accession_date"]));
 				$_SESSION[$GLOBALS["CURRENT_USER"]] = $_POST["user_email"];
 				
 				move_uploaded_file($_FILES["user_portrait"]['tmp_name'], $internalPath);
@@ -115,7 +119,7 @@
 					
 					$editMode = isset($_GET[$GLOBALS["PARAM_EMAIL"]]);
 					if($editMode) {
-						$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS["COLUMN_USER_PHONE"]}, {$GLOBALS["COLUMN_USER_PLACE"]}, {$GLOBALS["COLUMN_USER_POSTAL_CODE"]}, {$GLOBALS["COLUMN_USER_STREET"]}, {$GLOBALS["COLUMN_USER_HOUSE_NUMBER"]}, {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICE_ID"]}, {$GLOBALS["COLUMN_ROLES_ID"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}
+						$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS["COLUMN_USER_PHONE"]}, {$GLOBALS["COLUMN_USER_PLACE"]}, {$GLOBALS["COLUMN_USER_POSTAL_CODE"]}, {$GLOBALS["COLUMN_USER_STREET"]}, {$GLOBALS["COLUMN_USER_HOUSE_NUMBER"]}, {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICE_ID"]}, {$GLOBALS["COLUMN_ROLES_ID"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}, {$GLOBALS["COLUMN_ACCESSION_DATE"]}, {$GLOBALS["COLUMN_INFO_TEXT"]}
 										 FROM {$GLOBALS["USERS_TABLE"]}
 										 WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$_GET["email"]}'");
 						
@@ -180,7 +184,7 @@
 						<p class="header">Info Text</p>
 						<table>
 							<tr class="item">
-								<textarea style="resize: none; width: 95%; margin: 12px" rows="5" cols="10"></textarea>				
+								<textarea name="info_text" style="resize: none; width: 95%; margin: 12px 12px 0px 12px" rows="6" cols="10"><?php echo $result[12] ?></textarea>				
 							</tr>
 						</table>
 					</div>
@@ -262,12 +266,11 @@
 									</select>
 								</td>
 							</tr>
-						</table>
-						
-						<tr class="item">
-								<td class="header" style="width: 25%;">Mitglied seit?: </td>
-								</td>
-						</tr>
+							<tr class="item">
+								<td class="header" style="width: 25%;">Mitglied seit:</td>
+								<td><input type="date" name="accession_date" value="<?php echo $result[11] ?>" /></td>
+							</tr>
+						</table>						
 					</div>
 					
 					<button type="submit" class="admin_button">Bestätigen</button>

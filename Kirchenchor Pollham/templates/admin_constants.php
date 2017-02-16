@@ -22,6 +22,8 @@
 	$GLOBALS["COLUMN_USER_FIRSTNAME"] = "user_firstname";
 	$GLOBALS["COLUMN_USER_LASTNAME"] = "user_lastname";
 	$GLOBALS["COLUMN_VOICE_ID"] = "voice_id";
+	$GLOBALS["COLUMN_INFO_TEXT"] = "user_info_text";
+	$GLOBALS["COLUMN_ACCESSION_DATE"] = "user_accession_date";
 	
 	$GLOBALS["COLUMN_PORTRAIT_PATH"] = "portrait_path";
 	
