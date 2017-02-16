@@ -7,11 +7,11 @@ function print_debug($message) {
 }
 
 function default_connect() {
-	connect("localhost", 5432, "Homepage");
+	connect("localhost", 5432, "Homepage", "postgres", "postgresql");
 }
 
-function connect($host, $port, $dbname) {
-	$connection = pg_connect("host={$host} port={$port} dbname={$dbname} user=postgres");
+function connect($host, $port, $dbname, $user, $password) {
+	$connection = pg_connect("host={$host} port={$port} dbname={$dbname} user={$user} password={$password}");
 	if($connection)
 		$_SESSION[$GLOBALS["DB_CONNECTION"]] = $connection;
 	else
