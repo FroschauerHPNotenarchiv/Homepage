@@ -1,8 +1,12 @@
 
 <?php
+	
 	// Newsflash Logic:
 	require_once "templates/google newsfeed func.php";
 	require_once "templates/startseite_logic.php";
+	require_once "templates/admin_user_administration_func.php";
+	
+	$email = getUserEmail();
 ?>
 
 <!doctype html>
@@ -52,8 +56,8 @@
 			<div class="modal-footer">
 			  <h3 id="modalFooter">Modal Footer</h3>
 			</div>
-				<!-- if (isAdministrator) ... -->
-				<?php if(isLoggedIn()) : ?>
+				<!-- If user is Admin or Sub-Admin then -->
+				<?php if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
 			<button id="deleteBtn" type="submit" value="" name="deletion">Eintrag löschen</button>
 			<button id="alterBtn" type="submit" value="" name="alteration">Eintrag bearbeiten</button>
 				<?php endif; ?>
@@ -63,7 +67,7 @@
 		</div>
 		</form>
 		
-		<?php  // if( isAdmin() ) : ?>
+		<?php  if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
 		<form method="post" enctype="multipart/form-data">
 		<div id="editModal" class="editbg">
 	
@@ -85,7 +89,7 @@
 		  </div>
 		</div>
 		</form>
-		<?php //endif; ?>
+		<?php endif; ?>
 
 <div class="container">
   <header>
@@ -116,9 +120,9 @@
     <article class="left_article">
     <div>
       <h3 class="titel_startseite"><?php echo $title ?></h3>
-	  <?php // if ( isAdmin() ) : ?>
+	  <?php if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
       <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . str_replace("\r\n", "</br>", $text) . "'" ?>)" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
-	  <?php // endif; ?>
+	  <?php endif; ?>
     </div>
       
       <img class="image_leftarticle" src="images/index-image.<?php echo $extension?>" alt="Picture">
@@ -130,7 +134,7 @@
     </article>
     <aside class="right_article">
     <h3>Newsflash:</h3>
-	<?php if(isLoggedIn()) : ?>
+	<?php if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
 	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
 	<?php endif;?>
     <div class="list-group" style="width:250%;">
@@ -185,7 +189,7 @@
   </section>
 <div class="row blockDisplay"> </div>
 <footer class="secondary_header footer">
-    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
+    <div class="copyright">&copy;Lukas Knoll | N1kl@s GRaF | Sebastian Mandl</div>
     <div>
 	<!--  -------------------------------------------------------------------------------------------- -->
       <!-- Trigger the modal with a button -->
