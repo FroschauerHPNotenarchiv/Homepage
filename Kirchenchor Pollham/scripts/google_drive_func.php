@@ -5,6 +5,17 @@
 	$client = getClient();
 	$service = new Google_Service_Drive($client);
 	
+	$file = uploadPdf($service, "test.pdf", "TEST.pdf");
+	downloadPdf($service, $file->getId(), "notenblatt.pdf");
+	
+	$file_url = "notenblatt.pdf";
+	header('Content-Type: application/pdf');
+	header("Content-Transfer-Encoding: Binary"); 
+	header("Content-disposition: attachment; filename=\"" . basename($file_url) . "\""); 
+	readfile($file_url);
+	
+//	unlink("MyPdf.pdf");
+	
 	function retrieveAllFiles($service, $query = null) {
 	  $result = array();
 	  $pageToken = NULL;
@@ -53,7 +64,7 @@
 			'uploadType' => 'multipart',
 			'fields' => 'id'));
 			
-			return $file->getId();
+			return $file;
 		} catch(Exception $e) {
 			print $e->getMessage();
 			return NULL;
