@@ -5,8 +5,6 @@
 	require_once "templates/google newsfeed func.php";
 	require_once "templates/startseite_logic.php";
 	require_once "templates/admin_user_administration_func.php";
-	
-	$email = getUserEmail();
 ?>
 
 <!doctype html>
@@ -57,7 +55,7 @@
 			  <h3 id="modalFooter">Modal Footer</h3>
 			</div>
 				<!-- If user is Admin or Sub-Admin then -->
-				<?php if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
+				<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
 			<button id="deleteBtn" type="submit" value="" name="deletion">Eintrag löschen</button>
 			<button id="alterBtn" type="submit" value="" name="alteration">Eintrag bearbeiten</button>
 				<?php endif; ?>
@@ -67,7 +65,7 @@
 		</div>
 		</form>
 		
-		<?php  if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
+		<?php  if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
 		<form method="post" enctype="multipart/form-data">
 		<div id="editModal" class="editbg">
 	
@@ -120,7 +118,7 @@
     <article class="left_article">
     <div>
       <h3 class="titel_startseite"><?php echo $title ?></h3>
-	  <?php if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
+	  <?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
       <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . str_replace("\r\n", "</br>", $text) . "'" ?>)" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
 	  <?php endif; ?>
     </div>
@@ -134,7 +132,7 @@
     </article>
     <aside class="right_article">
     <h3>Newsflash:</h3>
-	<?php if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
+	<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
 	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
 	<?php endif;?>
     <div class="list-group" style="width:250%;">
