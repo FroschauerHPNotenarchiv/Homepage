@@ -19,20 +19,28 @@ function connect($host, $port, $dbname, $user, $password) {
 }
 
 function insert($table_name, $values) {
+	default_connect();
 	pg_insert($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values);
 		//print_debug("Insert failed! Try again with different table_name or values!");
+	disconnect();
 }
 
 function delete_entries($table_name, $values) {
+	default_connect();
 	pg_delete($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values);
+	disconnect();
 }
 
 function update($table_name, $values, $conditions) {
+	default_connect();
 	pg_update($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values, $conditions);
+	disconnect();
 }
 
 function query($sql) {
+	default_connect();
 	$result = pg_query($_SESSION[$GLOBALS["DB_CONNECTION"]], $sql);
+	disconnect();
 	if($result === null)
 		print_debug("Query returned with no return values!");
 	else
@@ -40,19 +48,14 @@ function query($sql) {
 }
 
 function getUserRole($email) {
-	$default = 1000;
-	
 	if($email === null)
-		return $default;
+		return 1000;
 	
 	$result =	query("SELECT {$GLOBALS["COLUMN_ROLES_ID"]}
 					   FROM {$GLOBALS["USERS_TABLE"]}
 			           WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$email}'");
 					   
-	if(result)
-		return fetch_next_row($result)[0];
-	else
-		return $default;
+	return fetch_next_row($result)[0];
 }
 
 function getUserEmail() {
