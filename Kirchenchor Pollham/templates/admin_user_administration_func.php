@@ -71,7 +71,8 @@ function fetch_next_row($result_set) {
 
 function disconnect() {
 	if($_SESSION[$GLOBALS["DB_CONNECTION"]] === null)
-		print_debug("The database connection was closed prior to the invocation of the disconnect function!");
+		//print_debug("The database connection was closed prior to the invocation of the disconnect function!");
+		return;
 	else {
 		pg_close($_SESSION[$GLOBALS["DB_CONNECTION"]]);
 		$_SESSION[$GLOBALS["DB_CONNECTION"]] = null;
