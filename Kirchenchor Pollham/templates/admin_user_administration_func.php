@@ -7,11 +7,11 @@ function print_debug($message) {
 }
 
 function default_connect() {
-	connect("127.0.0.1", 5432, "Homepage");
+	connect("localhost", 5432, "Homepage", "postgres", "postgresql");
 }
 
-function connect($host, $port, $dbname) {
-	$connection = pg_connect("host={$host} port={$port} dbname={$dbname} user=postgres");
+function connect($host, $port, $dbname, $user, $password) {
+	$connection = pg_connect("host={$host} port={$port} dbname={$dbname} user={$user} password={$password}");
 	if($connection)
 		$_SESSION[$GLOBALS["DB_CONNECTION"]] = $connection;
 	else
@@ -41,7 +41,7 @@ function query($sql) {
 
 function getUserRole($email) {
 	if($email === null)
-		return -1;
+		return 1000;
 	
 	$result =	query("SELECT {$GLOBALS["COLUMN_ROLES_ID"]}
 					   FROM {$GLOBALS["USERS_TABLE"]}
