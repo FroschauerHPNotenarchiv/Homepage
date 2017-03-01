@@ -1,6 +1,6 @@
 
 <?php
-	
+	session_start();
 	// Newsflash Logic:
 	require_once "templates/google newsfeed func.php";
 	require_once "templates/startseite_logic.php";
