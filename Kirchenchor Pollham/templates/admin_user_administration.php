@@ -35,6 +35,7 @@
 				$internalPath = /*$_SERVER['DOCUMENT_ROOT'] . */"{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . pathinfo($_FILES["user_portrait"]['name'], PATHINFO_EXTENSION);
 				move_uploaded_file($_FILES["user_portrait"]['tmp_name'], $internalPath);
 				$newPortraitPath = $internalPath;
+				die();
 			} else if ($result[2] != $_POST["user_firstname"] || $result[3] != $_POST["user_lastname"]) {
 				$internalPath = "{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . explode(".", $result[1])[1];
 				rename("{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$result[3]}_{$result[2]}." . explode(".", $result[1])[1], 
