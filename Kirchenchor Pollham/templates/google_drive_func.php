@@ -41,6 +41,10 @@
 	function getFilesWithCategory($service, $exclusive = true, $categorys = array())
 	{
 		$query = 'name contains ';
+		if(count($categorys) == 0)
+		{
+			return retrieveAllFiles($service, null);
+		}
 		$condition = $exclusive ? " and name contains " : " or name contains ";
 		
 		$lastIndex = count($categorys) - 1;

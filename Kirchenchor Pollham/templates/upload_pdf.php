@@ -16,9 +16,12 @@
 		
 		if($fileOk == 1)
 		{
-			echo $_FILES["file"]["name"];
 			$ok = move_uploaded_file($_FILES["file"]["tmp_name"], "../pdf/" . $_FILES["file"]["name"]);
 			uploadPdf($service, $_FILES["file"]["name"], getCategories($_POST));
+			if($ok)
+			{
+				echo "Success.";
+			}
 		}
 	}
 	else
@@ -29,7 +32,7 @@
 		{
 			echo $f->getName();
 			echo "<br/>";
-			//deleteFile($service, $f->getId());
+			deleteFile($service, $f->getId());
 		}*/
 	}
 	
