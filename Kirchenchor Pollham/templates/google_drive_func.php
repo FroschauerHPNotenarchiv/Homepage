@@ -54,7 +54,6 @@
 			}
 		}
 		
-		echo $query;
 		return retrieveAllFiles($service, $query);
 	}
 	
@@ -91,13 +90,14 @@
 				'mimeType' => "application/pdf"
 			));
 	
-		$content = file_get_contents($filename);
+		$content = file_get_contents("../pdf/" . $filename);
 		$file = $service->files->create($fileMetadata, array(
 			'data' => $content,
 			'mimeType' => "application/pdf",
 			'uploadType' => 'multipart',
 			'fields' => 'id'));
 			
+			unlink("../pdf/" . $filename);
 			return $file;
 		} catch(Exception $e) {
 			print $e->getMessage();
