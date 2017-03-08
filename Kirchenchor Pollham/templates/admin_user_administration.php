@@ -176,7 +176,7 @@
 						<p class="header">Info Text</p>
 						<table>
 							<tr class="item">
-								<textarea name="info_text" style="resize: none; width: 95%; margin: 12px 12px 0px 12px" rows="6" cols="10"><?php echo $result[12] ?></textarea>				
+								<textarea name="info_text" style="resize: none; width: 95%; margin: 12px 12px 0px 12px" rows="6" cols="10"><?php if($editMode) echo $result[12] ?></textarea>				
 							</tr>
 						</table>
 					</div>

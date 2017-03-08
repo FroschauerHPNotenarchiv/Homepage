@@ -95,15 +95,18 @@
     </div>
     <nav class="secondary_header" id="menu">
       <ul>
-        <li><a href="Startseite.php">Startseite</a></li>
-        <li><a href="Mitglieder.php">Mitglieder</a></li>
-		
-        <li>News/Termine</li>
-		
-		<?php if(isLoggedIn()) : ?>
-        <li>Benachrichtigungen</li>
-		<?php endif; ?>
-        <li>Administration</li>
+		<li><a href="Startseite.php">Startseite</a></li>
+		<li><a href="Mitglieder.php">Mitglieder</a></li>
+		<li><a href="News.html">News/Termine</a></li>
+	
+		<?php
+				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
+					<li><a href="Benachrichtigungen.html">Benachrichtigungen</a></li>
+				<?php endif;
+				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
+					<li><a href="Administration.html">Administration</a></li>
+				<?php endif;
+			?>
       </ul>
     </nav>
 	
@@ -188,38 +191,7 @@
 <footer class="secondary_header footer">
     <div class="copyright">&copy;Lukas Knoll | N1kl@s GRaF | Sebastian Mandl</div>
     <div>
-	<!--  -------------------------------------------------------------------------------------------- -->
-      <!-- Trigger the modal with a button -->
-	  <button type="button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#MemberModal">Login</button>
-
-	  <!-- Modal -->
-	  <div class="modal fade" id="MemberModal" role="dialog">
-		<div class="modal-dialog">
-		
-		  <!-- Modal content-->
-		  <form action="" method="post" class="modal-content">
-			<div class="modal-header">
-			  <button type="button" class="close" data-dismiss="modal">&times;</button>
-			  <h4 class="modal-title">Anmeldung</h4>
-			</div>
-			<div class="modal-body">
-			  <div class="form-group">
-				<label for="usr">Name:</label>
-				<input type="text" name="email" class="form-control" id="usr">
-			  </div>
-			  <div class="form-group">
-				<label for="pwd">Password:</label>
-				<input type="password" name="password" class="form-control" id="pwd">
-			  </div>
-			</div>
-			<div class="modal-footer">
-			  <button type="submit" class="btn btn-default">Anmelden</button>
-			  <button type="button" class="btn btn-default" data-dismiss="modal">Beenden</button>
-			</div>
-		  </form>
-		  
-		</div>
-	<!-- ---------------------------------------------------------------------------------------------- -->
+		<?php include "templates/login_button.php" ?>
     </div>
   </footer>
 </div>
