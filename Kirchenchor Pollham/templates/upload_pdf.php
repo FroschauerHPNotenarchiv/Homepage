@@ -67,6 +67,17 @@
 		return $voices;
 		
 	}
+	
+	function getAdditionalCategories()
+	{
+		$csv = array_map('str_getcsv', file('categories.csv'));
+		$strings = array();
+		foreach($csv[0] as $index => $val)
+		{
+			array_push($strings, $val);
+		}
+		return $strings;
+	}
 
 ?>
 <!DOCTYPE html>
@@ -74,15 +85,31 @@
 	
 	<form action="" method="post" enctype="multipart/form-data">
 		<p>Dateiauswahl: <input name="file" type="file"/></p>
-		<p>Kategorien: </p>
-		<?php
-			foreach(getVoices() as $voice)
-			{
-				?>
-				<p><input name="<?php echo $voice?>" type="checkbox"><?php echo $voice?></input></p>
-				<?php
-			}
-		?>
+		<fieldset>
+		<legend>Stimmen</legend>
+			<?php
+				foreach(getVoices() as $voice)
+				{
+					?>
+					<p><input name="<?php echo $voice?>" type="checkbox"><?php echo $voice?></input></p>
+					<?php
+				}
+			?>
+		</fieldset>
+		
+		<fieldset>
+			<legend>Kategorien</legend>
+			
+			<?php
+				foreach(getAdditionalCategories() as $cat)
+				{
+					?>
+						<p><input name="<?php echo $cat?>" type="checkbox"><?php echo $cat?></input></p>
+					<?php
+				}
+			?>
+			
+		</fieldset>
 		
 		<button name="fileSubmit" value="ok">Datei hochladen</button>
 	</form>
