@@ -22,6 +22,10 @@
 			{
 				echo "Success.";
 			}
+			else
+			{
+				echo "Failure.";
+			}
 		}
 	}
 	else

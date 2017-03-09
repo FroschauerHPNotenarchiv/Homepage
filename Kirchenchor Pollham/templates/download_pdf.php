@@ -4,7 +4,7 @@
 	$service = new Google_Service_Drive(getClient());
 	if(isset($_POST))
 	{
-		$files = getFilesWithCategory($service, getCategories($_POST));
+		$files = getFilesWithCategory($service,true, getCategories($_POST));
 	}
 	else
 	{
@@ -33,6 +33,10 @@
 
 <!DOCTYPE html>
 <html>
+	
+	<form method="post">
+		<button type="submit">Suchen</button>
+	</form>
 	
 	<ul>
 	<?php
