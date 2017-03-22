@@ -1,0 +1,24 @@
+.container section .article {
+	background-color: #FFFFFF;
+	width: 70%;
+	float: left;
+	font-family: "Source Sans Pro";
+	color: #343434;
+}
+
+.container .left_article p {
+	text-align: justify;
+	line-height: 24px;
+	margin-bottom: 15px;
+	color: #B3B3B3;
+	margin-left: 4%;
+	float: left;
+	
+}section .article .titel_info {
+	padding-left: 5%;
+	padding-right: 5%;
+	margin-top: 5%;
+	color: #717070;
+	font-weight: bold;
+	text-transform: uppercase;
+}
