@@ -2,6 +2,7 @@
 <?php
 	session_start();
 
+	
 	require_once "templates/admin_user_administration_func.php";
 	require_once "templates/mailing/class.pop3.php";
 	require_once "templates/mailing/class.smtp.php";
@@ -23,6 +24,8 @@
 		}
 		
 		if(isset($_POST["recipient"]) && isset($_POST["msg"]) && isset($_POST["subject"]) && isset($_SESSION[$GLOBALS["PARAM_PASSWORD"]])) {
+			try {
+			
 			$mail = new PHPMailer;
 			
 			if($_POST["recipient"] == "all") {
@@ -30,20 +33,37 @@
 							 FROM {$GLOBALS["USERS_TABLE"]};");
 				$recipients = "";
 				while($row = fetch_next_row($result)) {
-					$mail->AddAddress($row[0]); 
+					$mail->AddAddress($row[0]);
 				}
 			} else {
 				$mail->AddAddress($_POST["recipient"]); 
 			}
 
+			// smtp.gmail.com, smtp.a1.net, smtp.live.com, smtp.web.de, smtp.mail.yahoo.com
+			
+			// int preg_match ( string $pattern , string $subject [, array &$matches [, int $flags = 0 [, int $offset = 0 ]]] )
+
+			// Host: Specify main and backup server
+			if(preg_match("#.+\\@gmail\\.com#", $_SESSION["email-host"]))
+				$mail->Host = "smtp.gmail.com";
+			else if(preg_match("#.+\\@a1\\.net#", $_SESSION["email-host"]))
+				$mail->Host = "smtp.a1.net";
+			else if(preg_match("#.+\\@live\\.com#", $_SESSION["email-host"]))
+				$mail->Host = "smtp.live.com";
+			else if(preg_match("#.+\\@web\\.de#", $_SESSION["email-host"]))
+				$mail->Host = "smtp.web.de";
+			else if(preg_match("#.+\\@yahoo\\.com#", $_SESSION["email-host"]))
+				$mail->Host = "smtp.mail.yahoo.com";
+			else if(preg_match("#.+\\@gmx\\.net#", $_SESSION["email-host"]))
+				$mail->Host = "mail.gmx.net";
+			
 			$mail->IsSMTP();                                      // Set mailer to use SMTP
-			$mail->Host = "mail.gmx.net";						  // Specify main and backup server
 			$mail->SMTPAuth = true;                               // Enable SMTP authentication
-			$mail->Username = getUserEmail();          			  // SMTP username
+			$mail->Username = $_SESSION["email-host"];            // SMTP username
 			$mail->Password = $_SESSION[$GLOBALS["PARAM_PASSWORD"]];                 // SMTP password
 			$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
 
-			$mail->From = getUserEmail();
+			$mail->From = $_SESSION["email-host"];
 			$mail->FromName = 'Sebastian Mandl';
 
 			$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
@@ -52,8 +72,9 @@
 			$mail->Subject = "Kirchenchor Pollham: " . $_POST["subject"];
 			$mail->Body    = "<!doctype html><html>" . str_replace("\r\n", "<br />", $_POST["msg"]) . "</html>";
 			//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-			
+
 			if($mail->Send()) {
+				
 				?>
 					<script>
 						$("#popup").html("Email wurde versant!");
@@ -80,6 +101,10 @@
 						console.log("failure");
 					</script>
 				<?php
+			}
+			
+			} catch(Exception $e) {
+				echo $e->errorMessage();
 			}
 		}
 	
