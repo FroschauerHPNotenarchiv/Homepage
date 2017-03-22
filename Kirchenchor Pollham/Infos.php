@@ -1,5 +1,6 @@
 <?php
-	INCLUDE "templates/upload_pdf.php";
+	//INCLUDE "templates/upload_pdf.php";
+	INCLUDE "templates/download_pdf.php";
 	
 	$voices = getVoices();
 	$categories = getAdditionalCategories();
@@ -70,11 +71,28 @@
 		  ?>
         </div>
       </div>
+	  <div>
+		<div class="row">
+			<div class="columns" value="hello"> <!-- data-toggle="modal" data-target="#MemberModal" -->
+				<?php
+					foreach($files as $file)
+					{
+						?>
+						<img src="" alt="" class="thumbnail"/>
+						<h4><?php echo $file->getName()?></h4>
+						<a href="Infos.php?id=<?php echo $file->getId();?>">Herunterladen</a>
+						<?php
+					}
+			      ?>
+		    </div>
+		</div>
+	  </div>
     </article>
+
     
     <aside class="right_article">
     <h3>Chortemine:</h3>
-    
+		<?php INCLUDE "templates/calendar_temp.php";?>
     </aside>
 </section>
  

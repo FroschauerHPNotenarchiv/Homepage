@@ -137,6 +137,8 @@
 	
 		if (file_exists('service-account.json')) {
 			putenv('GOOGLE_APPLICATION_CREDENTIALS=service-account.json');
+		} else if (file_exists('scripts/service-account.json')){
+			putenv('GOOGLE_APPLICATION_CREDENTIALS=scripts/service-account.json');
 		} else {
 			putenv('GOOGLE_APPLICATION_CREDENTIALS=../scripts/service-account.json');
 		}
