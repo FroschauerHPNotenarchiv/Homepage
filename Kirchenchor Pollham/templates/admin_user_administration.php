@@ -4,7 +4,6 @@
 	include_once 'admin_user_administration_func.php';
 	
 	if(isset($_GET["action"])) {
-		default_connect();
 		
 		if($_GET["action"] === $GLOBALS["ACTION_DELETE"]) {
 			$result = query("SELECT {$GLOBALS["COLUMN_PORTRAIT_PATH"]}
@@ -66,7 +65,6 @@
 			if(isset($_POST['user_email'])) {
 				// form has been submitted
 				
-				default_connect();
 				$ids = request_voice_and_role_id();
 				
 				$internalPath = /* $_SERVER['DOCUMENT_ROOT'] . */ "{$GLOBALS["MEMBER_PICTURE_PATH"]}/" . "{$_POST["user_lastname"]}_{$_POST["user_firstname"]}." . pathinfo($_FILES["user_portrait"]['name'], PATHINFO_EXTENSION);
@@ -88,15 +86,11 @@
 				$_SESSION[$GLOBALS["CURRENT_USER"]] = $_POST["user_email"];
 				
 				move_uploaded_file($_FILES["user_portrait"]['tmp_name'], $internalPath);
-				
-				disconnect();
 			}
 		}
 		
 		$_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'));
 		header("Location: {$_SERVER['REQUEST_URI']}");
-		
-		disconnect();
 		
 		echo "<script>console.log('test');</script>";
 	}
@@ -115,8 +109,7 @@
 			
 			<div class="content user_creation_content" >
 				<?php
-					default_connect();
-					
+
 					$editMode = isset($_GET[$GLOBALS["PARAM_EMAIL"]]);
 					if($editMode) {
 						$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS["COLUMN_USER_PHONE"]}, {$GLOBALS["COLUMN_USER_PLACE"]}, {$GLOBALS["COLUMN_USER_POSTAL_CODE"]}, {$GLOBALS["COLUMN_USER_STREET"]}, {$GLOBALS["COLUMN_USER_HOUSE_NUMBER"]}, {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICE_ID"]}, {$GLOBALS["COLUMN_ROLES_ID"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}, {$GLOBALS["COLUMN_ACCESSION_DATE"]}, {$GLOBALS["COLUMN_INFO_TEXT"]}
@@ -125,8 +118,7 @@
 						
 						$result = fetch_next_row($result);
 					}
-					
-					disconnect();
+
 				?>
 			
 			
@@ -184,7 +176,7 @@
 						<p class="header">Info Text</p>
 						<table>
 							<tr class="item">
-								<textarea name="info_text" style="resize: none; width: 95%; margin: 12px 12px 0px 12px" rows="6" cols="10"><?php echo $result[12] ?></textarea>				
+								<textarea name="info_text" style="resize: none; width: 95%; margin: 12px 12px 0px 12px" rows="6" cols="10"><?php if($editMode) echo $result[12] ?></textarea>				
 							</tr>
 						</table>
 					</div>
@@ -210,10 +202,7 @@
 								<td>
 									<select class="selection_box" name="user_voice" >
 										<!-- insert php code here: voices are fetched from database -->
-										<?php
-										
-											default_connect();
-											
+										<?php											
 											$result00 = query("SELECT {$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"]}
 															   FROM {$GLOBALS["VOICES_TABLE"]};");
 											
@@ -224,10 +213,7 @@
 													<option <?php if(isset($result) and $index == $result[8]) echo "selected"; ?>><?php echo $row[0] ?></option>
 												<?php
 												$index++;
-											}
-											
-											disconnect();
-										
+											}										
 										?>
 									</select>
 								</td>
@@ -243,10 +229,7 @@
 								<td>
 									<select class="selection_box" name="user_role" >
 										<!-- insert php code here: voices are fetched from database -->
-										<?php
-										
-											default_connect();
-											
+										<?php											
 											$result00 = query("SELECT {$GLOBALS["COLUMN_ROLES_DISPLAY_NAME"]}
 															   FROM {$GLOBALS["ROLES_TABLE"]}
 															   ORDER BY {$GLOBALS["COLUMN_ROLES_ID"]} DESC;");
@@ -259,8 +242,6 @@
 												<?php
 												$index--;
 											}
-											
-											disconnect();
 										
 										?>
 									</select>
@@ -279,7 +260,6 @@
 			
 			<div class="content user_alteration_content">
 				<?php			
-					default_connect();
 					$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS['COLUMN_USER_FIRSTNAME']}, {$GLOBALS["COLUMN_USER_LASTNAME"]}
 									 FROM {$GLOBALS['USERS_TABLE']}
 									 ORDER BY {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS['COLUMN_USER_FIRSTNAME']}, {$GLOBALS["COLUMN_USER_EMAIL"]};");
@@ -296,8 +276,6 @@
 							</div>
 						<?php
 					}
-					
-					disconnect();
 				?>
 			</div>
 			

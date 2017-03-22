@@ -19,20 +19,28 @@ function connect($host, $port, $dbname, $user, $password) {
 }
 
 function insert($table_name, $values) {
+	default_connect();
 	pg_insert($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values);
 		//print_debug("Insert failed! Try again with different table_name or values!");
+	disconnect();
 }
 
 function delete_entries($table_name, $values) {
+	default_connect();
 	pg_delete($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values);
+	disconnect();
 }
 
 function update($table_name, $values, $conditions) {
+	default_connect();
 	pg_update($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values, $conditions);
+	disconnect();
 }
 
 function query($sql) {
+	default_connect();
 	$result = pg_query($_SESSION[$GLOBALS["DB_CONNECTION"]], $sql);
+	disconnect();
 	if($result === null)
 		print_debug("Query returned with no return values!");
 	else
@@ -46,6 +54,7 @@ function getUserRole($email) {
 	$result =	query("SELECT {$GLOBALS["COLUMN_ROLES_ID"]}
 					   FROM {$GLOBALS["USERS_TABLE"]}
 			           WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$email}'");
+					   
 	return fetch_next_row($result)[0];
 }
 
@@ -62,7 +71,8 @@ function fetch_next_row($result_set) {
 
 function disconnect() {
 	if($_SESSION[$GLOBALS["DB_CONNECTION"]] === null)
-		print_debug("The database connection was closed prior to the invocation of the disconnect function!");
+		//print_debug("The database connection was closed prior to the invocation of the disconnect function!");
+		return;
 	else {
 		pg_close($_SESSION[$GLOBALS["DB_CONNECTION"]]);
 		$_SESSION[$GLOBALS["DB_CONNECTION"]] = null;

@@ -1,12 +1,9 @@
 
 <?php
-	
 	// Newsflash Logic:
 	require_once "templates/google newsfeed func.php";
 	require_once "templates/startseite_logic.php";
 	require_once "templates/admin_user_administration_func.php";
-	
-	$email = getUserEmail();
 ?>
 
 <!doctype html>
@@ -57,7 +54,7 @@
 			  <h3 id="modalFooter">Modal Footer</h3>
 			</div>
 				<!-- If user is Admin or Sub-Admin then -->
-				<?php if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
+				<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
 			<button id="deleteBtn" type="submit" value="" name="deletion">Eintrag löschen</button>
 			<button id="alterBtn" type="submit" value="" name="alteration">Eintrag bearbeiten</button>
 				<?php endif; ?>
@@ -67,7 +64,7 @@
 		</div>
 		</form>
 		
-		<?php  if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
+		<?php  if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
 		<form method="post" enctype="multipart/form-data">
 		<div id="editModal" class="editbg">
 	
@@ -98,13 +95,20 @@
     </div>
     <nav class="secondary_header" id="menu">
       <ul>
-		
-        <li><a href="News.html">News/Termine</a></li>
-		
-		<?php if(isLoggedIn()) : ?>
-        <li><a href="Infos.html">Infos</a></li>
-		<?php endif; ?>
-        <li><a href="Administration.html">Administration</a></li>
+
+		<li><a href="Startseite.php">Startseite</a></li>
+		<li><a href="Mitglieder.php">Mitglieder</a></li>
+		<li><a href="News.html">News/Termine</a></li>
+	
+		<?php
+				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
+					<li><a href="Benachrichtigungen.html">Benachrichtigungen</a></li>
+				<?php endif;
+				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
+					<li><a href="Administration.html">Administration</a></li>
+				<?php endif;
+			?>
+
       </ul>
     </nav>
 	
@@ -118,7 +122,7 @@
     <article class="left_article">
     <div>
       <h3 class="titel_startseite"><?php echo $title ?></h3>
-	  <?php if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
+	  <?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
       <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . str_replace("\r\n", "</br>", $text) . "'" ?>)" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
 	  <?php endif; ?>
     </div>
@@ -132,7 +136,7 @@
     </article>
     <aside class="right_article">
     <h3>Newsflash:</h3>
-	<?php if(getUserRole($email) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
+	<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
 	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
 	<?php endif;?>
     <div class="list-group" style="width:250%;">
@@ -189,41 +193,9 @@
 <footer class="secondary_header footer">
     <div class="copyright">&copy;Lukas Knoll | N1kl@s GRaF | Sebastian Mandl</div>
     <div>
-	<!--  -------------------------------------------------------------------------------------------- -->
-      <!-- Trigger the modal with a button -->
 
-	  <!--<button type="button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button> -->
-      <button type="button" class="btn btn-sm btn-default btn_login" data-toggle="modal" data-target="#LoginModal">Login</button>
-	 
+		<?php include "templates/login_button.php" ?>
 
-	  <!-- Modal -->
-	  <div class="modal fade" id="MemberModal" role="dialog">
-		<div class="modal-dialog">
-		
-		  <!-- Modal content-->
-		  <form action="" method="post" class="modal-content">
-			<div class="modal-header">
-			  <button type="button" class="close" data-dismiss="modal">&times;</button>
-			  <h4 class="modal-title">Anmeldung</h4>
-			</div>
-			<div class="modal-body">
-			  <div class="form-group">
-				<label for="usr">Name:</label>
-				<input type="text" name="email" class="form-control" id="usr">
-			  </div>
-			  <div class="form-group">
-				<label for="pwd">Password:</label>
-				<input type="password" name="password" class="form-control" id="pwd">
-			  </div>
-			</div>
-			<div class="modal-footer">
-			  <button type="submit" class="btn btn-default">Anmelden</button>
-			  <button type="button" class="btn btn-default" data-dismiss="modal">Beenden</button>
-			</div>
-		  </form>
-		  
-		</div>
-	<!-- ---------------------------------------------------------------------------------------------- -->
     </div>
   </footer>
 </div>

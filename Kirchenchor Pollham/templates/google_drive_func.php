@@ -41,6 +41,10 @@
 	function getFilesWithCategory($service, $exclusive = true, $categorys = array())
 	{
 		$query = 'name contains ';
+		if(count($categorys) == 0)
+		{
+			return retrieveAllFiles($service, null);
+		}
 		$condition = $exclusive ? " and name contains " : " or name contains ";
 		
 		$lastIndex = count($categorys) - 1;
@@ -54,7 +58,6 @@
 			}
 		}
 		
-		echo $query;
 		return retrieveAllFiles($service, $query);
 	}
 	
@@ -91,13 +94,14 @@
 				'mimeType' => "application/pdf"
 			));
 	
-		$content = file_get_contents($filename);
+		$content = file_get_contents("../pdf/" . $filename);
 		$file = $service->files->create($fileMetadata, array(
 			'data' => $content,
 			'mimeType' => "application/pdf",
 			'uploadType' => 'multipart',
 			'fields' => 'id'));
 			
+			unlink("../pdf/" . $filename);
 			return $file;
 		} catch(Exception $e) {
 			print $e->getMessage();
