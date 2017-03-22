@@ -15,15 +15,14 @@
 }
 section .left_article .format_leftarticle {
 	float: none;
-	width: 90%;
-	margin-top: -15px;
+	width: 70%;
+	margin-left: 15%;
 }
 section .left_article .image_leftarticle {
 	float: none;
-	width: 90%;
-	padding-top: 5%;
-	margin-left: 5%;
-	margin-bottom: 5%;
+	width: 60%;
+	margin-left: 20%;
+	padding-top: 0%;
 }
 
 .editbg {
@@ -69,9 +68,8 @@ section .left_article .image_leftarticle {
 	font-weight: bold;
 	color: green;
 }
-section .left_article .image_leftarticle {
-	width: 90%;
+section .left_article .element_titel {
 	margin-left: 15%;
-
-
+	color: #717070;
+	font-size: x-large;
 }

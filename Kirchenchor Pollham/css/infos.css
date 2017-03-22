@@ -1,0 +1,45 @@
+.left_article div .icon_bearbeiten {
+	float: right;
+	width: 30px;
+	height: 30px;
+}
+.left_article div .titel_info {
+	float: left;
+	width: 80%;
+}
+section .left_article .stimmgattung {
+	float: left;
+	width: 50%;
+}
+section .left_article .kategorie {
+	float: left;
+	width: 50%;
+
+
+}
+
+
+
+.left_article div .btn.btn-sm.btn-default.button_bearbeiten {
+	margin-top: 4%;
+
+}
+.left_article .stimmgattung #Stimmgattungen {
+	width: 100%;
+	margin-bottom: 20px;
+}
+.stimmgattung #Stimmgattungen .checkbox {
+	width: 70%;
+	margin-left: 5%;
+	margin-bottom: -5px;
+}
+
+.left_article .kategorie #Kategorien {
+	width: 100%;
+}
+
+.kategorie #Kategorien .checkbox {
+	width: 70%;
+	margin-bottom: -5px;
+	margin-left: 5%;
+}
