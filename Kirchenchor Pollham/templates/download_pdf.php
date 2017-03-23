@@ -1,8 +1,10 @@
 <?php
 	include "google_drive_func.php";
+	include "admin_user_administration_func.php";
 	
 	$service = new Google_Service_Drive(getClient());
-	if(isset($_POST))
+	$files = array();
+	if(isset($_POST['do_search']))
 	{
 		$files = getFilesWithCategory($service,true, getCategories($_POST));
 	}
