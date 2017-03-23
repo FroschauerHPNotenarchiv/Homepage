@@ -1,8 +1,10 @@
 <?php
 	include "google_drive_func.php";
+	include "admin_user_administration_func.php";
 	
 	$service = new Google_Service_Drive(getClient());
-	if(isset($_POST))
+	$files = array();
+	if(isset($_POST['do_search']))
 	{
 		$files = getFilesWithCategory($service,true, getCategories($_POST));
 	}
@@ -29,27 +31,32 @@
 		}
 		return $categories;
 	}
-?>
-
-<!DOCTYPE html>
-<html>
 	
-	<form method="post">
-		<button type="submit">Suchen</button>
-	</form>
-	
-	<ul>
-	<?php
-		foreach($files as $file)
+		function getAdditionalCategories()
+	{
+		$csv = array_map('str_getcsv', file('templates/categories.csv'));
+		$strings = array();
+		foreach($csv[0] as $index => $val)
 		{
-			?>
-				<li>
-					<?php echo $file->getName();?>
-					<a href="download_pdf.php?id=<?php echo $file->getId();?>">Download</a>
-				</li>
-			<?php
+			array_push($strings, $val);
 		}
-	?>
-	</ul>
+		return $strings;
+	}
 	
-</html>
+		function getVoices()
+	{
+		$voices = array();
+		
+		// Dummy values
+		array_push($voices, "Tenor", "Bass", "Supran");
+		/*
+		$result = query("SELECT voice_display_name FROM voices");
+		foreach(fetch_next_row($result)[0] as $voice)
+		{
+			array_push($voices, $voice);
+		}
+		*/
+		return $voices;
+		
+	}
+?>

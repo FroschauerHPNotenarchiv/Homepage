@@ -1,8 +1,15 @@
 <?php
-	INCLUDE "templates/upload_pdf.php";
+	//INCLUDE "templates/upload_pdf.php";
+	INCLUDE "templates/download_pdf.php";
 	
 	$voices = getVoices();
 	$categories = getAdditionalCategories();
+	
+	function getNiceName($name)
+	{
+		$pos = strpos($name, ".", 0);
+		return substr($name, 0, $pos) . ".pdf";
+	}
 	
 ?>
 <!doctype html>
@@ -46,11 +53,12 @@
     </div>  
       <div class="stimmgattung"><h4>Stimmgattungen:</h4>
         <div class="checkboxes" id="Stimmgattungen">
+			<form action="" method="post">
 		  <?php
 		    foreach($voices as $voice)
 			{
 			?>
-			  <input  type="checkbox" id="<?php echo $voice?>">
+			  <input  type="checkbox" id="<?php echo $voice?>" name="<?php echo $voice?>">
               <label class="checkbox" for="<?php echo $voice?>"><?php echo $voice?></label>
 			<?php
 			}
@@ -63,18 +71,36 @@
 		    foreach($categories as $cat)
 			{
 			?>
-			  <input  type="checkbox" id="<?php echo $cat?>">
+			  <input  type="checkbox" id="<?php echo $cat?>" name="<?php echo $cat?>">
               <label class="checkbox" for="<?php echo $cat?>"><?php echo $cat?></label>
 			<?php
 			}
 		  ?>
+		    <button type="submit" name="do_search">Suchen</button>
+		    </form>
         </div>
       </div>
+	  <div>
+		<div class="row">
+					<?php 
+						foreach($files as $file)
+						{
+							?>
+								<div class="columns" value="Motherfucker"> <!-- data-toggle="modal" data-target="#MemberModal" -->
+								  <img src="hallo" alt="" class="thumbnail"/>
+								  <a href="Infos.php?id=<?php echo $file->getId()?>"><h4><?php echo getNiceName($file->getName())?></h4></a>
+								</div>
+							<?php
+						}
+					?>
+		</div>
+	  </div>
     </article>
+
     
     <aside class="right_article">
     <h3>Chortemine:</h3>
-    
+		<?php INCLUDE "templates/calendar_temp.php";?>
     </aside>
 </section>
  
