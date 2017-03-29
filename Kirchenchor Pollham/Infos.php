@@ -53,6 +53,7 @@
     </div>  
       <div class="stimmgattung"><h4>Stimmgattungen:</h4>
         <div class="checkboxes" id="Stimmgattungen">
+			<a href="Dateiupload.php">Ein Musikstück hochladen</a>
 			<form action="" method="post">
 		  <?php
 		    foreach($voices as $voice)
