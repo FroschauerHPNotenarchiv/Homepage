@@ -94,14 +94,14 @@
 				'mimeType' => "application/pdf"
 			));
 	
-		$content = file_get_contents("../pdf/" . $filename);
+		$content = file_get_contents("pdf/" . $filename);
 		$file = $service->files->create($fileMetadata, array(
 			'data' => $content,
 			'mimeType' => "application/pdf",
 			'uploadType' => 'multipart',
 			'fields' => 'id'));
 			
-			unlink("../pdf/" . $filename);
+			unlink("pdf/" . $filename);
 			return $file;
 		} catch(Exception $e) {
 			print $e->getMessage();

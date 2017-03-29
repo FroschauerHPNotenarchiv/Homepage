@@ -16,11 +16,11 @@
 		
 		if($fileOk == 1)
 		{
-			$ok = move_uploaded_file($_FILES["file"]["tmp_name"], "../pdf/" . $_FILES["file"]["name"]);
+			$ok = move_uploaded_file($_FILES["file"]["tmp_name"], "pdf/" . $_FILES["file"]["name"]);
 			uploadPdf($service, $_FILES["file"]["name"], getCategories($_POST));
 			if($ok)
 			{
-				echo "Success.";
+				header("Location: Infos.php");
 			}
 			else
 			{
