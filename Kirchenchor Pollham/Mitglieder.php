@@ -99,7 +99,7 @@
     </article>
 	</section>
 	<div class="row blockDisplay"> </div>
-		<footer class="secondary_header footer">
+		<footer class="footer">
 			<div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
 		<div>
 			<?php include "templates/login_button.php" ?>

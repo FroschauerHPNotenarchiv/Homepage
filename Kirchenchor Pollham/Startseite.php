@@ -1,4 +1,4 @@
-
+﻿
 <?php
 	// Newsflash Logic:
 	require_once "templates/google newsfeed func.php";
@@ -188,7 +188,7 @@
     </aside>
   </section>
 <div class="row blockDisplay"> </div>
-<footer class="secondary_header footer">
+<footer class="footer">
     <div class="copyright">&copy;Lukas Knoll | N1kl@s GRaF | Sebastian Mandl</div>
     <div>
 		<?php include "templates/login_button.php" ?>

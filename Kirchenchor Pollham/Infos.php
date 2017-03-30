@@ -105,7 +105,7 @@
     </aside>
 </section>
  
-  <footer class="secondary_header footer">
+  <footer class="footer">
     <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
   </footer>
 </div>
