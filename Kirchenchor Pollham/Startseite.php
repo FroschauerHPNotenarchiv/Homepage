@@ -1,4 +1,4 @@
-
+﻿
 <?php
 	// Newsflash Logic:
 	require_once "templates/google newsfeed func.php";
@@ -97,7 +97,7 @@
       <ul>
 		<li><a href="Startseite.php">Startseite</a></li>
 		<li><a href="Mitglieder.php">Mitglieder</a></li>
-		<li><a href="News.html">News/Termine</a></li>
+		<li><a href="News.php">News/Termine</a></li>
 	
 		<?php
 				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
@@ -188,7 +188,7 @@
     </aside>
   </section>
 <div class="row blockDisplay"> </div>
-<footer class="secondary_header footer">
+<footer class="footer">
     <div class="copyright">&copy;Lukas Knoll | N1kl@s GRaF | Sebastian Mandl</div>
     <div>
 		<?php include "templates/login_button.php" ?>
