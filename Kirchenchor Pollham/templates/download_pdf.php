@@ -3,7 +3,7 @@
 	include "admin_user_administration_func.php";
 	
 	$service = new Google_Service_Drive(getClient());
-	$files = array();
+	
 	if(isset($_POST['do_search']))
 	{
 		$files = getFilesWithCategory($service,true, getCategories($_POST));
@@ -13,12 +13,35 @@
 		$files = retrieveAllFiles($service);
 	}
 	
-	if(isset($_GET["id"]))
+	$showAlterDialog = false;
+	
+	if(isset($_GET["id"])) // & isAdmin()
 	{
-		$f = $service->files->get($_GET["id"]);
-		$name = $f->getName();
-		downloadPdf($service, $_GET["id"], $name);
-		savePdfToClient($name);
+		try 
+		{
+			if(isset($_GET["action"]) && $_GET["action"] === "delete")
+			{
+				$f = $service->files->delete($_GET["id"]);
+				header("Location: Infos.php");
+			}
+			if(isset($_GET["action"]) && $_GET["action"] === "alter")
+			{
+				$showAlterDialog = true;
+			}
+			else
+			{
+				$f = $service->files->get($_GET["id"]);
+				$name = $f->getName();
+				downloadPdf($service, $_GET["id"], $name);
+				savePdfToClient($name);
+			}
+		}
+		catch(Exception $e)
+		{
+			header("Location: Infos.php");
+		}
+		
+
 	}
 	
 	function getCategories($array = array())
