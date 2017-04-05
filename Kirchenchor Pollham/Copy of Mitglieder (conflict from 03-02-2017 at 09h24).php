@@ -53,10 +53,9 @@
 			<?php
 				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
 					<li><a href="Benachrichtigungen.html">Benachrichtigungen</a></li>
-				<?php endif;
-				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
-					<li><a href="Administration.html">Administration</a></li>
-				<?php endif;
+				<? endif;
+				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"])
+			<li><a href="Administration.html">Administration</a></li>
 			?>
 		  </ul>
 		</nav>

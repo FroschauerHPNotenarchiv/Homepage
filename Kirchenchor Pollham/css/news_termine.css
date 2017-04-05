@@ -1,0 +1,75 @@
+@charset "utf-8";
+.left_article div .icon_bearbeiten {
+	float: right;
+	width: 30px;
+	height: 30px;
+}
+.left_article div .titel_startseite {
+	float: left;
+	width: 80%;
+}
+
+.left_article div .btn.btn-sm.btn-default.button_bearbeiten {
+	margin-top: 4%;
+
+}
+section .left_article .format_leftarticle {
+	float: none;
+	width: 70%;
+	margin-left: 15%;
+}
+section .left_article .image_leftarticle {
+	float: none;
+	width: 60%;
+	margin-left: 20%;
+	padding-top: 0%;
+}
+
+.editbg {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.edit-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.editclose {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.editclose:hover,
+.editclose:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.upload-info {
+	margin: 10px;
+	font-weight: bold;
+	color: green;
+}
+section .left_article .element_titel {
+	margin-left: 15%;
+	color: #717070;
+	font-size: x-large;
+}
