@@ -1,5 +1,33 @@
 <?php
 	include_once "admin_user_administration_func.php";
+	
+	if(isset($_GET["logout"])) {
+		unset($_SESSION[$GLOBALS["SESSION_EMAIL"]]);
+		?>
+			<script>
+				window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));
+			</script>
+		<?php
+	}
+	
+	if(getUserRole(getUserEmail()) > $GLOBALS["ROLES_MEMBER"]) {
+		?>
+			<script>
+				$('#login_button').show();
+				$('#logout_button').hide();
+			</script>
+		<?php
+	} else if (getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]) {
+	?>
+		<script>
+			$('#login_button').hide();
+			$('#logout_button').show();
+			$("#logout_button").click(function() {
+				console.log("logout requested");
+				window.location.href += "?logout";
+			});
+		</script>
+	<?php }
 
 	if(isset($_POST[$GLOBALS["PARAM_EMAIL"]])) {
 		$email = $_POST[$GLOBALS["PARAM_EMAIL"]];
@@ -14,7 +42,12 @@
 		$result = fetch_next_row($result);
 		if($result[0] == 1) { // input data coincides with user data
 			$_SESSION[$GLOBALS["SESSION_EMAIL"]] = $email;
-			echo "<script>console.log('signed up as: {$email}')</script>";
+			?>
+			<script>
+				console.log('signed up as: {$email}');
+				window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));
+			</script>
+			<?php
 		} else {
 			?>
 			<script>

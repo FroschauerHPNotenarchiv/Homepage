@@ -1,0 +1,59 @@
+<html>
+<head>
+<link rel="stylesheet" href="css/startseite.css">	
+ <meta charset="UTF-8">
+</head>
+<body>
+<form method="post">
+<div id="editFileModal" class="editbg" style="display: block">
+<div class="edit-content">
+			<span class="editclose">&times;</span>
+			<h4>Dateiname:</h4>
+			<input style="width: 50%;" type="text" name="fileName" id="editName"/>
+			</br>
+			<h4>Kategorien / "Tags":</h4>
+			<!-- Category Switch -->
+			
+			<div>
+				<?php
+					$selectedFile;
+					foreach($files as $f)
+					{
+						if($f->getId() == $_GET["id"])
+						{
+							$selectedFile = $f;
+							?>
+								<script>document.getElementById("editName").value = "<?php echo getNiceName($f->getName());?>";</script>
+							<?php
+							break;
+						}
+					}
+					foreach($voices as $btn)
+					{
+						?><input type="checkbox" name="<?php echo $btn?>" <?php if(isSelectedCategory($selectedFile, $btn)) echo "checked"?> ><?php echo $btn?></input>
+						<br/>
+						<?php
+					}
+					foreach($categories as $btn)
+					{
+						?><input type="checkbox" name="<?php echo $btn?>" <?php if(isSelectedCategory($selectedFile, $btn)) echo "checked"?>><?php echo $btn?></input>
+						<br/>
+						<?php
+					}
+				?>
+			</div>
+			<hr/>
+			
+			<input style="display: none" value="<?php echo $selectedFile->getId()?>" name="fileId"/>
+			<button name="action-edit"  style="clear: both"
+				type="submit">Bearbeiten</button>
+			
+</div>
+</div>
+</form>
+
+<script>
+	
+</script>
+</body>
+</html>

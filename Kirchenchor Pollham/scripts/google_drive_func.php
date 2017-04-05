@@ -1,20 +1,18 @@
-<?php
+
+		<?php
 	REQUIRE_ONCE "../vendor/autoload.php";
-	INCLUDE "google drive constants.php";
 	
-	$client = getClient();
-	$service = new Google_Service_Drive($client);
+	/*
+	$service = new Google_Service_Drive(getClient());
+	$fileZ = retrieveAllFiles($service);
+	$fileZ = getFilesWithCategory($service, true, array("tenor", "bass"));
 	
-	$file = uploadPdf($service, "test.pdf", "TEST.pdf");
-	downloadPdf($service, $file->getId(), "notenblatt.pdf");
-	
-	$file_url = "notenblatt.pdf";
-	header('Content-Type: application/pdf');
-	header("Content-Transfer-Encoding: Binary"); 
-	header("Content-disposition: attachment; filename=\"" . basename($file_url) . "\""); 
-	readfile($file_url);
-	
-//	unlink("MyPdf.pdf");
+	foreach($fileZ as $f)
+	{
+		echo $f->getName();
+		echo "<br/>";
+	}
+	*/
 	
 	function retrieveAllFiles($service, $query = null) {
 	  $result = array();
@@ -40,6 +38,35 @@
 	  return $result;
 	}
 	
+	function getFilesWithCategory($service, $exclusive = true, $categorys = array())
+	{
+		$query = 'name contains ';
+		$condition = $exclusive ? " and name contains " : " or name contains ";
+		
+		$lastIndex = count($categorys) - 1;
+		
+		foreach($categorys as $index => $cat)
+		{
+			$query = $query . "'" . $cat . "'";
+			if($index != $lastIndex)
+			{
+				$query = $query . $condition;
+			}
+		}
+		
+		echo $query;
+		return retrieveAllFiles($service, $query);
+	}
+	
+	function savePdfToClient($path)
+	{
+		header('Content-Type: application/pdf');
+		header("Content-Transfer-Encoding: Binary"); 
+		header("Content-disposition: attachment; filename=\"" . basename($path) . "\""); 
+		readfile($path);
+		unlink($path);
+	}
+	
 	function deleteFile($service, $fileId) {
 		try {
 			$service->files->delete($fileId);
@@ -50,14 +77,21 @@
 		}
 	}
 	
-	function uploadPdf($service, $filename, $title) {
+	function uploadPdf($service, $filename, $properties) {
+	     sort($properties);
+		$googleFileName = pathinfo($filename, PATHINFO_FILENAME);
+		foreach($properties as $prop)
+		{
+			$googleFileName = $googleFileName . "." . $prop;
+		}
+		$googleFileName = $googleFileName . ".pdf";
 		try {
 			$fileMetadata = new Google_Service_Drive_DriveFile(array(
-				'name' => $title,
+				'name' => $googleFileName,
 				'mimeType' => "application/pdf"
 			));
 	
-		$content = file_get_contents('test.pdf');
+		$content = file_get_contents($filename);
 		$file = $service->files->create($fileMetadata, array(
 			'data' => $content,
 			'mimeType' => "application/pdf",
@@ -111,3 +145,4 @@
 		return $client;
 	}
 ?>
+

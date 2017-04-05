@@ -3,7 +3,11 @@
 	include "admin_user_administration_func.php";
 	
 	$service = new Google_Service_Drive(getClient());
+<<<<<<< HEAD
 	$files = array();
+=======
+	
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 	if(isset($_POST['do_search']))
 	{
 		$files = getFilesWithCategory($service,true, getCategories($_POST));
@@ -13,12 +17,44 @@
 		$files = retrieveAllFiles($service);
 	}
 	
+<<<<<<< HEAD
 	if(isset($_GET["id"]))
 	{
 		$f = $service->files->get($_GET["id"]);
 		$name = $f->getName();
 		downloadPdf($service, $_GET["id"], $name);
 		savePdfToClient($name);
+=======
+	$showAlterDialog = false;
+	
+	if(isset($_GET["id"])) // & isAdmin()
+	{
+		try 
+		{
+			if(isset($_GET["action"]) && $_GET["action"] === "delete")
+			{
+				$f = $service->files->delete($_GET["id"]);
+				header("Location: Infos.php");
+			}
+			if(isset($_GET["action"]) && $_GET["action"] === "alter")
+			{
+				$showAlterDialog = true;
+			}
+			else
+			{
+				$f = $service->files->get($_GET["id"]);
+				$name = $f->getName();
+				downloadPdf($service, $_GET["id"], $name);
+				savePdfToClient($name);
+			}
+		}
+		catch(Exception $e)
+		{
+			header("Location: Infos.php");
+		}
+		
+
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 	}
 	
 	function getCategories($array = array())

@@ -5,10 +5,48 @@
 	$voices = getVoices();
 	$categories = getAdditionalCategories();
 	
+<<<<<<< HEAD
 	function getNiceName($name)
 	{
 		$pos = strpos($name, ".", 0);
 		return substr($name, 0, $pos) . ".pdf";
+=======
+	if(isset($_POST["action-edit"]))
+	{
+		$newFile = new Google_Service_Drive_DriveFile();
+		echo name($_POST["fileId"], $_POST["fileName"], getCategories($_POST));
+		$newFile->setName(name($_POST["fileId"], $_POST["fileName"], getCategories($_POST)));
+		$service->files->update($_POST["fileId"], $newFile, array("mimeType" => "application/pdf"));
+		header("Location: Infos.php");
+	}
+	
+	function getNiceName($name)
+	{
+		$pos = strpos($name, ".", 0);
+		return substr($name, 0, $pos);
+	}
+	
+	function isSelectedCategory($file, $category)
+	{
+		$name = $file->getName();
+		if (strpos($name, str_replace(' ', '_', $category)) !== false) {
+			return true;
+		}
+		return false;
+	}
+	
+	function name($fileId, $filename, $properties)
+	{
+		sort($properties);
+		$googleFileName = $filename;
+		foreach($properties as $prop)
+		{
+			$googleFileName = $googleFileName . "." . $prop;
+		}
+		return $googleFileName . ".pdf";
+		//$googleFileName = $googleFileName . ".pdf";
+		
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 	}
 	
 ?>
@@ -26,8 +64,26 @@
 <link href="jQueryAssets/jquery.ui.button.min.css" rel="stylesheet" type="text/css">
 <script src="jQueryAssets/jquery-1.11.1.min.js"></script>
 <script src="jQueryAssets/jquery.ui-1.10.4.button.min.js"></script>
+<<<<<<< HEAD
 </head>
 <body>
+=======
+ <style>
+	h4.action-link:hover {
+		color: pink;
+	}
+</style>
+</head>
+<body>
+
+<?php 
+	if(isset($_GET["action"]) && $_GET["action"] === "alter") // &isAdmin
+	{
+		INCLUDE "templates/alter-modal.html";
+	}
+?>
+
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 <div class="container">
   <header>
     <div class="primary_header">
@@ -87,9 +143,17 @@
 						foreach($files as $file)
 						{
 							?>
+<<<<<<< HEAD
 								<div class="columns" value="Motherfucker"> <!-- data-toggle="modal" data-target="#MemberModal" -->
 								  <img src="hallo" alt="" class="thumbnail"/>
 								  <a href="Infos.php?id=<?php echo $file->getId()?>"><h4><?php echo getNiceName($file->getName())?></h4></a>
+=======
+								<div class="columns">
+								  <img src="images/pdficon.png" alt="" class="thumbnail"/>
+								  <a href="Infos.php?id=<?php echo $file->getId()?>"><h4 class="action-link"><?php echo getNiceName($file->getName()) . ".pdf"?></h4></a>
+								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=delete"><h4 class="action-link">Diese Datei entfernen</h4></a>
+								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=alter"><h4 class="action-link">Diese Datei bearbeiten</h4></a>
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 								</div>
 							<?php
 						}
@@ -105,10 +169,21 @@
     </aside>
 </section>
  
+<<<<<<< HEAD
   <footer class="secondary_header footer">
     <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
   </footer>
 </div>
+=======
+  <footer class="footer">
+    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
+  </footer>
+</div>
+
+<!-- Datei bearbeiten Modal -->
+<script type="text/javascript" src="scripts/infos.js"></script>
+
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 <script type="text/javascript">
 $(function() {
 	$( "#Stimmgattungen" ).buttonset(); 

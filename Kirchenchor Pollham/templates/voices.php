@@ -11,6 +11,7 @@
 
 <?php
 	
+<<<<<<< HEAD
 	$actionTaken = false;
 	if(isset($_GET["update"]) && isset($_GET["name"])) {
 		update($GLOBALS["VOICES_TABLE"], array($GLOBALS["COLUMN_VOICES_DISPLAY_NAME"] => $_GET["name"]), array($GLOBALS["COLUMN_VOICES_ID"] => $_GET["update"]));
@@ -28,6 +29,12 @@
 	
 	if($actionTaken) {
 		header("Location: " . substr($_SERVER["REQUEST_URI"], 0, strpos($_SERVER["REQUEST_URI"], "?")));
+=======
+	if(isset($_GET["update"]) && isset($_GET["name"])) {
+		
+	} else if(isset($_GET["delete"])) {
+		
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 	}
 
 ?>
@@ -44,8 +51,12 @@
 	<div id="tab_alter">
 		<?php
 			$result = query("SELECT {$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"]}, {$GLOBALS["COLUMN_VOICES_ID"]}
+<<<<<<< HEAD
 							 FROM {$GLOBALS["VOICES_TABLE"]}
 							 ORDER BY {$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"]} ASC");
+=======
+							 FROM {$GLOBALS["VOICES_TABLE"]}");
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 			
 			while($row = fetch_next_row($result)):?>
 				<div value="<?php echo $row[1] ?>">
@@ -58,10 +69,14 @@
 	</div>
 	
 	<div id="tab_create">
+<<<<<<< HEAD
 		<form action="" method="get">
 			<input type="text" name="name" placeholder="Name" />
 			<button>Anlegen</button>
 		</form>
+=======
+		<br />
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 	</div>
 </div>
 
@@ -71,10 +86,24 @@
 		$("#tab_create").hide();
 	}
 	
+<<<<<<< HEAD
+=======
+	function toggleContainers() {
+		if($("#tab_alter").is(':visible')) {
+			$("#tab_alter").hide();
+			$("#tab_create").show();
+		} else {
+			$("#tab_alter").show();
+			$("#tab_create").hide();
+		}
+	}
+	
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 	vanishAllContainers();
 	$("#tab_alter").show();
 	
 	$("#alter_button").click(function() {
+<<<<<<< HEAD
 		$("#tab_alter").show();
 		$("#tab_create").hide();
 	});
@@ -85,6 +114,17 @@
 	});
 	
 	$(".item").keydown(function(event) {
+=======
+		toggleContainers();
+	});
+	
+	$("#new_button").click(function() {
+		toggleContainers();
+	});
+	
+	$(".item").keydown(function(event) {
+		
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 		console.log(event);
 		
 		if(event.keyCode != 13)
@@ -96,7 +136,11 @@
 		window.location.href = location + "?update=" + id + "&name=" + html;
 	});
 	
+<<<<<<< HEAD
 	$(".deleteImg").dblclick(function() {
+=======
+	$(".deleteImg").click(function() {
+>>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 		var id = $(this).parent().attr("value");
 		var location = window.location.href.substr(window.location.href, 0, window.location.href.indexOf('?'));
 		window.location.href = location + "?delete=" + id;
