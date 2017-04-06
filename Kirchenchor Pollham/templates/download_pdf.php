@@ -10,7 +10,7 @@
 	}
 	else
 	{
-		$files = retrieveAllFiles($service);
+		$files = retrieveAllFiles($service, "mimeType != 'application/vnd.google-apps.folder'");
 	}
 	
 	$showAlterDialog = false;
@@ -49,8 +49,12 @@
 		$categories = array();
 		foreach($array as $key => $value)
 		{
-			if($value == "on")
+
+			if($value == "on") {
+				echo $key . " is " . $value . "<br/>";
 				array_push($categories, $key);
+			}
+				
 		}
 		return $categories;
 	}

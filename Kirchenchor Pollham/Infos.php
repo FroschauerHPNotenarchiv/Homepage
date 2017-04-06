@@ -134,7 +134,7 @@
 								<div class="columns">
 								  <img src="images/pdficon.png" alt="" class="thumbnail"/>
 								  <a href="Infos.php?id=<?php echo $file->getId()?>"><h4 class="action-link"><?php echo getNiceName($file->getName()) . ".pdf"?></h4></a>
-								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=delete"><h4 class="action-link">Diese Datei entfernen</h4></a>
+								  <a onclick="return confirm('Wollen Sie diese Datei wirklich entfernen?');" href="Infos.php?id=<?php echo $file->getId()?>&action=delete"><h4 class="action-link">Diese Datei entfernen</h4></a>
 								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=alter"><h4 class="action-link">Diese Datei bearbeiten</h4></a>
 								</div>
 							<?php

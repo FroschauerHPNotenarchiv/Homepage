@@ -40,10 +40,10 @@
 	
 	function getFilesWithCategory($service, $exclusive = true, $categorys = array())
 	{
-		$query = 'name contains ';
+		$query = '(name contains ';
 		if(count($categorys) == 0)
 		{
-			return retrieveAllFiles($service, null);
+			return retrieveAllFiles($service, "mimeType != 'application/vnd.google-apps.folder'");
 		}
 		$condition = $exclusive ? " and name contains " : " or name contains ";
 		
@@ -58,6 +58,7 @@
 			}
 		}
 		
+		$query = $query . ") and mimeType != 'application/vnd.google-apps.folder'";
 		return retrieveAllFiles($service, $query);
 	}
 	
