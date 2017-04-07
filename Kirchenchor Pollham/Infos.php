@@ -10,7 +10,7 @@
 	{
 		$pos = strpos($name, ".", 0);
 		return substr($name, 0, $pos) . ".pdf";
-=======
+
 	if(isset($_POST["action-edit"]))
 	{
 		$newFile = new Google_Service_Drive_DriveFile();
