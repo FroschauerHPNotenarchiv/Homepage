@@ -1,11 +1,7 @@
 <!--  -------------------------------------------------------------------------------------------- -->
   <!-- Trigger the modal with a button -->
-<<<<<<< HEAD
-  <button type="button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button>
-=======
   <button type="button" id="login_button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button>
   <button type="button" id="logout_button" style="float: right; margin-right: 20px" class="btn btn-info btn-lg">Logout</button>
->>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 
   <!-- Modal -->
   <div class="modal fade" id="LoginModal" role="dialog">

@@ -1,19 +1,3 @@
-<!doctype html>
-<<<<<<< HEAD
-<html>
-	<head>
-		<title>Email2You</title>
-	</head>
-	<body>
-		<!-- bool mail ( string $to , string $subject , string $message [, string $additional_headers [, string $additional_parameters ]] ) -->
-		
-		<?php
-			if(mail("sebastian-mandl@gmx.net", "PHP-Mail-Test", "<p>Hallo</p><hr />"))
-				print "sent";
-			else
-				print "sorry! Didn't work!";
-		?>
-=======
 <?php
 	session_start();
 
@@ -32,18 +16,22 @@
 	
 	<h2 id="popup" style="display:none; width: 400px; margin: 50px auto;color: rgb(40, 180, 40)"></h2>
 	<?php
+		if(isset($_GET["refresh"])) {
+			$_POST = array();
+			header("Location: " . substr($_SERVER["REQUEST_URI"], 0, strpos($_SERVER["REQUEST_URI"], '?')));
+		}
+	
 		if(isset($_POST["email-host"]) && isset($_POST[$GLOBALS["PARAM_PASSWORD"]])) {
 			$_SESSION["email-host"] = $_POST["email-host"];
 			$_SESSION[$GLOBALS["PARAM_PASSWORD"]] = $_POST[$GLOBALS["PARAM_PASSWORD"]];
 			$_POST = array();
 		}
 		
-		if(isset($_POST["recipient"]) && isset($_POST["msg"]) && isset($_POST["subject"]) && isset($_SESSION[$GLOBALS["PARAM_PASSWORD"]])) {
-			try {
-			
+		if(isset($_POST["msg"]) && isset($_POST["subject"]) && isset($_SESSION[$GLOBALS["PARAM_PASSWORD"]])) {
+				
 			$mail = new PHPMailer;
 			
-			if($_POST["recipient"] == "all") {
+			if(isset($_POST["recipient"]) && $_POST["recipient"] == "all") {
 				$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}
 							 FROM {$GLOBALS["USERS_TABLE"]};");
 				$recipients = "";
@@ -51,8 +39,15 @@
 					$mail->AddAddress($row[0]);
 				}
 			} else {
-				$mail->AddAddress($_POST["recipient"]); 
+				foreach($_POST as $key => $value) {
+					if(!preg_match("#recipient[0-9]{2}#", $key))
+						continue;
+					
+					$mail->AddAddress($value);
+				}
 			}
+			
+			try {
 
 			// smtp.gmail.com, smtp.a1.net, smtp.live.com, smtp.web.de, smtp.mail.yahoo.com
 			
@@ -148,25 +143,21 @@
 	<form action="" method="post">
 		<h2>Nachricht verfassen</h2>
 		
-		<p>Empfänger: <select name="recipient" required>
-			<option selected>
-				<!-- default select is void -->
-			</option>
-			<option value="all">
-				Alle
-			</option>
+		<p>Empfänger:
+		<input type="checkbox" name="recipient" value="all">Alle</input>
 		<?php
 			$result = query("SELECT {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_USER_EMAIL"]}
 							 FROM {$GLOBALS["USERS_TABLE"]};");
+			$runningIndex = 01;
 			while($row = fetch_next_row($result)):?>
 				
-				<option value="<?php echo $row[2] ?>">
+				<input type="checkbox" name="recipient<?php echo $runningIndex < 10 ? "0" . $runningIndex : $runningIndex ?>" value="<?php echo $row[2] ?>">
 					<?php echo $row[0] . " " . $row[1] ?>
-				</option>
+				</input>
 				
-			<?php endwhile;
+			<?php $runningIndex++; endwhile;
 		?>
-		</select></p>
+		</p>
 		
 		<p>Betreff: <input type="text" name="subject" required /></p>
 		<p>Nachricht:</p>
@@ -180,7 +171,7 @@
 	<hr />
 		
 	<h2>Benachrichtigungen</h2>
-	<button type="button" onclick="window.location.reload()">Aktualisieren</button> <!--  unset post -->
+	<button type="button" id="refreshButton">Aktualisieren</button> <!--  unset post -->
 	<br />
 		
 	<?php
@@ -215,8 +206,13 @@
 		<?php
 	endforeach;?>
 	
-	<?php imap_close($handle); ending: ?>
+	<?php imap_close($handle); ending:?>
 
->>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
+	<script type="text/javascript">
+		$("#refreshButton").click(function() {
+			window.location.href = window.location.href.substring(0, window.location.href.indexOf('?')) + "?refresh";
+		});
+	</script>
+	
 	</body>
 </html>
