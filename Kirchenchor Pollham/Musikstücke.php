@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="css/main.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="css/administration.css" type="text/css">
+<link rel="stylesheet" href="css/musikstücke.css" type="text/css">
+<link rel="stylesheet" href="css/startseite.css" type="text/css">
 <link href="css/bootstrap-3.3.6.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -29,7 +30,8 @@
  <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="article">
-      <?php include_once "Email.php" ?>
+	 <h3 class="titel_startseite">Unser Kirchenchor:</h3>
+		<!-- Hier kommt die Drive-Logik rein -->
     </article>
 </section>
  

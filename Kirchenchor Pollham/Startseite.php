@@ -14,8 +14,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Startseite</title>
 
-<link href="css/main.css" rel="stylesheet" type="text/css">
+
 <link href="css/bootstrap-3.3.6.css" rel="stylesheet" type="text/css">
+<link href="css/main.css" rel="stylesheet" type="text/css">
 <link href="css/startseite.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="css/calendar-style.css">
 <link rel="stylesheet" href="css/modal-style.css">	
@@ -97,14 +98,15 @@
       <ul>
 		<li><a href="Startseite.php">Startseite</a></li>
 		<li><a href="Mitglieder.php">Mitglieder</a></li>
-		<li><a href="News.php">News/Termine</a></li>
+		<li><a href="News.php">News</a></li>
+		<li><a href="Musikstücke.php">Medien</a></li>
 	
 		<?php
 				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
-					<li><a href="Benachrichtigungen.html">Benachrichtigungen</a></li>
+					<li><a href="Infos.html">Infos</a></li>
 				<?php endif;
 				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
-					<li><a href="Administration.html">Administration</a></li>
+					<li><a href="Administration.html">Admin</a></li>
 				<?php endif;
 			?>
       </ul>
@@ -189,10 +191,8 @@
   </section>
 <div class="row blockDisplay"> </div>
 <footer class="footer">
-    <div class="copyright">&copy;Lukas Knoll | N1kl@s GRaF | Sebastian Mandl</div>
-    <div>
-		<?php include "templates/login_button.php" ?>
-    </div>
+    <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
+    <div class="copyright"><?php include "templates/login_button.php" ?></div>
   </footer>
 </div>
 </body>

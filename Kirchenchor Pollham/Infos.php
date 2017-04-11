@@ -91,11 +91,11 @@
     </div>
     <nav class="secondary_header" id="menu">
       <ul>
-       <li><a href="Startseite.html">Startseite</a></li>
-        <li><a href="Mitglieder.html">Mitglieder</a></li>
-        <li><a href="News.html">News/Termine</a></li>
-        <li><a href="Infos.html">Infos</a></li>
-        <li><a href="Administration.html">Administration</a></li>
+       <li><a href="Startseite.php">Startseite</a></li>
+        <li><a href="Mitglieder.php">Mitglieder</a></li>
+        <li><a href="News.php">News</a></li>
+        <li><a href="Infos.php">Infos</a></li>
+        <li><a href="Administration.php">Admin</a></li>
       </ul>
     </nav>
   </header>
@@ -143,17 +143,17 @@
 						foreach($files as $file)
 						{
 							?>
-<<<<<<< HEAD
+
 								<div class="columns" value="Motherfucker"> <!-- data-toggle="modal" data-target="#MemberModal" -->
 								  <img src="hallo" alt="" class="thumbnail"/>
 								  <a href="Infos.php?id=<?php echo $file->getId()?>"><h4><?php echo getNiceName($file->getName())?></h4></a>
-=======
+
 								<div class="columns">
 								  <img src="images/pdficon.png" alt="" class="thumbnail"/>
 								  <a href="Infos.php?id=<?php echo $file->getId()?>"><h4 class="action-link"><?php echo getNiceName($file->getName()) . ".pdf"?></h4></a>
 								  <a onclick="return confirm('Wollen Sie diese Datei wirklich entfernen?');" href="Infos.php?id=<?php echo $file->getId()?>&action=delete"><h4 class="action-link">Diese Datei entfernen</h4></a>
 								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=alter"><h4 class="action-link">Diese Datei bearbeiten</h4></a>
->>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
+
 								</div>
 							<?php
 						}
@@ -169,21 +169,15 @@
     </aside>
 </section>
  
-<<<<<<< HEAD
-  <footer class="secondary_header footer">
-    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
-  </footer>
-</div>
-=======
+
   <footer class="footer">
-    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
+    <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
   </footer>
 </div>
 
 <!-- Datei bearbeiten Modal -->
 <script type="text/javascript" src="scripts/infos.js"></script>
 
->>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 <script type="text/javascript">
 $(function() {
 	$( "#Stimmgattungen" ).buttonset(); 

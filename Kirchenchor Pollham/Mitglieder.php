@@ -47,15 +47,16 @@
 		</div>
 		<nav class="secondary_header" id="menu">
 		  <ul>
-		   <li><a href="Startseite.php">Startseite</a></li>
-			<li><a href="Mitglieder.php">Mitglieder</a></li>
-			<li><a href="News.html">News/Termine</a></li>
+		  <li><a href="Startseite.php">Startseite</a></li>
+		  <li><a href="Mitglieder.php">Mitglieder</a></li>
+		  <li><a href="News.php">News</a></li>
+		  <li><a href="Musikstücke.php">Medien</a></li>
 			<?php
 				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
-					<li><a href="Benachrichtigungen.html">Benachrichtigungen</a></li>
+					<li><a href="Benachrichtigungen.html">Infos</a></li>
 				<?php endif;
 				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
-					<li><a href="Administration.html">Administration</a></li>
+					<li><a href="Administration.html">Admin</a></li>
 				<?php endif;
 			?>
 		  </ul>
@@ -65,7 +66,7 @@
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article left_article_mitglieder">
     <div>
-      <h3 class="titel_startseite">Unser Kirchenchor:</h3>
+      <h3 class="titel_startseite">Unsere Mitglieder:</h3>
 	<?php 
 		if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]): ?>
 		<button type="button" id="edit_button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
@@ -100,11 +101,9 @@
 	</section>
 	<div class="row blockDisplay"> </div>
 		<footer class="footer">
-			<div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
-		<div>
-			<?php include "templates/login_button.php" ?>
-		</div>
-	  </footer>
+    <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
+    <div class="copyright"><?php include "templates/login_button.php" ?></div>
+  </footer>
 	</div>
 	
 	<script type="text/javascript">

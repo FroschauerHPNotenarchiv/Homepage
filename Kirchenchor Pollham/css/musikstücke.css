@@ -1,0 +1,37 @@
+.container section .article {
+	background-color: #FFFFFF;
+	width: 80%;
+	float: left;
+	margin-left: 3%;
+	font-family: "Source Sans Pro";
+	color: #343434;
+}
+
+.container .left_article p {
+	text-align: justify;
+	line-height: 24px;
+	margin-bottom: 15px;
+	color: #B3B3B3;
+	float: left;
+	
+}section .article .titel_info {
+	padding-right: 5%;
+	margin-top: 5%;
+	color: #717070;
+	font-weight: bold;
+	text-transform: uppercase;
+	padding-bottom: 25px;
+}
+
+.header_layout {
+	width: 100%;
+}
+
+
+@media (max-width: 500px){
+.header_layout {
+	width: 100%;
+	margin-left:0px;
+	margin-right:0px;
+}
+}

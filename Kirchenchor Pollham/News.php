@@ -53,11 +53,18 @@
     </div>
     <nav class="secondary_header" id="menu">
       <ul>
-       <li><a href="Startseite.html">Startseite</a></li>
-        <li><a href="Mitglieder.html">Mitglieder</a></li>
-        <li><a href="News.html">News/Termine</a></li>
-        <li><a href="Infos.html">Infos</a></li>
-        <li><a href="Administration.html">Administration</a></li>
+          <li><a href="Startseite.php">Startseite</a></li>
+		  <li><a href="Mitglieder.php">Mitglieder</a></li>
+		  <li><a href="News.php">News</a></li>
+		  <li><a href="Musikstücke.php">Medien</a></li>
+       <?php
+				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
+					<li><a href="Benachrichtigungen.html">Infos</a></li>
+				<?php endif;
+				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
+					<li><a href="Administration.html">Admin</a></li>
+				<?php endif;
+			?>
       </ul>
     </nav>
   </header>
@@ -142,11 +149,9 @@
     </aside>
   </section>
 <div class="row blockDisplay"> </div>
-<footer class="secondary_header footer">
-    <div class="copyright">&copy;Lukas Knoll | Niklas Graf | Sebastian Mandl</div>
-    <div>
-      <button type="button" class="btn btn-sm btn-default btn_login">Login</button>
-    </div>
+<footer class="footer">
+    <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
+    <div class="copyright"><?php include "templates/login_button.php" ?></div>
   </footer>
 </div>
 </body>
