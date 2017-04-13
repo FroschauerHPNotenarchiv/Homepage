@@ -1,9 +1,5 @@
 <?php
 	INCLUDE "templates/upload_pdf.php";
-<<<<<<< HEAD
-=======
-	
->>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,11 +31,9 @@
 			</fieldset>
 			
 			<input type="file" name="file"/>
-<<<<<<< HEAD
+
 			<button type="submit" name="fileSubmit">Lalala</button>
-=======
-			<button type="submit" name="fileSubmit">UPLOAD</button>
->>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
+
 		</form>
 		
 	</body>

@@ -136,6 +136,8 @@
     </article>
     <aside class="right_article">
     <h3>Newsflash:</h3>
+		<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
+
 	<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
 	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
 	<?php endif;?>

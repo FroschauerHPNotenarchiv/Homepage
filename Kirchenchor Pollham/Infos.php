@@ -1,15 +1,12 @@
 <?php
+	
 	//INCLUDE "templates/upload_pdf.php";
 	INCLUDE "templates/download_pdf.php";
 	
 	$voices = getVoices();
 	$categories = getAdditionalCategories();
 	
-<<<<<<< HEAD
-	function getNiceName($name)
-	{
-		$pos = strpos($name, ".", 0);
-		return substr($name, 0, $pos) . ".pdf";
+
 
 	if(isset($_POST["action-edit"]))
 	{
@@ -44,36 +41,31 @@
 			$googleFileName = $googleFileName . "." . $prop;
 		}
 		return $googleFileName . ".pdf";
-		//$googleFileName = $googleFileName . ".pdf";
-		
->>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 	}
 	
 ?>
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="css/main.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="css/infos.css" type="text/css">
-<link href="css/bootstrap-3.3.6.css" rel="stylesheet" type="text/css">
-<link href="jQueryAssets/jquery.ui.core.min.css" rel="stylesheet" type="text/css">
-<link href="jQueryAssets/jquery.ui.theme.min.css" rel="stylesheet" type="text/css">
-<link href="jQueryAssets/jquery.ui.button.min.css" rel="stylesheet" type="text/css">
-<script src="jQueryAssets/jquery-1.11.1.min.js"></script>
-<script src="jQueryAssets/jquery.ui-1.10.4.button.min.js"></script>
-<<<<<<< HEAD
-</head>
-<body>
-=======
- <style>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/infos.css" type="text/css">
+	<link href="css/bootstrap-3.3.6.css" rel="stylesheet" type="text/css">
+	<link href="jQueryAssets/jquery.ui.core.min.css" rel="stylesheet" type="text/css">
+	<link href="jQueryAssets/jquery.ui.theme.min.css" rel="stylesheet" type="text/css">
+	<link href="jQueryAssets/jquery.ui.button.min.css" rel="stylesheet" type="text/css">
+	<script src="jQueryAssets/jquery-1.11.1.min.js"></script>
+	<script src="jQueryAssets/jquery.ui-1.10.4.button.min.js"></script>
+	
+	  <style>
 	h4.action-link:hover {
 		color: pink;
 	}
-</style>
+  </style>
 </head>
+
 <body>
 
 <?php 
@@ -82,8 +74,6 @@
 		INCLUDE "templates/alter-modal.html";
 	}
 ?>
-
->>>>>>> b2082c116368a810923e4e87d8cb2650f2743565
 <div class="container">
   <header>
     <div class="primary_header">
@@ -129,7 +119,7 @@
 			{
 			?>
 			  <input  type="checkbox" id="<?php echo $cat?>" name="<?php echo $cat?>">
-              <label class="checkbox" for="<?php echo $cat?>"><?php echo $cat?></label>
+              <label class="checkbox" for="<?php echo $cat?>"><?php echo $cat ?></label>
 			<?php
 			}
 		  ?>
@@ -143,11 +133,6 @@
 						foreach($files as $file)
 						{
 							?>
-
-								<div class="columns" value="Motherfucker"> <!-- data-toggle="modal" data-target="#MemberModal" -->
-								  <img src="hallo" alt="" class="thumbnail"/>
-								  <a href="Infos.php?id=<?php echo $file->getId()?>"><h4><?php echo getNiceName($file->getName())?></h4></a>
-
 								<div class="columns">
 								  <img src="images/pdficon.png" alt="" class="thumbnail"/>
 								  <a href="Infos.php?id=<?php echo $file->getId()?>"><h4 class="action-link"><?php echo getNiceName($file->getName()) . ".pdf"?></h4></a>
@@ -165,7 +150,7 @@
     
     <aside class="right_article">
     <h3>Chortemine:</h3>
-		<?php INCLUDE "templates/calendar_temp.php";?>
+		<?php INCLUDE "templates/calendar_temp.php"; ?>
     </aside>
 </section>
  

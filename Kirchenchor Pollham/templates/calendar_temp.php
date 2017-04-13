@@ -4,7 +4,7 @@
 <?php
 
 	$json = json_decode(file_get_contents('templates/results.json'), true);
-	$CALENDAR_ID = $json['extern'];
+	$CALENDAR_ID = $json['intern'];
 
 	function getGoogleClient()
 	{
