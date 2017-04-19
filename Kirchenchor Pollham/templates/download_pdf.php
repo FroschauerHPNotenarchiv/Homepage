@@ -4,13 +4,14 @@
 	
 	$service = new Google_Service_Drive(getClient());
 	$files = array();
+	
 	if(isset($_POST['do_search']))
 	{
 		$files = getFilesWithCategory($service,true, getCategories($_POST));
 	}
 	else
 	{
-		$files = retrieveAllFiles($service, "mimeType != 'application/vnd.google-apps.folder'");
+		$files = retrieveAllFiles($service, "mimeType != 'application/vnd.google-apps.folder' and not '0B0dXPPQill-kWnBwRHJ1ZHVIUWM' in parents");
 	}
 
 	$showAlterDialog = false;
@@ -51,7 +52,6 @@
 		{
 
 			if($value == "on") {
-				echo $key . " is " . $value . "<br/>";
 				array_push($categories, $key);
 			}
 				

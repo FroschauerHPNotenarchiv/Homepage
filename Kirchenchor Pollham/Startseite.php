@@ -99,7 +99,7 @@
 		<li><a href="Startseite.php">Startseite</a></li>
 		<li><a href="Mitglieder.php">Mitglieder</a></li>
 		<li><a href="News.php">News</a></li>
-		<li><a href="Musikstücke.php">Medien</a></li>
+		<li><a href="Musik.php">Medien</a></li>
 	
 		<?php
 				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>

@@ -11,7 +11,6 @@
 	if(isset($_POST["action-edit"]))
 	{
 		$newFile = new Google_Service_Drive_DriveFile();
-		echo name($_POST["fileId"], $_POST["fileName"], getCategories($_POST));
 		$newFile->setName(name($_POST["fileId"], $_POST["fileName"], getCategories($_POST)));
 		$service->files->update($_POST["fileId"], $newFile, array("mimeType" => "application/pdf"));
 		header("Location: Infos.php");
@@ -130,6 +129,9 @@
 	  <div>
 		<div class="row">
 					<?php 
+						if(count($files) == 0) {
+							?> <p>Für diese Auswahl wurden keine Dateien gefunden.</p> <?php
+						}
 						foreach($files as $file)
 						{
 							?>

@@ -5,14 +5,14 @@
 	if(isset($_POST['verify'])) {
 		
 		if(verifyCalendar($_POST['internId'])) {
-			$intern = "../../res/verify-ok.png";
+			$intern = "../images/verify-ok.png";
 		} else {
-			$intern = "../../res/verify-fail.png";
+			$intern = "../images/verify-fail.png";
 		}
 		if(verifyCalendar($_POST['externId'])) {
-			$extern = "../../res/verify-ok.png";
+			$extern = "../images/verify-ok.png";
 		} else {
-			$extern = "../../res/verify-fail.png";
+			$extern = "../images/verify-fail.png";
 		}
 	}
 	else if(isset($_POST['save'])) {
@@ -96,6 +96,7 @@
 				
 				<?php if(isset($_POST['save'])) : ?>
 			<p class="changed">Die Kalenderdaten wurden erfolgreich geändert!</p>
+			<a href="../Startseite.php">Zurück zur Startseite</a>
 			<?php endif;?>
 			
 			</fieldset>
