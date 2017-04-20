@@ -21,8 +21,15 @@
 					{
 						if($f->getId() == $_GET["id"])
 						{
-							$selectedFile = $f;
+							$selectedFile = $service->files->get($f->getId(), array('fields' => 'id,properties,name'));
+							$ytLink;
+							if(!array_key_exists ("youtube-link", $selectedFile->getProperties())) {
+								$ytLink = "";
+							} else {
+								$ytLink = $selectedFile->getProperties()["youtube-link"];
+							}
 							?>
+							
 								<script>document.getElementById("editName").value = "<?php echo getNiceName($f->getName());?>";</script>
 							<?php
 							break;
@@ -41,6 +48,8 @@
 						<?php
 					}
 				?>
+				
+				<input style="width:100%" type="text" name="editLink" value="<?php echo $ytLink?>"></input>
 			</div>
 			<hr/>
 			

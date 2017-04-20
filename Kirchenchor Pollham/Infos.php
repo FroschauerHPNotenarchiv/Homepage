@@ -5,14 +5,13 @@
 	
 	$voices = getVoices();
 	$categories = getAdditionalCategories();
-	
-
 
 	if(isset($_POST["action-edit"]))
 	{
 		$newFile = new Google_Service_Drive_DriveFile();
 		$newFile->setName(name($_POST["fileId"], $_POST["fileName"], getCategories($_POST)));
-		$service->files->update($_POST["fileId"], $newFile, array("mimeType" => "application/pdf"));
+		$newFile->setProperties(array('youtube-link' => $_POST["editLink"]));
+		$service->files->update($_POST["fileId"], $newFile); // arr mimeType applPdf
 		header("Location: Infos.php");
 	}
 	
@@ -134,14 +133,38 @@
 						}
 						foreach($files as $file)
 						{
+							$tmpFile = $service->files->get($file->getId(), array('fields' => 'properties'));
+							$link;
+							if(!array_key_exists ("youtube-link", $tmpFile->getProperties())) {
+								$link = null;
+							} else {
+								$link = $tmpFile->getProperties()["youtube-link"];
+							}
+							
 							?>
 								<div class="columns">
 								  <img src="images/pdficon.png" alt="" class="thumbnail"/>
-								  <a href="Infos.php?id=<?php echo $file->getId()?>"><h4 class="action-link"><?php echo getNiceName($file->getName()) . ".pdf"?></h4></a>
-								  <a onclick="return confirm('Wollen Sie diese Datei wirklich entfernen?');" href="Infos.php?id=<?php echo $file->getId()?>&action=delete"><h4 class="action-link">Diese Datei entfernen</h4></a>
-								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=alter"><h4 class="action-link">Diese Datei bearbeiten</h4></a>
+								  <h4><?php echo getNiceName($file->getName()) . ".pdf"?></h4>
+								  
+								  <h4>
+								  <?php if($link != null) : ?>
+								  
+								  <a href="<?php echo $link?>" target="_blank">Hörprobe</a>
+								  |
+								  <?php endif; ?>
+								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=download">Herunterladen</a>
+								  </h4>
+								  <h4>
+								  <?php if(1 == 1) : ?>
+								  <a onclick="return confirm('Wollen Sie diese Datei wirklich entfernen?');" href="Infos.php?id=<?php echo $file->getId()?>&action=delete">Löschen</a>
+								  |
+								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=alter">Bearbeiten</a>
+								  <?php endif; ?>
+								  </h4>
 
 								</div>
+								
+								
 							<?php
 						}
 					?>

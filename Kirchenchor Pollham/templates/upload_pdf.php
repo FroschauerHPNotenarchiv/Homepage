@@ -17,7 +17,7 @@
 		if($fileOk == 1)
 		{
 			$ok = move_uploaded_file($_FILES["file"]["tmp_name"], "pdf/" . $_FILES["file"]["name"]);
-			uploadPdf($service, $_FILES["file"]["name"], getCategories($_POST));
+			uploadPdf($service, $_FILES["file"]["name"], getCategories($_POST), $_POST["media-link"]);
 			if($ok)
 			{
 				header("Location: Infos.php");

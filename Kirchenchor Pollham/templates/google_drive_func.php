@@ -2,18 +2,6 @@
 		<?php
 	REQUIRE_ONCE "../vendor/autoload.php";
 	
-	/*
-	$service = new Google_Service_Drive(getClient());
-	$fileZ = retrieveAllFiles($service);
-	$fileZ = getFilesWithCategory($service, true, array("tenor", "bass"));
-	
-	foreach($fileZ as $f)
-	{
-		echo $f->getName();
-		echo "<br/>";
-	}
-	*/
-	
 	function retrieveAllFiles($service, $query = null) {
 	  $result = array();
 	  $pageToken = NULL;
@@ -24,6 +12,7 @@
 		  $parameters['q'] = $query;
 		  if ($pageToken) {
 			$parameters['pageToken'] = $pageToken;
+
 		  }
 		  $files = $service->files->listFiles($parameters);
 
@@ -81,7 +70,7 @@
 		}
 	}
 	
-	function uploadPdf($service, $filename, $properties) {
+	function uploadPdf($service, $filename, $properties, $link = null) {
 	     sort($properties);
 		$googleFileName = pathinfo($filename, PATHINFO_FILENAME);
 		foreach($properties as $prop)
@@ -92,7 +81,8 @@
 		try {
 			$fileMetadata = new Google_Service_Drive_DriveFile(array(
 				'name' => $googleFileName,
-				'mimeType' => "application/pdf"
+				'mimeType' => "application/pdf",
+				'properties' => array('youtube-link' => $link)
 			));
 	
 		$content = file_get_contents("pdf/" . $filename);

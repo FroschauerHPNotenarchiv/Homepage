@@ -25,7 +25,7 @@
 				$f = $service->files->delete($_GET["id"]);
 				header("Location: Infos.php");
 			}
-			if(isset($_GET["action"]) && $_GET["action"] === "alter")
+			else if(isset($_GET["action"]) && $_GET["action"] === "alter")
 			{
 				$showAlterDialog = true;
 			}
