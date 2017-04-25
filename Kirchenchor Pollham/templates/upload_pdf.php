@@ -1,32 +1,39 @@
 <?php 
 	include "google_drive_func.php";
 	include "admin_user_administration_func.php";
+	include "cache/cache_func.php";
 	
+	$folders = json_decode(file_get_contents("scripts/drive_config.json"), true)["folders"];
 	$service = new Google_Service_Drive(getClient());
 	
-	$fileOk = 0;
+	if(isset($_POST['refresh'])) {
+		$jsonData = json_decode(file_get_contents("scripts/drive_config.json"), true);
+		$rootId = $jsonData["root_folder_id"];
+		$files = retrieveAllFiles($service, "'" . $rootId . "' in parents and mimeType = 'application/vnd.google-apps.folder'");
+		
+		$jsonData["folders"] = array();
+		foreach($files as $file) {
+			$jsonData["folders"][$file->getId()] = $file->getName();
+		}
+		file_put_contents("scripts/drive_config.json", json_encode($jsonData));
+	}
 	if(isset($_POST['fileSubmit']) && !empty($_FILES["file"]["tmp_name"]))
 	{
-		$fileOk = 1;
 		$type = pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION);
-		if($type != "pdf")
+	
+		$ok = move_uploaded_file($_FILES["file"]["tmp_name"], "pdf/" . $_FILES["file"]["name"]);
+	//	uploadPdf($service, $_FILES["file"]["name"], getCategories($_POST), $_POST["media-link"]);
+		$f = uploadFile($service, $_FILES["file"]["name"], getCategories($_POST), $_POST["folder"], $_POST["media-link"]);
+		if($ok)
 		{
-			$fileOk = 0;
+			update_cache($service, json_decode(file_get_contents("scripts/drive_config.json"), true)["root_folder_id"], "cache/files.json");
+			header("Location: Infos.php");
 		}
-		
-		if($fileOk == 1)
+		else
 		{
-			$ok = move_uploaded_file($_FILES["file"]["tmp_name"], "pdf/" . $_FILES["file"]["name"]);
-			uploadPdf($service, $_FILES["file"]["name"], getCategories($_POST), $_POST["media-link"]);
-			if($ok)
-			{
-				header("Location: Infos.php");
-			}
-			else
-			{
-				echo "Failure.";
-			}
+			echo "Failure.";
 		}
+	
 	}
 	
 	function getCategories($array)

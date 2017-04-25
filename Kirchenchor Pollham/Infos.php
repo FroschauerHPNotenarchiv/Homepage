@@ -11,7 +11,7 @@
 		$newFile = new Google_Service_Drive_DriveFile();
 		$newFile->setName(name($_POST["fileId"], $_POST["fileName"], getCategories($_POST)));
 		$newFile->setProperties(array('youtube-link' => $_POST["editLink"]));
-		$service->files->update($_POST["fileId"], $newFile); // arr mimeType applPdf
+		$service->files->update($_POST["fileId"], $newFile, array("mimeType" => "application/pdf")); // arr mimeType applPdf
 		header("Location: Infos.php");
 	}
 	
@@ -40,6 +40,7 @@
 		}
 		return $googleFileName . ".pdf";
 	}
+	
 	
 ?>
 <!doctype html>
@@ -88,6 +89,8 @@
     </nav>
   </header>
  
+ 
+ 
  <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
@@ -131,34 +134,26 @@
 						if(count($files) == 0) {
 							?> <p>Für diese Auswahl wurden keine Dateien gefunden.</p> <?php
 						}
-						foreach($files as $file)
-						{
-							$tmpFile = $service->files->get($file->getId(), array('fields' => 'properties'));
-							$link;
-							if(!array_key_exists ("youtube-link", $tmpFile->getProperties())) {
-								$link = null;
-							} else {
-								$link = $tmpFile->getProperties()["youtube-link"];
-							}
-							
+						foreach($files as $fileId => $file)
+						{							
 							?>
 								<div class="columns">
 								  <img src="images/pdficon.png" alt="" class="thumbnail"/>
-								  <h4><?php echo getNiceName($file->getName()) . ".pdf"?></h4>
+								  <h4><?php echo $file["name"]?></h4>
 								  
 								  <h4>
-								  <?php if($link != null) : ?>
+								  <?php if($file["properties"] != null) : ?>
 								  
-								  <a href="<?php echo $link?>" target="_blank">Hörprobe</a>
+								  <a href="<?php echo $file["properties"]["youtube-link"]?>" target="_blank">Hörprobe</a>
 								  |
 								  <?php endif; ?>
-								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=download">Herunterladen</a>
+								  <a href="Infos.php?id=<?php echo $fileId?>&action=download">Herunterladen</a>
 								  </h4>
 								  <h4>
 								  <?php if(1 == 1) : ?>
-								  <a onclick="return confirm('Wollen Sie diese Datei wirklich entfernen?');" href="Infos.php?id=<?php echo $file->getId()?>&action=delete">Löschen</a>
+								  <a onclick="return confirm('Wollen Sie diese Datei wirklich entfernen?');" href="Infos.php?id=<?php echo $fileId?>&action=delete">Löschen</a>
 								  |
-								  <a href="Infos.php?id=<?php echo $file->getId()?>&action=alter">Bearbeiten</a>
+								  <a href="Infos.php?id=<?php echo $fileId?>&action=alter">Bearbeiten</a>
 								  <?php endif; ?>
 								  </h4>
 

@@ -1,13 +1,10 @@
 <?php
-	//$folderId = '0B0dXPPQill-kWnBwRHJ1ZHVIUWM';
-	// 0B0dXPPQill-kWnBwRHJ1ZHVIUWM
 
-	//uploadMp3($service, "templates/musicfile.mp3", "Musik4Life.mp3");
-	
+//MP40B0dXPPQill-kREFqazNwa0JHQTA	
 	function uploadMp3($service, $path, $name) {
 		$fileMetadata = new Google_Service_Drive_DriveFile(array(
 		  'name' => $name,
-		  'parents' => array('0B0dXPPQill-kWnBwRHJ1ZHVIUWM'))
+		  'parents' => array('0B0dXPPQill-kNlI3U1JOU2ZRMTg'))
 		);
 		$content = file_get_contents($path);
 		$file = $service->files->create($fileMetadata, array(
@@ -32,7 +29,6 @@
 	function saveMp3ToClient($path, $listen)
 	{
 		$dis = $listen == true ? "inline" : "attachment";
-		echo $dis;
 		//header('Content-Description: File Transfer');
 		header('Content-Type: audio/mpeg');
 		header("Content-Transfer-Encoding: Binary"); 

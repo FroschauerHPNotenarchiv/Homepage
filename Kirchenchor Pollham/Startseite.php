@@ -100,11 +100,10 @@
 		<li><a href="Startseite.php">Startseite</a></li>
 		<li><a href="Mitglieder.php">Mitglieder</a></li>
 		<li><a href="News.php">News</a></li>
-		<li><a href="Musik.php">Medien</a></li>
-	
 		<?php
 				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
 					<li><a href="Infos.html">Infos</a></li>
+					<li><a href="Musik.php">Medien</a></li>
 				<?php endif;
 				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
 					<li><a href="Administration.html">Admin</a></li>
@@ -123,7 +122,7 @@
     <article class="left_article">
     <div>
       <h3 class="titel_startseite"><?php echo $title ?></h3>
-	  <?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
+	  <?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"] || 1 == 1) :  ?>
       <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . str_replace("\r\n", "</br>", $text) . "'" ?>)" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
 	  <?php endif; ?>
     </div>

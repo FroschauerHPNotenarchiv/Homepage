@@ -80,6 +80,8 @@
 		$googleFileName = $googleFileName . ".pdf";
 		try {
 			$fileMetadata = new Google_Service_Drive_DriveFile(array(
+				'parents' => array("0B9hlE0xVQusSbHZSUVBKMTMxQ1k"),
+				'owners' => array("chorpollham@gmail.com", "homepage@hpkirchenchorpollham.iam.gserviceaccount.com"),
 				'name' => $googleFileName,
 				'mimeType' => "application/pdf",
 				'properties' => array('youtube-link' => $link)
@@ -99,7 +101,56 @@
 			return NULL;
 		}
 		
+	}
+	
+	function getFileMimeType($file) {
+    if (function_exists('finfo_file')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $type = finfo_file($finfo, $file);
+        finfo_close($finfo);
+    } else {
+        require_once 'upgradephp/ext/mime.php';
+        $type = mime_content_type($file);
+    }
+
+    if (!$type || in_array($type, array('application/octet-stream', 'text/plain'))) {
+        $secondOpinion = exec('file -b --mime-type ' . escapeshellarg($file), $foo, $returnCode);
+        if ($returnCode === 0 && $secondOpinion) {
+            $type = $secondOpinion;
+        }
+    }
+
+    if (!$type || in_array($type, array('application/octet-stream', 'text/plain'))) {
+        require_once 'upgradephp/ext/mime.php';
+        $exifImageType = exif_imagetype($file);
+        if ($exifImageType !== false) {
+            $type = image_type_to_mime_type($exifImageType);
+        }
+    }
+
+    return $type;
+}
+	
+	function uploadFile($service, $filename, $properties, $parentId, $link = null) {
+		$mime = getFileMimeType("pdf/" . $filename);
+		$jsonData = json_decode(file_get_contents("scripts/drive_config.json"), true);
+		$fileMetadata = new Google_Service_Drive_DriveFile(array(
+				'parents' => array($parentId),
+				'owners' => array($jsonData["drive_owner"]),
+				'name' => pathinfo($filename, PATHINFO_BASENAME),
+				'mimeType' => $mime,
+				'properties' => array('youtube-link' => $link, 'categories' => $properties)
+		));
 		
+		$content = file_get_contents("pdf/" . $filename);
+		$file = $service->files->create($fileMetadata, array(
+			'data' => $content,
+			'mimeType' => $mime,
+			'uploadType' => 'multipart',
+			'fields' => 'id,parents'));
+			
+			unlink("pdf/" . $filename);
+			return $file;
 	}
 	
 	function downloadPdf($service, $fileId, $saveName) {
