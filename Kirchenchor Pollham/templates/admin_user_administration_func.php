@@ -7,7 +7,7 @@ function print_debug($message) {
 }
 
 function default_connect() {
-	connect("localhost", 5432, "Homepage", "postgres", "postgresql");
+	connect("localhost", 5432, "Homepage", "postgres", "Schnecki123");
 }
 
 function connect($host, $port, $dbname, $user, $password) {
