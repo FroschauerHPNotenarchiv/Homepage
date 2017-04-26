@@ -40,10 +40,18 @@
 				}
 			} else {
 				foreach($_POST as $key => $value) {
-					if(!preg_match("#recipient[0-9]{2}#", $key))
-						continue;
-					
-					$mail->AddAddress($value);
+					echo "<script>console.log('{$value}')</script>";
+					if(preg_match("#recipient[0-9]{2}#", $key) and preg_match("#^[a-zA-Z][a-zA-Z]*$#", $value)) { // is voice group
+						$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}
+										 FROM {$GLOBALS["USERS_TABLE"]} x
+										 INNER JOIN {$GLOBALS["VOICES_TABLE"]} y ON x.{$GLOBALS["COLUMN_VOICES_ID"]} = y.{$GLOBALS["COLUMN_VOICES_ID"]}
+										 WHERE LOWER(y.{$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"]}) = LOWER('{$value}')");
+						
+						while($row = fetch_next_row($result)) {
+							$mail->AddAddress($row[0]);
+						}
+					} else // is direct recipient
+						$mail->AddAddress($value);
 				}
 			}
 			
@@ -87,7 +95,7 @@
 				
 				?>
 					<script>
-						$("#popup").html("Email wurde versant!");
+						$("#popup").html("Email wurde versandt!");
 						$("#popup").show();
 						$("#popup").fadeIn(2500, function() {
 							setTimeout(function() {
@@ -125,7 +133,8 @@
 			<form action="" method="post">
 				<p>Email-Konto: <select name="email-host" required><?php
 				$result = query("SELECT {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_USER_EMAIL"]}
-							     FROM {$GLOBALS["USERS_TABLE"]};");
+							     FROM {$GLOBALS["USERS_TABLE"]}
+								 WHERE {$GLOBALS["COLUMN_ROLES_ID"]} = {$GLOBALS["ROLES_ADMIN"]};");
 								 
 				while($row = fetch_next_row($result)):?>
 				
@@ -144,7 +153,20 @@
 		<h2>Nachricht verfassen</h2>
 		
 		<p>Empfänger:
-		<input type="checkbox" name="recipient" value="all">Alle</input>
+		<br />
+		<input type="checkbox" name="recipient" value="all" id="inputAll">Alle</input><br />
+		<?php
+			$result = query("SELECT {$GLOBALS["COLUMN_VOICES_DISPLAY_NAME"]}
+							 FROM {$GLOBALS["VOICES_TABLE"]};");
+			$runningIndex = 01;
+			while($row = fetch_next_row($result)) {
+				?><input type="checkbox" name="recipient<?php echo $runningIndex < 10 ? "0" . $runningIndex : $runningIndex ?>" value="<?php echo $row[0] ?>"><?php echo $row[0] ?></input><?php
+				$runningIndex++;
+			}
+		?>
+		
+		<br />
+		
 		<?php
 			$result = query("SELECT {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_USER_EMAIL"]}
 							 FROM {$GLOBALS["USERS_TABLE"]};");
@@ -211,6 +233,20 @@
 	<script type="text/javascript">
 		$("#refreshButton").click(function() {
 			window.location.href = window.location.href.substring(0, window.location.href.indexOf('?')) + "?refresh";
+		});
+		
+		$("#inputAll").click(function() {
+			if($(this).prop("checked") == true) {
+				$("input:checkbox:checked").prop("checked", false);
+				$(this).prop("checked", true);
+			} else {
+				$(this).prop("checked", false);
+			}
+		});
+		
+		$("input:checkbox").click(function() {
+			if($(this).prop("checked") && $(this).attr("id") != "inputAll")
+				$("#inputAll").prop("checked", false);
 		});
 	</script>
 	
