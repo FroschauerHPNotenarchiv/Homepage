@@ -1,3 +1,11 @@
+<?php
+	include "templates/admin_constants.php";
+	include "templates/admin_user_administration_func.php";
+	
+	if(getUserRole(getUserEmail()) != $GLOBALS["ROLES_ADMIN"]) {
+		header("Location: Startseite.php");
+	}
+?>
 <!doctype html>
 <html>
 <head>

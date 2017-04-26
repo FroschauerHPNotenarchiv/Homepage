@@ -67,3 +67,7 @@ section .left_article .image_leftarticle {
 	font-weight: bold;
 	color: green;
 }
+.left_article .left_article_textformat {
+	margin-top: 15px;
+	padding-top: 15px;
+}
