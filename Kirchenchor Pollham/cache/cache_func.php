@@ -24,7 +24,6 @@
 
 		foreach($array as $f) {
 					
-		echo $f["parents"] . " " . $folderId;
 			if($f["parents"] == $folderId) {
 				array_push($matches, $f);
 			}

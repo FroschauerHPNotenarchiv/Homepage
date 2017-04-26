@@ -129,9 +129,7 @@
       
       <img class="image_leftarticle" src="images/index-image.<?php echo $extension?>" alt="Picture">
       
-      <p><?php echo str_replace("\r\n", "</br>", $text) ?></p>
-  
-      
+      <p class="left_article_textformat"><?php echo str_replace("\r\n", "</br>", $text) ?></p>
       
     </article>
     <aside class="right_article">
