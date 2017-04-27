@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 <?php
 	@session_start();
-﻿<?php
 	include "templates/admin_constants.php";
 	include "templates/admin_user_administration_func.php";
 	
