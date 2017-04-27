@@ -1,8 +1,13 @@
 <?php
+	@session_start();
 	include "templates/admin_constants.php";
 	include "templates/admin_user_administration_func.php";
 	
-	if(getUserRole(getUserEmail()) != $GLOBALS["ROLES_ADMIN"]) {
+	default_connect();
+	$userrole = getUserRole(getUserEmail());
+	disconnect();
+	
+	if($userrole != $GLOBALS["ROLES_ADMIN"]) {
 		header("Location: Startseite.php");
 	}
 ?>
