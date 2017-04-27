@@ -170,7 +170,7 @@
 		<?php
 			$result = query("SELECT {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_USER_EMAIL"]}
 							 FROM {$GLOBALS["USERS_TABLE"]};");
-			$runningIndex = 01;
+							 
 			while($row = fetch_next_row($result)):?>
 				
 				<input type="checkbox" name="recipient<?php echo $runningIndex < 10 ? "0" . $runningIndex : $runningIndex ?>" value="<?php echo $row[2] ?>">

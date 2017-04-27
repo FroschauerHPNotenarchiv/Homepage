@@ -1,10 +1,5 @@
-<!--  -------------------------------------------------------------------------------------------- -->
-  <!-- Trigger the modal with a button -->
-  <button type="button" id="login_button" style="width: 100%; background-color: #717070; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button>
-  <button type="button" id="logout_button" style="width: 100%; background-color: #717070; margin-right: 20px" class="btn btn-info btn-lg">Logout</button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="LoginModal" role="dialog">
+ <!-- Modal -->
+  <div class="modal fade" id="PasswordAlterationModal" role="dialog">
   
 	<div class="modal-dialog">
 	
@@ -31,4 +26,3 @@
 	  </form>
 	  
 	</div>
-<!-- ---------------------------------------------------------------------------------------------- -->
