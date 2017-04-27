@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	include "templates/admin_constants.php";
 	include "templates/admin_user_administration_func.php";
 	
@@ -27,7 +27,7 @@
        <li><a href="Startseite.php">Startseite</a></li>
         <li><a href="Mitglieder.php">Mitglieder</a></li>
         <li><a href="News.php">News</a></li>
-		<li><a href="Musikstücke.php">Medien</a></li>
+        <li><a href="Musik.php">Medien</a></li>
         <li><a href="Infos.php">Infos</a></li>
         <li><a href="Administration.php">Admin</a></li>
       </ul>
