@@ -20,7 +20,7 @@
 		  </div>
 		</div>
 		<div class="modal-footer">
-		  <button type="submit" class="btn btn-default">Passwort ändern</button>
+		  <button type="submit" id="alter_password_button" class="btn btn-default">Passwort ändern</button>
 		  <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
 		</div>
 	  </form>

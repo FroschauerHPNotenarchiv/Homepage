@@ -140,7 +140,7 @@
 	<?php endif;?>
     <div class="list-group" style="width:250%;">
 	
-	  <div class="calendar" id="calendar">
+	  <!-- <div class="calendar" id="calendar">
 			<?php 
 			if(count($events->getItems()) < 1) {
 				echo "Derzeit ist leider nichts eingetragen, sorry!";
