@@ -1,6 +1,9 @@
 ﻿<?php
+	//@session_start();
 	// Newsflash Logic:
-	require_once "google newsfeed func.php";
+	require_once "templates/google newsfeed func.php";
+	require_once "templates/admin_user_administration_func.php";
+	require_once "templates/admin_constants.php";
 ?>
 <!doctype html>
 <html>
@@ -20,7 +23,7 @@
 <body>
 
 <form action="" method="post">
-			<div id="myModal" class="modal" style="display: block;">
+			<div id="myModal" class="modal">
 			
 
 		  <!-- Modal content -->
@@ -36,7 +39,7 @@
 			  <h3 id="modalFooter">Modal Footer</h3>
 			</div>
 				<!-- if (isAdministrator) ... -->
-				<?php if(isLoggedIn()) : ?>
+				<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]) : ?>
 			<button id="deleteBtn" type="submit" value="" name="deletion">Eintrag löschen</button>
 			<button id="alterBtn" type="submit" value="" name="alteration">Eintrag bearbeiten</button>
 				<?php endif; ?>

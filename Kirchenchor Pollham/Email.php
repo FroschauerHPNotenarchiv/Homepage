@@ -131,7 +131,7 @@
 	<?php
 		if(!isset($_SESSION[$GLOBALS["PARAM_PASSWORD"]])):?>
 			<form action="" method="post">
-				<p>Email-Konto: <select name="email-host" required><?php
+				<p style=margin-top:3%;>Email-Konto: <select name="email-host" required><?php
 				$result = query("SELECT {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_USER_EMAIL"]}
 							     FROM {$GLOBALS["USERS_TABLE"]}
 								 WHERE {$GLOBALS["COLUMN_ROLES_ID"]} = {$GLOBALS["ROLES_ADMIN"]};");
@@ -193,7 +193,7 @@
 	<hr />
 		
 	<h2>Benachrichtigungen</h2>
-	<button type="button" id="refreshButton">Aktualisieren</button> <!--  unset post -->
+	<button style=margin-bottom:3%; type="button" id="refreshButton">Aktualisieren</button> <!--  unset post -->
 	<br />
 		
 	<?php
