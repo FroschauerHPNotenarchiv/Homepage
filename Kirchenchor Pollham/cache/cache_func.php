@@ -4,13 +4,12 @@
 		$cache = array();
 		foreach($googleFolders as $folder) {
 			$googleFiles = get_files($service, "'" . $folder->getId() . "' in parents");
-			
 			foreach($googleFiles as $f) {
 				$file = $service->files->get($f->getId(), array("fields" => "id,name,properties"));
 				$cache[$f->getId()] = array (
-				  'name' => $f->getName(),
+				  'name' => $file->getName(),
 				  'parents' => $folder->getId(),
-				  'properties' => $f->getProperties()
+				  'properties' => $file->getProperties()
 				);
 			}
 		}
@@ -20,16 +19,12 @@
 	
 	function get_files_from_folder($file, $folderId) {
 		$array = get_cache_content($file);
-		$matches = array();
-
-		foreach($array as $f) {
-					
-		echo $f["parents"] . " " . $folderId;
-			if($f["parents"] == $folderId) {
-				array_push($matches, $f);
+		foreach($array as $fileId => $fileValue) {
+			if($fileValue["parents"] != $folderId) {
+				unset($array[$fileId]);
 			}
 		}
-		return $matches;
+		return $array;
 	}
 	
 	function get_cache_content($file) {
@@ -38,7 +33,7 @@
 	
 	function needs_refresh($file) {
 		$timediff = time() - filemtime($file);
-		/* If the file is older than 5 minutes seconds - Refresh */
+		/* If the file is older than 5 minutes - Refresh */
 		if($timediff > 5) {
 			return true;
 		}

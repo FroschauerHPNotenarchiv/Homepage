@@ -27,7 +27,7 @@
 		if($ok)
 		{
 			update_cache($service, json_decode(file_get_contents("scripts/drive_config.json"), true)["root_folder_id"], "cache/files.json");
-			header("Location: Infos.php");
+			//header("Location: Infos.php");
 		}
 		else
 		{

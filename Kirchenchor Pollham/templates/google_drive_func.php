@@ -53,9 +53,12 @@
 	
 	function savePdfToClient($path)
 	{
-		header('Content-Type: application/pdf');
+		//header('Content-Type: ' . getFileMimeType($path));
+		header('Content-Description: File Transfer');
+		header('Content-Type: application/octet-stream');
 		header("Content-Transfer-Encoding: Binary"); 
-		header("Content-disposition: attachment; filename=\"" . basename($path) . "\""); 
+		header("Content-Disposition: attachment; filename=\"" . basename($path) . "\""); 
+		header('Content-Length: ' . filesize($path));
 		readfile($path);
 		unlink($path);
 	}
@@ -139,7 +142,7 @@
 				'owners' => array($jsonData["drive_owner"]),
 				'name' => pathinfo($filename, PATHINFO_BASENAME),
 				'mimeType' => $mime,
-				'properties' => array('youtube-link' => $link, 'categories' => $properties)
+				'properties' => array('categories' => implode(";", $properties), 'youtube-link' => $link)
 		));
 		
 		$content = file_get_contents("pdf/" . $filename);
@@ -147,7 +150,7 @@
 			'data' => $content,
 			'mimeType' => $mime,
 			'uploadType' => 'multipart',
-			'fields' => 'id,parents'));
+			'fields' => 'id,parents,properties'));
 			
 			unlink("pdf/" . $filename);
 			return $file;

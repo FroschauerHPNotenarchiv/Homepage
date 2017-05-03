@@ -5,12 +5,12 @@
 	
 	$driveConfig = json_decode(file_get_contents("scripts/drive_config.json"), true);
 	$service = new Google_Service_Drive(getClient());
+	
 	if(needs_refresh("cache/files.json")) {
 		update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
 	}
 	
-	$files = get_files_from_folder("cache/files.json", $driveConfig["pdf_folder"]);
-	
+	$files = get_files_from_folder("cache/files.json", $driveConfig["pdf_folder"]);	
 	//update_cache($service, "0B0dXPPQill-kNlI3U1JOU2ZRMTg", "cache/files.json");
 	
 	if(isset($_POST['do_search']))
@@ -28,22 +28,25 @@
 			if(isset($_GET["action"]) && $_GET["action"] === "delete")
 			{
 				$f = $service->files->delete($_GET["id"]);
+				update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
 				header("Location: Infos.php");
 			}
 			else if(isset($_GET["action"]) && $_GET["action"] === "alter")
 			{
 				$showAlterDialog = true;
+				update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
 			}
 			else
 			{
 				$f = $service->files->get($_GET["id"]);
-				$name = $f->getName();
+				$name = "pdf/" . $f->getName();
 				downloadPdf($service, $_GET["id"], $name);
 				savePdfToClient($name);
 			}
 		}
 		catch(Exception $e)
 		{
+			update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
 			header("Location: Infos.php");
 		}
 		
@@ -51,20 +54,15 @@
 	}
 	
 	function filter_files_categories($files = array(), $categories) {
-		$match = array();
-		foreach($files as $f) {
-			if($f["properties"] != null && $f["properties"]["categories"] != null) {
-				$fileCat = $f["properties"]["categories"];
-				
-				foreach($categories as $cat) {
-					if(in_array($cat, $fileCat)) {
-						array_push($match, $f);
-					}
+		foreach($files as $id => $value) {
+			$fileCategories = $value["properties"]["categories"];
+			foreach($categories as $cat) {
+				if(strpos($fileCategories, $cat) != 0) {
+					
 				}
 			}
 			
 		}
-		return $match;
 	}
 	
 	function filter_files($fileArray, $extension) {

@@ -9,9 +9,10 @@
 	if(isset($_POST["action-edit"]))
 	{
 		$newFile = new Google_Service_Drive_DriveFile();
-		$newFile->setName(name($_POST["fileId"], $_POST["fileName"], getCategories($_POST)));
-		$newFile->setProperties(array('youtube-link' => $_POST["editLink"]));
-		$service->files->update($_POST["fileId"], $newFile, array("mimeType" => "application/pdf")); // arr mimeType applPdf
+		$newFile->setName($_POST["fileName"]); 
+		$newFile->setProperties(array('youtube-link' => $_POST["editLink"], 'categories' => implode(";", getCategories($_POST))));
+		$service->files->update($_POST["fileId"], $newFile, array()); // arr mimeType applPdf
+		update_cache($service, $driveConfig["pdf_folder"], "cache/files.json");
 		header("Location: Infos.php");
 	}
 	
@@ -153,7 +154,7 @@
 								  <?php if(1 == 1) : ?>
 								  <a onclick="return confirm('Wollen Sie diese Datei wirklich entfernen?');" href="Infos.php?id=<?php echo $fileId?>&action=delete">Löschen</a>
 								  |
-								  <a href="Infos.php?id=<?php echo $fileId?>&action=alter">Bearbeiten</a>
+								  <a href="Infos.php?id=<?php echo $fileId ?>&action=alter">Bearbeiten</a>
 								  <?php endif; ?>
 								  </h4>
 
