@@ -6,11 +6,11 @@
 	$driveConfig = json_decode(file_get_contents("scripts/drive_config.json"), true);
 	$service = new Google_Service_Drive(getClient());
 	
-	if(needs_refresh("cache/files.json")) {
-		update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
+	if(@needs_refresh("cache/files.json")) {
+		@update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
 	}
 	
-	$files = get_files_from_folder("cache/files.json", $driveConfig["pdf_folder"]);	
+	$files = @get_files_from_folder("cache/files.json", $driveConfig["pdf_folder"]);	
 	//update_cache($service, "0B0dXPPQill-kNlI3U1JOU2ZRMTg", "cache/files.json");
 	
 	if(isset($_POST['do_search']))
@@ -46,7 +46,7 @@
 		}
 		catch(Exception $e)
 		{
-			update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
+			@update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
 			header("Location: Infos.php");
 		}
 		

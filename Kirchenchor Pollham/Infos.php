@@ -98,7 +98,7 @@
     <article class="left_article">
     <div>
       <h3 class="titel_info">Musikstücke:</h3>
-      <button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
+      <a href="Drive.php"><button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button></a>
     </div>  
       <div class="stimmgattung"><h4>Stimmgattungen:</h4>
         <div class="checkboxes" id="Stimmgattungen">
