@@ -1,15 +1,17 @@
 <!--  -------------------------------------------------------------------------------------------- -->
-  <!-- Trigger the modal with a button -->
-  <button type="button" id="login_button" style="width: 100%; background-color: red; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button>
-  <button type="button" id="logout_button" style="width: 100%; background-color: red; margin-right: 20px" class="btn btn-info btn-lg">Logout</button>
+	<!-- Trigger the modal with a button -->
+	<!-- PasswordAlterationModal -->
+	<button type="button" id="login_button" style="width: 100%; background-color: #717070; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#LoginModal">Login</button>
+	<button type="button" id="logout_button" style="width: 100%; background-color: #717070; margin-right: 20px" class="btn btn-info btn-lg">Logout</button>
+	<button type="button" id="request_password_resubmission_button" style="display:none" data-toggle="modal" data-target="#LoginModal">Request Password Resubmission</button>
 
-  <!-- Modal -->
-  <div class="modal fade" id="LoginModal" role="dialog">
-  
+	<!-- Modal -->
+	<div class="modal fade" id="LoginModal" role="dialog">
+
 	<div class="modal-dialog">
-	
+
 	  <!-- Modal content-->
-	  <form action="Mitglieder.php" method="post" class="modal-content">
+	  <form action="" method="post" class="modal-content">
 		<div class="modal-header">
 		  <button type="button" class="close" data-dismiss="modal">&times;</button>
 		  <h4 class="modal-title">Anmeldung</h4>
@@ -31,4 +33,9 @@
 	  </form>
 	  
 	</div>
-<!-- ---------------------------------------------------------------------------------------------- -->
+	
+	<!-- ----------------------------------------------------------------------------------------------- -->
+	
+	<?php include_once "dialog_user_password_alteration.php" ?>
+	
+	<!-- ---------------------------------------------------------------------------------------------- -->

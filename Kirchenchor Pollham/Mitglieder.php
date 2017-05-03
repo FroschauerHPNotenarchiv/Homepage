@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 
 <?php
 	session_start();
@@ -50,13 +50,13 @@
 		  <li><a href="Startseite.php">Startseite</a></li>
 		  <li><a href="Mitglieder.php">Mitglieder</a></li>
 		  <li><a href="News.php">News</a></li>
-		  <li><a href="Musikstücke.php">Medien</a></li>
+		  <li><a href="Musik.php">Medien</a></li>
 			<?php
 				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
-					<li><a href="Benachrichtigungen.html">Infos</a></li>
+					<li><a href="Infos.php">Infos</a></li>
 				<?php endif;
 				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
-					<li><a href="Administration.html">Admin</a></li>
+					<li><a href="Administration.php">Admin</a></li>
 				<?php endif;
 			?>
 		  </ul>

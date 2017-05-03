@@ -100,13 +100,13 @@
 		<li><a href="Startseite.php">Startseite</a></li>
 		<li><a href="Mitglieder.php">Mitglieder</a></li>
 		<li><a href="News.php">News</a></li>
+		<li><a href="Musik.php">Medien</a></li>
 		<?php
 				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
-					<li><a href="Infos.html">Infos</a></li>
-					<li><a href="Musik.php">Medien</a></li>
+					<li><a href="Infos.php">Infos</a></li>
 				<?php endif;
 				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
-					<li><a href="Administration.html">Admin</a></li>
+					<li><a href="Administration.php">Admin</a></li>
 				<?php endif;
 			?>
       </ul>
@@ -129,9 +129,7 @@
       
       <img class="image_leftarticle" src="images/index-image.<?php echo $extension?>" alt="Picture">
       
-      <p><?php echo str_replace("\r\n", "</br>", $text) ?></p>
-  
-      
+      <p class="left_article_textformat"><?php echo str_replace("\r\n", "</br>", $text) ?></p>
       
     </article>
     <aside class="right_article">
@@ -142,7 +140,7 @@
 	<?php endif;?>
     <div class="list-group" style="width:250%;">
 	
-	  <div class="calendar" id="calendar">
+	  <!-- <div class="calendar" id="calendar">
 			<?php 
 			if(count($events->getItems()) < 1) {
 				echo "Derzeit ist leider nichts eingetragen, sorry!";

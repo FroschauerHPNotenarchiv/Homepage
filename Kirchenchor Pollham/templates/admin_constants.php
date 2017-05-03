@@ -2,6 +2,9 @@
 	$GLOBALS["ROLES_ADMIN"] = 1; 
 	$GLOBALS["ROLES_SUBADMIN"] = 2; 
 	$GLOBALS["ROLES_MEMBER"] = 3; 
+	
+	$GLOBALS["REQUEST_PASSWORD"] = 'Y'; 
+	$GLOBALS["NO_REQUEST_PASSWORD"] = 'N'; 
 
 	$GLOBALS["DB_CONNECTION"] = "DB_CONNECTION";
 	$GLOBALS["CURRENT_USER"] = "CURRENT_USER";
@@ -24,6 +27,7 @@
 	$GLOBALS["COLUMN_VOICE_ID"] = "voice_id";
 	$GLOBALS["COLUMN_INFO_TEXT"] = "user_info_text";
 	$GLOBALS["COLUMN_ACCESSION_DATE"] = "user_accession_date";
+	$GLOBALS["COLUMN_REQUEST_PASSWORD"] = "user_request_password";
 	
 	$GLOBALS["COLUMN_PORTRAIT_PATH"] = "portrait_path";
 	

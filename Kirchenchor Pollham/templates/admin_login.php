@@ -5,7 +5,7 @@
 		unset($_SESSION[$GLOBALS["SESSION_EMAIL"]]);
 		?>
 			<script>
-				window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));
+				window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));		
 			</script>
 		<?php
 	}
@@ -15,6 +15,24 @@
 			<script>
 				$('#login_button').show();
 				$('#logout_button').hide();
+				
+				$('#alter_password_button').click(function() {
+					<?php 
+						default_connect();
+						$email = getUserEmail();
+						$result = query("SELECT {$GLOBALS['COLUMN_REQUEST_PASSWORD']}
+										 FROM {$GLOBALS["USERS_TABLE"]}
+										 WHERE LOWER({$GLOBALS["COLUMN_USER_EMAIL"]}) = '{$email}'");
+						disconnect();
+						
+						if($result[0] == "{$GLOBALS["REQUEST_PASSWORD"]}") {?>
+							<script>
+								$("#request_password_resubmission_button").click();
+							</script> 
+							<?php
+						}
+					?>
+				});
 			</script>
 		<?php
 	} else if (getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]) {
