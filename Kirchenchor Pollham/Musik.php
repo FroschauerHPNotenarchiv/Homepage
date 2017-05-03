@@ -3,6 +3,7 @@
 	  include "templates/admin_user_administration_func.php";
 	  include "templates/admin_constants.php";
 ?><!doctype html>
+
 <html>
 <head>
 <meta charset="utf-8">
@@ -46,7 +47,13 @@
 	 <h3 class="titel_startseite">Unser Kirchenchor:</h3>
 		<?php
 		include "templates/music_func.php";
-			if(1 == 1) {
+		include "templates/admin_user_administration_func.php";
+		include "templates/google_drive_func.php";
+		include "templates/admin_constants.php";
+		
+		$email = getUserEmail();
+		$role = getUserRole($email);
+			if($role <= $GLOBALS["ROLES_SUBADMIN"]) {
 				include "templates/upload_music.php";
 			}
 		?>
@@ -64,6 +71,9 @@
 				} if(isset($_GET['action']) && $_GET['action'] == 'listen') {
 					saveMp3ToClient($path, true);
 				} if(isset($_GET['action']) && $_GET['action'] == 'delete') {
+					if($role > $GLOBALS["ROLES_SUBADMIN"]) {
+						header("Location: Musik.php");
+					}
 					try {
 						$service->files->delete($_GET["id"]);
 					} catch(Exception $e) {
@@ -74,7 +84,8 @@
 				
 			}
 
-			$musicFiles = retrieveAllFiles($service, "'0B0dXPPQill-kNlI3U1JOU2ZRMTg' in parents");
+			$musicFolder = $config = json_decode(file_get_contents("scripts/drive_config.json"), true)["mp3_folder"];
+			$musicFiles = retrieveAllFiles($service, "'" . $musicFolder . "' in parents");
 
 			if(count($musicFiles) == 0) 
 			{
@@ -87,7 +98,9 @@
 						<div class="columns">
 						  <img src="images/music.jpg" alt="" class="thumbnail"/>
 						  <a href="Musik.php?id=<?php echo $file->getId()?>&action=download"><h4 class="action-link"><?php echo $file->getName()?></h4></a>
+						  <?php if($role <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
 						  <a onclick="return confirm('Wollen Sie diese Datei wirklich entfernen?');" href="Musik.php?id=<?php echo $file->getId()?>&action=delete"><h4 class="action-link">Diese Datei entfernen</h4></a>
+						  <?php endif; ?>
 						  <a href="Musik.php?id=<?php echo $file->getId()?>&action=listen"><h4 class="action-link">Musikstück anhören</h4></a>
 						</div>
 

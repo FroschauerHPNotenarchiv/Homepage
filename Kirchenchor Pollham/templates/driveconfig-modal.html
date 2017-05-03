@@ -1,1 +1,18 @@
-<p></p>
+<h1>Konfiguration der Google Drive:</h1>
+<form action="" method="post">
+	<fieldset>
+	<p>E-Mail des Drive-Owners</p>
+	<input type="text" name="drive_owner" value="<?php echo $owner ?>"/>
+	
+	<p>Folder-ID des Root-Ordners</p>
+	<input type="text" name="root_folder_id" value="<?php echo $root ?>"/>
+	
+	<p>Folder-ID des Ornders für PDFs</p>
+	<input type="text" name="pdf_folder" value="<?php echo $pdf ?>"/>
+	
+	<p>Folder-ID des Ordners für Musik (MP3) Dateien</p>
+	<input type="text" name="mp3_folder" value="<?php echo $mp3 ?>"/>
+	
+	<button type="submit" name="submit">Speichern</button>
+	</fieldset>
+</form>
