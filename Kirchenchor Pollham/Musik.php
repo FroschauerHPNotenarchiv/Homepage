@@ -1,5 +1,9 @@
 ﻿
-<!doctype html>
+<?php session_start(); 
+	  include "templates/admin_user_administration_func.php";
+	  include "templates/admin_constants.php";
+?><!doctype html>
+
 <html>
 <head>
 <meta charset="utf-8">
@@ -21,12 +25,18 @@
     </div>
     <nav class="secondary_header" id="menu">
       <ul>
-       <li><a href="Startseite.php">Startseite</a></li>
-        <li><a href="Mitglieder.php">Mitglieder</a></li>
-        <li><a href="News.php">News</a></li>
-        <li><a href="Musik.php">Medien</a></li>
-        <li><a href="Infos.php">Infos</a></li>
-        <li><a href="Administration.php">Admin</a></li>
+		<li><a href="Startseite.php">Startseite</a></li>
+		<li><a href="Mitglieder.php">Mitglieder</a></li>
+		<li><a href="News.php">News</a></li>
+		<li><a href="Musik.php">Medien</a></li>
+		<?php
+				if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_MEMBER"]):?>
+					<li><a href="Infos.php">Infos</a></li>
+				<?php endif;
+				if(getUserRole(getUserEmail()) == $GLOBALS["ROLES_ADMIN"]):?>
+					<li><a href="Administration.php">Admin</a></li>
+				<?php endif;
+			?>
       </ul>
     </nav>
   </header>
@@ -105,6 +115,7 @@
  
   <footer class="footer">
     <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
+    <div class="copyright"><?php include "templates/login_button.php" ?></div>
   </footer>
 </div>
 </body>
