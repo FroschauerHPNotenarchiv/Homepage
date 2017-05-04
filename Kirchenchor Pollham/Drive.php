@@ -5,7 +5,7 @@
 	$root;
 	
 	if(isset($_POST["submit"])) {
-		$config = array();
+		$config = json_decode(file_get_contents("scripts/drive_config.json"), true);
 		$config["root_folder_id"] = $_POST["root_folder_id"];
 		$config["drive_owner"] = $_POST["drive_owner"];
 		$config["pdf_folder"] = $_POST["pdf_folder"];

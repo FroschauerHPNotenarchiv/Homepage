@@ -5,6 +5,7 @@
 	
 	$voices = getVoices();
 	$categories = getAdditionalCategories();
+	
 
 	if(isset($_POST["action-edit"]))
 	{
@@ -152,7 +153,7 @@
 								  <a href="Infos.php?id=<?php echo $fileId?>&action=download">Herunterladen</a>
 								  </h4>
 								  <h4>
-								  <?php if(1 == 1) : ?>
+								  <?php if($role <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
 								  <a onclick="return confirm('Wollen Sie diese Datei wirklich entfernen?');" href="Infos.php?id=<?php echo $fileId?>&action=delete">Löschen</a>
 								  |
 								  <a href="Infos.php?id=<?php echo $fileId ?>&action=alter">Bearbeiten</a>

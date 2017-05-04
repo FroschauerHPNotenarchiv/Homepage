@@ -1,6 +1,6 @@
 
 		<?php
-	REQUIRE_ONCE "../vendor/autoload.php";
+	REQUIRE_ONCE "vendor/autoload.php";
 	
 	function retrieveAllFiles($service, $query = null) {
 	  $result = array();
