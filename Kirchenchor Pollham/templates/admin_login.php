@@ -1,14 +1,6 @@
 <?php
 	include_once "admin_user_administration_func.php";
 	
-	echo "<script>
-			$('#tag01').html('Anmeldung');
-			$('#tag02').html('Name:');
-			$('#tag03').html('Passwort:');
-			$('#input01').attr('type', 'text');
-		 </script>
-	";
-	
 	if(isset($_GET["checkRequestPassword"])) {
 		default_connect();
 		$email = getUserEmail();
@@ -24,12 +16,14 @@
 		
 	}
 	
-	if(isset($result[0]) && $result[0] == "{$GLOBALS["REQUEST_PASSWORD"]}") {?>
+	if(isset($result[0]) && $result[0] == $GLOBALS["REQUEST_PASSWORD"]) {?>
 		<script>
 			$('#tag01').html('Passwort Änderung');
 			$('#tag02').html('Passwort:');
 			$('#tag03').html('Passwort(erneut):');
-			$('#input01').attr('type', "password");
+			$('#pwd').attr('type', "password");
+			$('#usr').attr('name', 'new_password');
+			$('#pwd').attr('name', 'new_password_repetition');
 			$("#request_password_resubmission_button").click();
 		</script> 
 		<?php
@@ -63,7 +57,22 @@
 		</script>
 	<?php }
 
-	if(isset($_POST[$GLOBALS["PARAM_EMAIL"]])) {
+	if(isset($_POST["new_password"]) && isset($_POST["new_password_repetition"])) {
+		
+		$newPasswordHash = hash("sha256", $_POST["new_password"]);
+		$newPasswordRepetitionHash = hash("sha256", $_POST["new_password_repetition"]);
+		
+		if($newPasswordHash == $newPasswordRepetitionHash) {
+			echo "<script>console.log('hash matched')</script>";
+			update($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_PASSWORD"] => $newPasswordHash, 
+				   $GLOBALS["COLUMN_REQUEST_PASSWORD"] => $GLOBALS["NO_REQUEST_PASSWORD"]), array($GLOBALS["COLUMN_USER_EMAIL"] => getUserEmail()));
+			
+			echo "<script>
+						window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));		
+				  </script>";
+		}
+		
+	} else if(isset($_POST[$GLOBALS["PARAM_EMAIL"]])) {
 		$email = $_POST[$GLOBALS["PARAM_EMAIL"]];
 		$password = hash("sha256", $_POST[$GLOBALS["PARAM_PASSWORD"]]);
 		

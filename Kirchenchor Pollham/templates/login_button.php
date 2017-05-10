@@ -6,24 +6,24 @@
 	<button type="button" id="request_password_resubmission_button" style="display:none" data-toggle="modal" data-target="#LoginModal">Request Password Resubmission</button>
 
 	<!-- Modal -->
-	<div class="modal fade" id="LoginModal" role="dialog">
+	<div class="modal fade" id="LoginModal" role="dialog" data-backdrop="static" data-keyboard="false">
 
-	<div class="modal-dialog">
+	<div class="modal-dialog" >
 
 	  <!-- Modal content-->
-	  <form action="" method="post" class="modal-content">
+	  <form action="" method="post" class="modal-content" >
 		<div class="modal-header">
 		  <button type="button" class="close" data-dismiss="modal">&times;</button>
 		  <h4 class="modal-title" id="tag01">Anmeldung</h4>
 		</div>
 		<div class="modal-body">
 		  <div class="form-group">
-			<label for="usr" id="tag02">Name:</label>
-			<input type="text" name="email" id="input01" class="form-control" id="usr">
+			<label for="usr" style="color: black" id="tag02">Name</label>
+			<input type="text" name="email" class="form-control" id="usr">
 		  </div>
 		  <div class="form-group">
-			<label for="pwd" id="tag03">Password:</label>
-			<input type="password" id="input02" name="password" class="form-control" id="pwd">
+			<label for="pwd" style="color: black" id="tag03">Passwort</label>
+			<input type="password" name="password" class="form-control" id="pwd">
 		  </div>
 		</div>
 		<div class="modal-footer">

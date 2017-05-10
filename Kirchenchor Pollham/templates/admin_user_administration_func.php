@@ -33,8 +33,9 @@ function delete_entries($table_name, $values) {
 
 function update($table_name, $values, $conditions) {
 	default_connect();
-	pg_update($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values, $conditions);
+	$success = pg_update($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values, $conditions);
 	disconnect();
+	return $success;
 }
 
 function query($sql) {

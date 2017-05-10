@@ -122,7 +122,7 @@
     <article class="left_article">
     <div>
       <h3 class="titel_startseite"><?php echo $title ?></h3>
-	  <?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"] || 1 == 1) :  ?>
+	  <?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
       <button id="showEdit" onclick="editClicked(<?php echo "'" . $title . "', '" . str_replace("\r\n", "</br>", $text) . "'" ?>)" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
 	  <?php endif; ?>
     </div>
