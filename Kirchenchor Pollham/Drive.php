@@ -3,8 +3,10 @@
 	$pdf;
 	$mp3;
 	$root;
+	$categories;
 	
 	if(isset($_POST["submit"])) {
+		
 		$config = json_decode(file_get_contents("scripts/drive_config.json"), true);
 		$config["root_folder_id"] = $_POST["root_folder_id"];
 		$config["drive_owner"] = $_POST["drive_owner"];
@@ -22,4 +24,15 @@
 	}
 	
 	include "templates/driveconfig-modal.html";
+	
+	function getAdditionalCategories()
+	{
+		$csv = array_map('str_getcsv', file('templates/categories.csv'));
+		$strings = array();
+		foreach($csv[0] as $index => $val)
+		{
+			array_push($strings, $val);
+		}
+		return $strings;
+	}
 ?>
