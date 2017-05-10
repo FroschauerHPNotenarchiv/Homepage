@@ -1,7 +1,7 @@
 ﻿
 <?php session_start(); 
-	  include "templates/admin_user_administration_func.php";
-	  include "templates/admin_constants.php";
+	  include_once "templates/admin_user_administration_func.php";
+	  include_once "templates/admin_constants.php";
 ?><!doctype html>
 
 <html>
@@ -47,9 +47,9 @@
 	 <h3 class="titel_startseite">Unser Kirchenchor:</h3>
 		<?php
 		include "templates/music_func.php";
-		include "templates/admin_user_administration_func.php";
+		include_once "templates/admin_user_administration_func.php";
 		include "templates/google_drive_func.php";
-		include "templates/admin_constants.php";
+		include_once "templates/admin_constants.php";
 		
 		$email = getUserEmail();
 		$role = getUserRole($email);
