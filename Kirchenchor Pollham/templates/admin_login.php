@@ -11,20 +11,25 @@
 			
 		disconnect();
 			
-		if($result[0] == $GLOBALS["NO_REQUEST_PASSWORD"])
+		if($result[0] == $GLOBALS["NO_REQUEST_PASSWORD"]) {
 			echo "<script>window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));</script>";
+		}
 		
 	}
 	
+	// open request new password modal
 	if(isset($result[0]) && $result[0] == $GLOBALS["REQUEST_PASSWORD"]) {?>
 		<script>
 			$('#tag01').html('Passwort Änderung');
 			$('#tag02').html('Passwort:');
 			$('#tag03').html('Passwort(erneut):');
-			$('#pwd').attr('type', "password");
+			$('#usr').attr('type', "password");
 			$('#usr').attr('name', 'new_password');
 			$('#pwd').attr('name', 'new_password_repetition');
 			$("#request_password_resubmission_button").click();
+			$('#dismissButton').click(function() {
+				window.location.href = window.location.href.substring(0, window.location.href.indexOf('?')) + '?logout';
+			});
 		</script> 
 		<?php
 	}
@@ -67,9 +72,8 @@
 			update($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_PASSWORD"] => $newPasswordHash, 
 				   $GLOBALS["COLUMN_REQUEST_PASSWORD"] => $GLOBALS["NO_REQUEST_PASSWORD"]), array($GLOBALS["COLUMN_USER_EMAIL"] => getUserEmail()));
 			
-			echo "<script>
-						window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));		
-				  </script>";
+			$_GET = array();
+			echo "<script>window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));</script>";
 		}
 		
 	} else if(isset($_POST[$GLOBALS["PARAM_EMAIL"]])) {
@@ -110,5 +114,6 @@
 		}
 		
 		disconnect();
+		
 	}
 ?>
