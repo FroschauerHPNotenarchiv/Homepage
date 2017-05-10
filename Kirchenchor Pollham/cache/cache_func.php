@@ -34,7 +34,7 @@
 	function needs_refresh($file) {
 		$timediff = time() - filemtime($file);
 		/* If the file is older than 5 minutes - Refresh */
-		if($timediff > 5) {
+		if($timediff > 5 * 60) {
 			return true;
 		}
 		return false;

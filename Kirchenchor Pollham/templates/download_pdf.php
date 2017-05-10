@@ -1,6 +1,7 @@
 <?php
 	include "google_drive_func.php";
 	include "admin_user_administration_func.php";
+	include "admin_constants.php";
 	include "cache/cache_func.php";
 	
 	$driveConfig = json_decode(file_get_contents("scripts/drive_config.json"), true);
@@ -18,6 +19,8 @@
 		$files = filter_files_categories($files, getCategories($_POST));
 		//$files = getFilesWithCategory($service,true, getCategories($_POST));
 	}
+	
+	$role = getUserRole(getUserEmail());
 
 	$showAlterDialog = false;
 	
@@ -25,13 +28,13 @@
 	{
 		try 
 		{
-			if(isset($_GET["action"]) && $_GET["action"] === "delete")
+			if(isset($_GET["action"]) && $_GET["action"] === "delete" && $role <= $GLOBALS["ROLES_SUBADMIN"])
 			{
 				$f = $service->files->delete($_GET["id"]);
 				update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
 				header("Location: Infos.php");
 			}
-			else if(isset($_GET["action"]) && $_GET["action"] === "alter")
+			else if(isset($_GET["action"]) && $_GET["action"] === "alter" && $role <= $GLOBALS["ROLES_SUBADMIN"])
 			{
 				$showAlterDialog = true;
 				update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
@@ -57,12 +60,13 @@
 		foreach($files as $id => $value) {
 			$fileCategories = $value["properties"]["categories"];
 			foreach($categories as $cat) {
-				if(strpos($fileCategories, $cat) != 0) {
-					
+				if(strpos($fileCategories, $cat) === false) {
+					unset($files[$id]);
 				}
 			}
 			
 		}
+		return $files;
 	}
 	
 	function filter_files($fileArray, $extension) {
