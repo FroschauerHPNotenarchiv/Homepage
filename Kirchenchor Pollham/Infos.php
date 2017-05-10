@@ -100,10 +100,13 @@
     <div>
       <h3 class="titel_info">Musikstücke:</h3>
       <a href="Drive.php"><button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button></a>
-    </div>  
+    <button type='button' class="btn btn-sm btn-default" style="margin-left:5%;font-size: 15px;">
+		<a href="Dateiupload.php">Ein Musikstück hochladen</a>
+		
+	</button>
+	</div>  
       <div class="stimmgattung"><h4>Stimmgattungen:</h4>
         <div class="checkboxes" id="Stimmgattungen">
-			<a href="Dateiupload.php">Ein Musikstück hochladen</a>
 			<form action="" method="post">
 		  <?php
 		    foreach($voices as $voice)
@@ -127,10 +130,12 @@
 			<?php
 			}
 		  ?>
-		    <button type="submit" name="do_search">Suchen</button>
 		    </form>
+						<button type="submit" class="btn btn-sm btn-default" style="float:right; margin-right:25%; margin-top:15px;" name="do_search">Suchen</button>
+
         </div>
       </div>
+	   
 	  <div>
 		<div class="row">
 					<?php 
