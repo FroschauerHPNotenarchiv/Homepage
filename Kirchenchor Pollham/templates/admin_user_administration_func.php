@@ -7,7 +7,7 @@ function print_debug($message) {
 }
 
 function default_connect() {
-	connect("localhost", 5432, "Homepage", "postgres", "Schnecki123");
+	connect("localhost", 5432, "Homepage", "postgres", "minecraft");
 }
 
 function connect($host, $port, $dbname, $user, $password) {
@@ -33,8 +33,9 @@ function delete_entries($table_name, $values) {
 
 function update($table_name, $values, $conditions) {
 	default_connect();
-	pg_update($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values, $conditions);
+	$success = pg_update($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values, $conditions);
 	disconnect();
+	return $success;
 }
 
 function query($sql) {
