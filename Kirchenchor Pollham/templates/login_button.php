@@ -11,7 +11,7 @@
 	<div class="modal-dialog" >
 
 	  <!-- Modal content-->
-	  <form action="" method="post" class="modal-content" >
+	  <form action="?checkRequestPassword" method="post" class="modal-content" id="form_modal" >
 		<div class="modal-header">
 		  <button type="button" class="close" data-dismiss="modal">&times;</button>
 		  <h4 class="modal-title" id="tag01">Anmeldung</h4>
@@ -27,8 +27,10 @@
 		  </div>
 		</div>
 		<div class="modal-footer">
-		  <button type="submit" class="btn btn-default" id="confirmLogin">Anmelden</button>
+		  <button type="button" class="btn btn-default" id="confirmLogin">Anmelden</button>
 		  <button type="button" class="btn btn-default" id="dismissButton" data-dismiss="modal">Beenden</button>
+		  <br />
+		  <p id="modal_message"></p>
 		</div>
 	  </form>
 	  
