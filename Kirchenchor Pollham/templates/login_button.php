@@ -28,7 +28,7 @@
 		</div>
 		<div class="modal-footer">
 		  <button type="submit" class="btn btn-default" id="confirmLogin">Anmelden</button>
-		  <button type="button" class="btn btn-default" data-dismiss="modal">Beenden</button>
+		  <button type="button" class="btn btn-default" id="dismissButton" data-dismiss="modal">Beenden</button>
 		</div>
 	  </form>
 	  

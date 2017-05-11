@@ -42,7 +42,6 @@
 				$newPortraitPath = $internalPath;
 			}
 			
-			
 			update($GLOBALS["USERS_TABLE"], array($GLOBALS["COLUMN_USER_EMAIL"] => $_POST["user_email"],
 												  $GLOBALS["COLUMN_USER_FIRSTNAME"] => $_POST["user_firstname"],
 												  $GLOBALS["COLUMN_USER_LASTNAME"] => $_POST["user_lastname"],
@@ -56,7 +55,8 @@
 											      $GLOBALS["COLUMN_ROLES_ID"] => $ids[1],
 												  $GLOBALS["COLUMN_PORTRAIT_PATH"] => $newPortraitPath,
 												  $GLOBALS["COLUMN_INFO_TEXT"] => $_POST["info_text"],
-												  $GLOBALS["COLUMN_ACCESSION_DATE"] => $_POST["accession_date"]),
+												  $GLOBALS["COLUMN_ACCESSION_DATE"] => $_POST["accession_date"],
+												  $GLOBALS["COLUMN_REQUEST_PASSWORD"] => $_POST["request_user_password"] ? $GLOBALS["REQUEST_PASSWORD"] : $GLOBALS["NO_REQUEST_PASSWORD"]),
 											array($GLOBALS["COLUMN_USER_EMAIL"] => $_GET[$GLOBALS["PARAM_EMAIL"]]));
 											
 		}
@@ -82,7 +82,8 @@
 													  $GLOBALS["COLUMN_ROLES_ID"] => $ids[1],
 													  $GLOBALS["COLUMN_PORTRAIT_PATH"] => $internalPath,
 													  $GLOBALS["COLUMN_INFO_TEXT"] => $_POST["info_text"],
-													  $GLOBALS["COLUMN_ACCESSION_DATE"] => $_POST["accession_date"]));
+													  $GLOBALS["COLUMN_ACCESSION_DATE"] => $_POST["accession_date"],
+													  $GLOBALS["COLUMN_REQUEST_PASSWORD"] => $_POST["request_user_password"] ? $GLOBALS["REQUEST_PASSWORD"] : $GLOBALS["NO_REQUEST_PASSWORD"]));
 				$_SESSION[$GLOBALS["CURRENT_USER"]] = $_POST["user_email"];
 				
 				move_uploaded_file($_FILES["user_portrait"]['tmp_name'], $internalPath);
@@ -112,13 +113,12 @@
 
 					$editMode = isset($_GET[$GLOBALS["PARAM_EMAIL"]]);
 					if($editMode) {
-						$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS["COLUMN_USER_PHONE"]}, {$GLOBALS["COLUMN_USER_PLACE"]}, {$GLOBALS["COLUMN_USER_POSTAL_CODE"]}, {$GLOBALS["COLUMN_USER_STREET"]}, {$GLOBALS["COLUMN_USER_HOUSE_NUMBER"]}, {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICE_ID"]}, {$GLOBALS["COLUMN_ROLES_ID"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}, {$GLOBALS["COLUMN_ACCESSION_DATE"]}, {$GLOBALS["COLUMN_INFO_TEXT"]}
+					$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}, {$GLOBALS["COLUMN_USER_PHONE"]}, {$GLOBALS["COLUMN_USER_PLACE"]}, {$GLOBALS["COLUMN_USER_POSTAL_CODE"]}, {$GLOBALS["COLUMN_USER_STREET"]}, {$GLOBALS["COLUMN_USER_HOUSE_NUMBER"]}, {$GLOBALS["COLUMN_USER_FIRSTNAME"]}, {$GLOBALS["COLUMN_USER_LASTNAME"]}, {$GLOBALS["COLUMN_VOICE_ID"]}, {$GLOBALS["COLUMN_ROLES_ID"]}, {$GLOBALS["COLUMN_PORTRAIT_PATH"]}, {$GLOBALS["COLUMN_ACCESSION_DATE"]}, {$GLOBALS["COLUMN_INFO_TEXT"]}, {$GLOBALS["COLUMN_REQUEST_PASSWORD"]}
 										 FROM {$GLOBALS["USERS_TABLE"]}
 										 WHERE {$GLOBALS["COLUMN_USER_EMAIL"]} = '{$_GET["email"]}'");
 						
 						$result = fetch_next_row($result);
 					}
-
 				?>
 			
 			
@@ -246,6 +246,10 @@
 										?>
 									</select>
 								</td>
+							</tr>
+							<tr class="item">
+								<td class="header" style="width: 25%;">Neues Passwort anfordern:</td>
+								<td><input type="checkbox" style="margin: 5px;padding:5px" name="request_user_password" <?php echo $result[13] == $GLOBALS["REQUEST_PASSWORD"] ? "checked" : "" ?> /></td>
 							</tr>
 							<tr class="item">
 								<td class="header" style="width: 25%;">Mitglied seit:</td>
