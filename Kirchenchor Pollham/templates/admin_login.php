@@ -1,6 +1,21 @@
 <?php
 	include_once "admin_user_administration_func.php";
 	
+	if(isset($_GET["msg"])) {
+		?><script>
+			$('.upload-info').html('<?php echo $_GET["msg"] ?>');
+			$('.upload-info').css("color", "red");
+			$('.upload-info').css("font-size", "1.5em");
+			$('.upload-info').css("text-align", "center");
+			setTimeout(function() {
+				$('.upload-info').fadeOut();
+			}, 4500);
+			$('.upload-info').show();
+	      </script>
+		<?php
+	}
+	
+	
 	if(isset($_GET["logout"])) {
 		unset($_SESSION[$GLOBALS["SESSION_EMAIL"]]);
 		?>
@@ -27,7 +42,7 @@
 			$('#logout_button').show();
 			$("#logout_button").click(function() {
 				console.log("logout requested");
-				window.location.href += "?logout";
+				window.location.href = window.location.href.substring(0, window.location.href.indexOf('?')) + "?logout";
 			});
 		</script>
 	<?php }
@@ -43,9 +58,9 @@
 					   $GLOBALS["COLUMN_REQUEST_PASSWORD"] => $GLOBALS["NO_REQUEST_PASSWORD"]), array($GLOBALS["COLUMN_USER_EMAIL"] => getUserEmail()));
 				
 				$_GET = array();
-				echo "<script>window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));</script>";
+				echo "<script>window.location.href = window.location.href.substring(0, window.location.href.indexOf('?')) + '?msg=Passwort wurde erfolgreich geändert!';</script>";
 			} else {
-				echo "<script>window.location.href = window.location.href.substring(0, window.location.href.indexOf('?'));</script>";
+				echo "<script>window.location.href = window.location.href.substring(0, window.location.href.indexOf('?')) + '?msg=Passwort wurde nicht geändert, da keine Übereinstimmung beider Passwörter vorhanden war!';</script>";
 				//echo "<script>window.location.href = window.location.href.substring(0, window.location.href.indexOf('?')) + '?checkRequestPassword&errorMsg=Passwörter stimmen nicht überein!';</script>";
 			}
 			
@@ -73,12 +88,12 @@
 				<script>
 					$('.upload-info').html('Anmeldeinformationen sind falsch');
 					$('.upload-info').css("color", "red");
-					$('.upload-info').css("font-size", "2em");
+					$('.upload-info').css("font-size", "1.5em");
 					$('.upload-info').css("text-align", "center");
 					$('.upload-info').show();
 					
 					setTimeout(function() {
-						$('.upload-info').fadeOut(1000);
+						$('.upload-info').fadeOut(4500);
 					}, 2000);
 					
 					console.log('Check user credentials! Verify your input data! check for spelling mistakes! For further information on spelling look into a dictionary!');
@@ -118,6 +133,7 @@
 				$('#tag01').html('Passwort Änderung');
 				$('#tag02').html('Passwort:');
 				$('#tag03').html('Passwort(erneut):');
+				$('#modal_msg').html('Ändern Sie Ihr Passwort, um Sicherheitsrisiken zu vermeiden!');
 				$('#usr').attr('type', "password");
 				$('#usr').attr('name', 'new_password');
 				$('#pwd').attr('name', 'new_password_repetition');

@@ -17,6 +17,9 @@
 		  <h4 class="modal-title" id="tag01">Anmeldung</h4>
 		</div>
 		<div class="modal-body">
+			<div class="form-group">
+				<p id="modal_msg"></p>
+			</div>
 		  <div class="form-group">
 			<label for="usr" style="color: black" id="tag02">Name</label>
 			<input type="text" name="email" class="form-control" id="usr">
