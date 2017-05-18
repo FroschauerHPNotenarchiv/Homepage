@@ -130,8 +130,9 @@
 			<?php
 			}
 		  ?>
+		  						<button type="submit" class="btn btn-sm btn-default" style="float:right; margin-right:25%; margin-top:15px;" name="do_search">Suchen</button>
+
 		    </form>
-						<button type="submit" class="btn btn-sm btn-default" style="float:right; margin-right:25%; margin-top:15px;" name="do_search">Suchen</button>
 
         </div>
       </div>

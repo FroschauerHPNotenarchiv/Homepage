@@ -100,36 +100,39 @@
     </article>
     <aside class="right_article">
     <h3>Newsflash:</h3>
-    <div class="list-group">
+
+	<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
+	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
+	<?php endif;?>
+    <div class="list-group" style="width:325%;">
 	
-      <h4 class="list-group-item-heading">Titel1</h4>
-      <p class="list-group-item-text">Text1</p>
-      </a>
-      <h4 class="list-group-item-heading">Titel2</h4>
-      <p class="list-group-item-text">Text2</p>
-       <h4 class="list-group-item-heading">Titel3</h4>
-      <p class="list-group-item-text">Text3</p>
-	  <div class="calendar" id="calendar">
+	   <div class="calendar" id="calendar">
 			<?php 
-			
+			if(count($events->getItems()) < 1) {
+				echo "Derzeit ist leider nichts eingetragen, sorry!";
+			}
 				/* Fetching calendar events and displaying them */
 					while(true) {
+						
 						foreach ($events->getItems() as $event) {
 							$lol = $event->getStart()->getDateTime();
-							$date = date("d.m.Y - h:i", strtotime($lol));
-							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . $event->getDescription() . "', '" . $date . "')\"";
+							$date = date("d.m.Y - H:i", strtotime($lol));
+							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . str_replace("\r\n", "</br>", $event->getDescription()) . "', '" . $date . "', '" . $event->getLocation() . "')\"";
 							?>
-							<div <?php echo $click ?>>
+							<div class="calendar-entry" <?php echo $click ?>>
 								
-								<h4>  <?php echo $event->getSummary(); ?> </h4>
-								<?php $desc = $event->getDescription();
+								<h4 class="list-group-item-heading" style="width: 100%;">  <?php echo $event->getSummary(); ?> </h4>
+								<?php $desc = str_replace("\r\n", "</br>", $event->getDescription());
 									if(strlen($desc) < 1) {
 										$desc = "Keine Beschreibung";
-									} else if(strlen($desc > 20)) {
-										$desc = substr($desc, 0, 20);
+									} else if(strlen($desc) > 100) {
+										$desc = substr($desc, 0, 100);
+										$desc = $desc . '...';
 									}
 								?>
-								<p><?php echo $desc ?></p>
+								<p class="list-group-item-text"><?php echo $date ?></p>
+								<p style="text-transform: none;"class="list-group-item-text"><?php echo $desc ?></p>
+								
 								
 							</div>
 							<?php
