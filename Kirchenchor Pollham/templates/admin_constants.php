@@ -11,6 +11,13 @@
 	$GLOBALS["USERS_TABLE"] = "users";
 	$GLOBALS["ROLES_TABLE"] = "roles";
 	$GLOBALS["VOICES_TABLE"] = "voices";
+	$GLOBALS["ACTIVITIES_TABLE"] = "activities";
+	
+	$GLOBALS["ACTIVITIES_ID"] = "activities_id";
+	$GLOBALS["ACTIVITIES_HEADLINE"] = "activities_headline";
+	$GLOBALS["ACTIVITIES_IMAGE"] = "activities_image";
+	$GLOBALS["ACTIVITIES_DESCRIPTION"] = "activities_description";
+	$GLOBALS["ACTIVITIES_DATE"] = "activities_date";
 	
 	$GLOBALS["COLUMN_ROLES_ID"] = "role_id";
 	$GLOBALS["COLUMN_ROLES_DISPLAY_NAME"] = "role_display_name";

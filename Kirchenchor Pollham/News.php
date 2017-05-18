@@ -53,7 +53,7 @@
 
 		</div>
 		</form>
-
+		
 <div class="container">
   <header>
     <div class="primary_header">
@@ -80,28 +80,39 @@
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
 	
-    <div>
+	<div>
       <h3 class="titel_startseite">Unser Kirchenchor:</h3>
-      <button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
+	  <button type="button" id="login_button" style="width: 100%; background-color: #717070; margin-right: 20px" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Activities_Modal"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
     </div>
-     
-     <div class="list_elements">
-       <h4 class="element_titel">Ereignis</h4>
-       <img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">      
-       <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-      				 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .</p>
-     </div>
-     
-     <div class="list_elements">
-       <h4 class="element_titel">Neues Ereigniiiiiiiis</h4>
-       <img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">      
-       <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-      				 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .</p>
-     </div>
-      
-      
-  
-      
+	
+	<?php 
+	
+		$activitiesQuery = query("SELECT {$GLOBALS["ACTIVITIES_HEADLINE"]}, {$GLOBALS["ACTIVITIES_IMAGE"]}, {$GLOBALS["ACTIVITIES_DESCRIPTION"]}, {$GLOBALS["ACTIVITIES_DATE"]}
+								  FROM {$GLOBALS["ACTIVITIES_TABLE"]}
+								  ORDER BY {$GLOBALS["ACTIVITIES_DATE"]} ASC");
+			
+		$activity = fetch_next_row($activitiesQuery);
+		if(!$activity)
+			goto ending;
+			
+		do {?>
+		
+			<div class="list_elements">
+				<h4 class="element_titel"><?php echo $activity[0] ?></h4>
+				<img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">      
+				<p class="format_leftarticle"><?php echo $activity[2] ?></p>
+			</div>
+
+		<?php } while($activity = fetch_next_row($activitiesQuery));
+		
+		goto skip_ending;
+		
+		ending:
+			?><p>Keine kürzlichen Aktivitäten vorhanden!</p><?php
+			
+		skip_ending:
+	
+	?>
       
     </article>
     <aside class="right_article">
@@ -159,5 +170,7 @@
 
 <script type="text/javascript" src="templates/google newsfeed modal.js"></script>
 <?php include "templates/admin_login.php" ?>
+
+
 
 </html>
