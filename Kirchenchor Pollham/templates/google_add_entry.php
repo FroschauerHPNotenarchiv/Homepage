@@ -1,5 +1,13 @@
 <?php
 	require_once "google add entry func.php";
+	
+	INCLUDE_ONCE "admin_user_administration_func.php";
+	INCLUDE_ONCE "admin_constants.php";
+	
+	if(getUserRole(getUserEmail()) > $GLOBALS["ROLES_SUBADMIN"]) {
+		header("HTTP/1.0 404 Not Found");
+		die();
+	}
 ?>
 
 <!DOCTYPE html>

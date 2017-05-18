@@ -19,6 +19,11 @@
 <link rel="stylesheet" href="css/calendar-style.css">
 <link rel="stylesheet" href="css/modal-style.css">
 <link href="css/news_termine.css" rel="stylesheet" type="text/css">	
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -74,6 +79,7 @@
   <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
+	
     <div>
       <h3 class="titel_startseite">Unser Kirchenchor:</h3>
       <button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
@@ -101,12 +107,16 @@
     <aside class="right_article">
     <h3>Newsflash:</h3>
 
+
 	<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
 	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
 	<?php endif;?>
     <div class="list-group" style="width:325%;">
 	
-	   <div class="calendar" id="calendar">
+	   <!<div class="calendar" id="calendar">  
+	   
+    <div class="list-group">
+	  <div class="calendar" id="calendar">
 			<?php 
 			if(count($events->getItems()) < 1) {
 				echo "Derzeit ist leider nichts eingetragen, sorry!";
@@ -163,5 +173,6 @@
 </body>
 
 <script type="text/javascript" src="templates/google newsfeed modal.js"></script>
+<?php include "templates/admin_login.php" ?>
 
 </html>

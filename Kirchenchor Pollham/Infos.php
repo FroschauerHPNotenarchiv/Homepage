@@ -1,7 +1,15 @@
 ﻿<?php
+	INCLUDE_ONCE "templates/admin_user_administration_func.php";
 	
+	if(getUserRole(getUserEmail()) < $GLOBALS["ROLES_MEMBER"]) {
+		header('HTTP/1.0 404 Not Found', true, 404);
+		die();
+	}
+
 	//INCLUDE "templates/upload_pdf.php";
 	INCLUDE "templates/download_pdf.php";
+	
+
 	
 	$voices = getVoices();
 	$categories = getAdditionalCategories();
@@ -70,7 +78,7 @@
 <body>
 
 <?php 
-	if(isset($_GET["action"]) && $_GET["action"] === "alter") // &isAdmin
+	if(isset($_GET["action"]) && $_GET["action"] === "alter" && getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) // &isAdmin
 	{
 		INCLUDE "templates/alter-modal.html";
 	}
@@ -99,12 +107,17 @@
     <article class="left_article">
     <div>
       <h3 class="titel_info">Musikstücke:</h3>
+	  <?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
       <a href="Drive.php"><button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button></a>
+
     <button type='button' class="btn btn-sm btn-default" style="margin-left:5%;font-size: 15px;">
 		<a href="Dateiupload.php">Ein Musikstück hochladen</a>
 		
 	</button>
 	</div>  
+
+	  <?php endif; ?>
+    </div>  
       <div class="stimmgattung"><h4>Stimmgattungen:</h4>
         <div class="checkboxes" id="Stimmgattungen">
 			<form action="" method="post">
@@ -147,11 +160,11 @@
 						{							
 							?>
 								<div class="columns">
-								  <img src="images/pdficon.png" alt="" class="thumbnail"/>
+								  <a target="_blank" href="Infos.php?id=<?php echo $fileId?>&action=show"><img src="images/pdficon.png" alt="" class="thumbnail"/></a>
 								  <h4><?php echo $file["name"]?></h4>
 								  
 								  <h4>
-								  <?php if($file["properties"] != null) : ?>
+								  <?php if($file["properties"] != null && !empty($file["properties"]["youtube-link"])) : ?>
 								  
 								  <a href="<?php echo $file["properties"]["youtube-link"]?>" target="_blank">Hörprobe</a>
 								  |

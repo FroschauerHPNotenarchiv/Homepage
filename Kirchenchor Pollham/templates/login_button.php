@@ -11,12 +11,15 @@
 	<div class="modal-dialog" >
 
 	  <!-- Modal content-->
-	  <form action="" method="post" class="modal-content" >
+	  <form action="?checkRequestPassword" method="post" class="modal-content" id="form_modal" >
 		<div class="modal-header">
 		  <button type="button" class="close" data-dismiss="modal">&times;</button>
 		  <h4 class="modal-title" id="tag01">Anmeldung</h4>
 		</div>
 		<div class="modal-body">
+			<div class="form-group">
+				<p id="modal_msg"></p>
+			</div>
 		  <div class="form-group">
 			<label for="usr" style="color: black" id="tag02">Name</label>
 			<input type="text" name="email" class="form-control" id="usr">
@@ -27,8 +30,10 @@
 		  </div>
 		</div>
 		<div class="modal-footer">
-		  <button type="submit" class="btn btn-default" id="confirmLogin">Anmelden</button>
+		  <button type="button" class="btn btn-default" id="confirmLogin">Anmelden</button>
 		  <button type="button" class="btn btn-default" id="dismissButton" data-dismiss="modal">Beenden</button>
+		  <br />
+		  <p id="modal_message"></p>
 		</div>
 	  </form>
 	  

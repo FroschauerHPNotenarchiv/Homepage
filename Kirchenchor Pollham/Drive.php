@@ -1,12 +1,46 @@
 <?php
+	INCLUDE_ONCE "templates/admin_user_administration_func.php";
+	INCLUDE_ONCE "templates/admin_constants.php";
+	
+	/*
+	if(getUserRole(getUserEmail()) > $GLOBALS["ROLES_SUBADMIN"]) {
+		header("HTTP/1.0 404 Not Found");
+		die();
+	}
+	*/
+	
 	$owner;
 	$pdf;
 	$mp3;
 	$root;
 	$categories;
 	
+	if(isset($_POST["add"])) {
+		$toAdd = $_POST["new"];
+		$ctgrys = getAdditionalCategories();
+		array_push($ctgrys, $toAdd);
+		$fp = fopen('templates/categories.csv', 'w');
+		fputcsv($fp, $ctgrys);
+		fclose($fp);
+	}
+	if(isset($_POST["delete"])) {
+
+		$toDelete = $_POST["del"];
+		$ctgrys = getAdditionalCategories();
+		$i = 0;
+		foreach($ctgrys as $c) {
+			if($c == $toDelete) {
+				unset($ctgrys[$i]);
+				break;
+			}
+			$i++;
+		}
+		$fp = fopen('templates/categories.csv', 'w');
+		fputcsv($fp, $ctgrys);
+		fclose($fp);
+	}
+	
 	if(isset($_POST["submit"])) {
-		
 		$config = json_decode(file_get_contents("scripts/drive_config.json"), true);
 		$config["root_folder_id"] = $_POST["root_folder_id"];
 		$config["drive_owner"] = $_POST["drive_owner"];
