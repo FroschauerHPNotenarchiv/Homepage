@@ -1,8 +1,8 @@
 <?php
-	include "google_drive_func.php";
-	include "admin_user_administration_func.php";
-	include "admin_constants.php";
-	include "cache/cache_func.php";
+	include_once "google_drive_func.php";
+	include_once "admin_user_administration_func.php";
+	include_once "admin_constants.php";
+	include_once "cache/cache_func.php";
 	
 	$driveConfig = json_decode(file_get_contents("scripts/drive_config.json"), true);
 	$service = new Google_Service_Drive(getClient());
@@ -38,6 +38,22 @@
 			{
 				$showAlterDialog = true;
 				update_cache($service, $driveConfig["root_folder_id"], "cache/files.json");
+			}
+			else if(isset($_GET["action"]) && $_GET["action"] === "show" /*&& $role <= $GLOBALS["ROLES_MEMBER"] */) 
+			{
+				$f = $service->files->get($_GET["id"]);
+				$name = "pdf/" . $f->getName();
+				downloadPdf($service, $_GET["id"], $name);
+				$content = file_get_contents($name);
+
+				header('Content-Type: application/pdf');
+				header('Content-Length: ' . strlen($content));
+				header('Content-Disposition: inline; filename="Notenblatt.pdf"');
+				header('Cache-Control: private, max-age=0, must-revalidate');
+				header('Pragma: public');
+				ini_set('zlib.output_compression','0');
+				unlink($name);
+				die($content);
 			}
 			else
 			{
