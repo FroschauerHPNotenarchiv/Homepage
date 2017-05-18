@@ -19,6 +19,11 @@
 <link rel="stylesheet" href="css/calendar-style.css">
 <link rel="stylesheet" href="css/modal-style.css">
 <link href="css/news_termine.css" rel="stylesheet" type="text/css">	
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -74,6 +79,7 @@
   <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
+	
     <div>
       <h3 class="titel_startseite">Unser Kirchenchor:</h3>
       <button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
@@ -101,14 +107,6 @@
     <aside class="right_article">
     <h3>Newsflash:</h3>
     <div class="list-group">
-	
-      <h4 class="list-group-item-heading">Titel1</h4>
-      <p class="list-group-item-text">Text1</p>
-      </a>
-      <h4 class="list-group-item-heading">Titel2</h4>
-      <p class="list-group-item-text">Text2</p>
-       <h4 class="list-group-item-heading">Titel3</h4>
-      <p class="list-group-item-text">Text3</p>
 	  <div class="calendar" id="calendar">
 			<?php 
 			
@@ -160,5 +158,6 @@
 </body>
 
 <script type="text/javascript" src="templates/google newsfeed modal.js"></script>
+<?php include "templates/admin_login.php" ?>
 
 </html>

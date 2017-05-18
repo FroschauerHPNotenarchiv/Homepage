@@ -249,7 +249,7 @@
 							</tr>
 							<tr class="item">
 								<td class="header" style="width: 25%;">Neues Passwort anfordern:</td>
-								<td><input type="checkbox" style="margin: 5px;padding:5px" name="request_user_password" <?php echo $result[13] == $GLOBALS["REQUEST_PASSWORD"] ? "checked" : "" ?> /></td>
+								<td><input type="checkbox" style="margin: 5px;padding:5px" name="request_user_password" <?php if($editMode) echo $result[13] == $GLOBALS["REQUEST_PASSWORD"] ? "checked" : "" ?> /></td>
 							</tr>
 							<tr class="item">
 								<td class="header" style="width: 25%;">Mitglied seit:</td>
