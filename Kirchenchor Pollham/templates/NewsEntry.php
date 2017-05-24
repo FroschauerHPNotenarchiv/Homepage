@@ -37,7 +37,7 @@
       return json_decode(file_get_contents(self::$savePath), true);
     }
 
-    public static function getNextId() {
+    static function getNextId() {
       $a = self::getEntryArray(self::$savePath);
       $string = self::generateRandomString(5);
       while(array_key_exists($string, $a)) {
@@ -47,7 +47,6 @@
     }
 
     public function save() {
-      echo self::$savePath;
       $arr = self::getEntryArray();
       $id = self::getNextId();
       $arr[$id] = array (
@@ -61,11 +60,20 @@
     }
 
     public function edit() {
+      $arr = self::getEntryArray();
+      $arr[$this->id] = array (
+        "title" => $this->title,
+        "path" => $this->imagePath,
+        "description" => $this->description
+      );
 
+      file_put_contents(self::$savePath, json_encode($arr));
     }
 
     public function delete() {
-
+      $arr = self::getEntryArray();
+      unset($arr[$this->id]);
+      file_put_contents(self::$savePath, json_encode($arr));
     }
 
     static function generateRandomString($length = 10) {

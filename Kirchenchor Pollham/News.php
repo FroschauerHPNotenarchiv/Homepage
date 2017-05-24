@@ -4,6 +4,47 @@
 	require_once "templates/google newsfeed func.php";
 	require_once "templates/admin_user_administration_func.php";
 	require_once "templates/admin_constants.php";
+	INCLUDE_ONCE "templates/news_func.php";
+	require_once "templates/NewsEntry.php";
+
+	// && getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]
+	if(isset($_GET["id"]) && isset($_GET["action"])) {
+		if($_GET["action"] == "delete") {
+			$event = NewsEntry::getEntry($_GET["id"]);
+			if($event != null) {
+				$event->delete();
+				if(file_exists($event->imagePath)) {
+					unlink($event->imagePath);
+				}
+				header("Refresh:0; url=News.php");
+			}
+		}
+	}
+
+	if(isset($_POST["editEvent"])) {
+		$event = NewsEntry::getEntry($_POST["inId"]);
+		if($event != null) {
+			$event->title = $_POST["inTitle"];
+			if(!empty($_FILES["inFile"]["tmp_name"])) {
+				if(file_exists($event->imagePath)) {
+					unlink($event->imagePath);
+				}
+				$event->imagePath = handle_file_upload();
+			}
+			$event->description = $_POST["inDescription"];
+			$event->edit();
+
+		}
+	}
+
+	if(isset($_POST["newEvent"])) {
+		$event = new NewsEntry();
+		$event->title = $_POST["inTitle"];
+		$event->imagePath = handle_file_upload();
+		$event->description = $_POST["inDescription"];
+		$event->save();
+	}
+
 ?>
 <!doctype html>
 <html>
@@ -18,7 +59,7 @@
 <link href="css/startseite.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="css/calendar-style.css">
 <link rel="stylesheet" href="css/modal-style.css">
-<link href="css/news_termine.css" rel="stylesheet" type="text/css">
+<link href="css/news_termine.css" rel="stylesheet"> <!-- type="text/css" -->
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -26,6 +67,7 @@
 
 </head>
 <body>
+
 
 <form action="" method="post">
 			<div id="myModal" class="modal">
@@ -82,35 +124,53 @@
 
     <div>
       <h3 class="titel_startseite">Unser Kirchenchor:</h3>
-      <button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
+      <button onclick="onNew()" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
     </div>
 
-     <div class="list_elements">
-       <h4 class="element_titel">Ereignis</h4>
-       <img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">
-       <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      				 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .</p>
-     </div>
+
+		 	<form action="" method="post" enctype="multipart/form-data">
+		 		<div id="eventForm" style="display: none; clear: both">
+		 			<h1 id="heading">Neuer Eintrag</h1>
+					<p>Titel: <input type="text" id="title" name="inTitle" required/></p>
+					<p>Bild: <input type="file" name="inFile"/></p>
+					<input type="text" id="desc" name="inDescription"></input>
+					<input type="text" id="hiddenId" style="display: none" name="inId"/>
+					<button id="btnNew" type="submit" name="newEvent">Erstellen</button>
+		 		</div>
+		 	</form>
+			<br/>
+			<br/>
 
      <div class="list_elements">
 
 			 <?php
-			 		INCLUDE_ONCE "templates/news_func.php";
-					require_once "templates/NewsEntry.php";
 
-					/*
-					foreach(NewsEntry::getEntryList() as $e) {
-						echo $e->title;
+			 /*
+			 for($i = 0; $i < 10; $i++) {
+				 $e = new NewsEntry();
+				 $e->title = "Fisch";
+				 $e->imagePath = "images/Events/image.jpg";
+				 $e->description = "Yes";
+				 $e->save();
+			 }
+			 */
+
+					foreach(NewsEntry::getEntryList() as $entry) {
+						?>
+						<h4 class="element_titel"><?php echo $entry->title?></h4>
+						<a onclick="onEdit('<?php echo $entry->title?>','<?php echo $entry->description?>','<?php echo $entry->id?>')"><img class="editbtn" src="images/bearbeiten.png"></a>
+						<a onclick="return confirm('Wollen Sie dieses Event wirklich entfernen?')" href="News.php?id=<?php echo $entry->id?>&action=delete"><img class="editbtn" src="images/red cross.png"></a>
+					<?php if($entry->imagePath != null) : ?>
+						<img class="image_leftarticle" src="<?php echo $entry->imagePath?>" alt="Picture">
+					<?php endif; ?>
+						<p class="format_leftarticle"><?php echo $entry->description?></p>
+
+						<?php
 					}
-					*/
 
 			  ?>
 
      </div>
-
-
-
-
 
     </article>
     <aside class="right_article">
@@ -162,7 +222,6 @@
 					if ($pageToken) {
 						$optParams = array('pageToken' => $pageToken);
 						$events = $service->events->listEvents($_PUBLIC_CALENDAR_ID, $optParams);
-
 					} else {
 						break;
 					}
@@ -184,4 +243,29 @@
 <script type="text/javascript" src="templates/google newsfeed modal.js"></script>
 <?php include "templates/admin_login.php" ?>
 
+<script>
+	function onEdit(title, description, id) {
+		document.getElementById("eventForm").style.display = "inline";
+		document.getElementById("hiddenId").value = id;
+		document.getElementById("title").value = title;
+		document.getElementById("desc").value = description;
+		document.getElementById("heading").innerHTML = "Event bearbeiten";
+		document.getElementById("btnNew").name = "editEvent";
+		document.getElementById("btnNew").innerHTML = "Bearbeiten";
+	}
+
+	function onNew() {
+		var display = document.getElementById("eventForm").style.display;
+		if(display === "none") {
+			document.getElementById("eventForm").style.display = "inline";
+			document.getElementById("heading").innerHTML = "Neuer Eintrag";
+			document.getElementById("btnNew").name = "newEvent";
+			document.getElementById("btnNew").innerHTML = "Erstellen";
+			document.getElementById("title").value = "";
+			document.getElementById("desc").value = "";
+		} else {
+			document.getElementById("eventForm").style.display = "none";
+		}
+	}
+</script>
 </html>
