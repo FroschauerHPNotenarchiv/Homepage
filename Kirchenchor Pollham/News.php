@@ -18,7 +18,7 @@
 <link href="css/startseite.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="css/calendar-style.css">
 <link rel="stylesheet" href="css/modal-style.css">
-<link href="css/news_termine.css" rel="stylesheet" type="text/css">	
+<link href="css/news_termine.css" rel="stylesheet" type="text/css">
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -29,7 +29,7 @@
 
 <form action="" method="post">
 			<div id="myModal" class="modal">
-			
+
 
 		  <!-- Modal content -->
 		  <div class="modal-content">
@@ -48,7 +48,7 @@
 			<button id="deleteBtn" type="submit" value="" name="deletion">Eintrag löschen</button>
 			<button id="alterBtn" type="submit" value="" name="alteration">Eintrag bearbeiten</button>
 				<?php endif; ?>
-					  
+
 		  </div>
 
 		</div>
@@ -79,30 +79,39 @@
   <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
-	
+
     <div>
       <h3 class="titel_startseite">Unser Kirchenchor:</h3>
       <button type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
     </div>
-     
+
      <div class="list_elements">
        <h4 class="element_titel">Ereignis</h4>
-       <img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">      
-       <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+       <img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">
+       <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
       				 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .</p>
      </div>
-     
+
      <div class="list_elements">
-       <h4 class="element_titel">Neues Ereigniiiiiiiis</h4>
-       <img class="image_leftarticle" src="images/left_article_picture.jpg" alt="Picture">      
-       <p class="format_leftarticle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-      				 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in .</p>
+
+			 <?php
+			 		INCLUDE_ONCE "templates/news_func.php";
+					require_once "templates/NewsEntry.php";
+
+					/*
+					foreach(NewsEntry::getEntryList() as $e) {
+						echo $e->title;
+					}
+					*/
+
+			  ?>
+
      </div>
-      
-      
-  
-      
-      
+
+
+
+
+
     </article>
     <aside class="right_article">
     <h3>Newsflash:</h3>
@@ -112,25 +121,25 @@
 	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
 	<?php endif;?>
     <div class="list-group" style="width:325%;">
-	
-	   <!<div class="calendar" id="calendar">  
-	   
+
+	   <div class="calendar" id="calendar">
+
     <div class="list-group">
 	  <div class="calendar" id="calendar">
-			<?php 
+			<?php
 			if(count($events->getItems()) < 1) {
 				echo "Derzeit ist leider nichts eingetragen, sorry!";
 			}
 				/* Fetching calendar events and displaying them */
 					while(true) {
-						
+
 						foreach ($events->getItems() as $event) {
 							$lol = $event->getStart()->getDateTime();
 							$date = date("d.m.Y - H:i", strtotime($lol));
 							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . str_replace("\r\n", "</br>", $event->getDescription()) . "', '" . $date . "', '" . $event->getLocation() . "')\"";
 							?>
 							<div class="calendar-entry" <?php echo $click ?>>
-								
+
 								<h4 class="list-group-item-heading" style="width: 100%;">  <?php echo $event->getSummary(); ?> </h4>
 								<?php $desc = str_replace("\r\n", "</br>", $event->getDescription());
 									if(strlen($desc) < 1) {
@@ -142,25 +151,25 @@
 								?>
 								<p class="list-group-item-text"><?php echo $date ?></p>
 								<p style="text-transform: none;"class="list-group-item-text"><?php echo $desc ?></p>
-								
-								
+
+
 							</div>
 							<?php
 						}
-				
-				
+
+
 					$pageToken = $events->getNextPageToken();
 					if ($pageToken) {
 						$optParams = array('pageToken' => $pageToken);
 						$events = $service->events->listEvents($_PUBLIC_CALENDAR_ID, $optParams);
-						
+
 					} else {
 						break;
 					}
 		}
 			?>
 			</div>
-	  
+
      </div>
     </aside>
   </section>

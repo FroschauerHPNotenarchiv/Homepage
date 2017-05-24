@@ -26,7 +26,7 @@
       </ul>
     </nav>
   </header>
- 
+  
  <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="article">
@@ -34,7 +34,7 @@
 		<!-- Hier kommt die Drive-Logik rein -->
     </article>
 </section>
- 
+
   <footer class="footer">
     <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
   </footer>

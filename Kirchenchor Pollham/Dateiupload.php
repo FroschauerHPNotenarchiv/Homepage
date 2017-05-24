@@ -1,5 +1,12 @@
 <?php
+	INCLUDE_ONCE "templates/admin_user_administration_func.php";
+	
+	if(getUserRole(getUserEmail()) > $GLOBALS["ROLES_SUBADMIN"]) {
+		header("HTTP/1.0 404 Not Found");
+		die(file_get_contents("templates/error.php"));
+	}
 	INCLUDE "templates/upload_pdf.php";
+	
 ?>
 <!DOCTYPE html>
 <html>
