@@ -138,7 +138,7 @@
 	<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) :  ?>
 	<a href="templates/google_add_entry.php">Tragen Sie etwas ein ...</a>
 	<?php endif;?>
-    <div class="list-group" style="width:100%;">
+    <div class="list-group" style="width:325%;">
 	
 	   <div class="calendar" id="calendar">
 			<?php 

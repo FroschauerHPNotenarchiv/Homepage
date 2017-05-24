@@ -13,21 +13,23 @@
 	<p>Folder-ID des Ordners für Musik (MP3) Dateien</p>
 	<input type="text" name="mp3_folder" value="<?php echo $mp3 ?>"/>
 	
+	<button type="submit" name="submit" value="S P E I C H E R N">Speichern</button>
 	
 	</fieldset>
 	<fieldset>
 		<h1>Kategorien</h1>
-		<select id="select">
+		<select id="select" name="del">
 		<?php foreach(getAdditionalCategories() as $cat) {
-			?> <option><?php echo $cat ?></option><?php
+			?> <option name="<?php echo $cat?>"><?php echo $cat ?></option><?php
 		}
 		?>
 		</select>
-		<input type="button" value="Ausgewählte Kategorie löschen" onclick="rmCategory()"></input>
+		<button type="submit" name="delete" value="delete">Löschen</button>
 		<br/>
-		<input type="text" value="" id="newC"></input>
-		<input type="button" value="Hinzufügen" onclick="addCategory()"></input>
+		<input type="text" value="" name="new" id="newC"></input>
+		<button type="submit" name="add" value="add">Hinzufügen</button>
 	</fieldset>
+	<a href="Infos.php">Zurück</a>
 	<script>
 	function rmCategory() {
 		var select = document.getElementById("select");
@@ -44,6 +46,6 @@
 	}
 </script>
 
-<button type="submit" value="S P E I C H E R N">S P E I C H E R N</button>
+
 </form>
 

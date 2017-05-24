@@ -14,8 +14,6 @@ section .left_article .stimmgattung {
 section .left_article .kategorie {
 	float: left;
 	width: 50%;
-
-
 }
 
 
@@ -24,6 +22,7 @@ section .left_article .kategorie {
 	margin-top: 4%;
 
 }
+
 .left_article .stimmgattung #Stimmgattungen {
 	width: 100%;
 	margin-bottom: 20px;
@@ -42,4 +41,16 @@ section .left_article .kategorie {
 	width: 70%;
 	margin-bottom: -5px;
 	margin-left: 5%;
+}
+
+@media (min-width: 769px) and (max-width: 1000px)
+{
+	section .left_article .stimmgattung {
+	float: left;
+	width: 100%;
+}
+section .left_article .kategorie {
+	float: left;
+	width: 100%;
+}
 }
