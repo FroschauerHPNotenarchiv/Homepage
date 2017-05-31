@@ -9,6 +9,17 @@
 	width: 80%;
 }
 
+.editbtn {
+	clear: both;
+	float: right;
+	height: 32px;
+}
+
+.editbtn:hover {
+	cursor: pointer;
+	height: 36px;
+}
+
 .left_article div .btn.btn-sm.btn-default.button_bearbeiten {
 	margin-top: 4%;
 
