@@ -1,6 +1,6 @@
 ﻿<?php
 	INCLUDE_ONCE "templates/admin_user_administration_func.php";
-	
+
 	if(getUserRole(getUserEmail()) < $GLOBALS["ROLES_MEMBER"]) {
 		header('HTTP/1.0 404 Not Found', true, 404);
 		die();
@@ -8,29 +8,29 @@
 
 	//INCLUDE "templates/upload_pdf.php";
 	INCLUDE "templates/download_pdf.php";
-	
 
-	
+
+
 	$voices = getVoices();
 	$categories = getAdditionalCategories();
-	
+
 
 	if(isset($_POST["action-edit"]))
 	{
 		$newFile = new Google_Service_Drive_DriveFile();
-		$newFile->setName($_POST["fileName"]); 
+		$newFile->setName($_POST["fileName"]);
 		$newFile->setProperties(array('youtube-link' => $_POST["editLink"], 'categories' => implode(";", getCategories($_POST))));
 		$service->files->update($_POST["fileId"], $newFile, array()); // arr mimeType applPdf
 		update_cache($service, $driveConfig["pdf_folder"], "cache/files.json");
 		header("Location: Infos.php");
 	}
-	
+
 	function getNiceName($name)
 	{
 		$pos = strpos($name, ".", 0);
 		return substr($name, 0, $pos);
 	}
-	
+
 	function isSelectedCategory($file, $category)
 	{
 		$name = $file->getName();
@@ -39,7 +39,7 @@
 		}
 		return false;
 	}
-	
+
 	function name($fileId, $filename, $properties)
 	{
 		sort($properties);
@@ -50,8 +50,8 @@
 		}
 		return $googleFileName . ".pdf";
 	}
-	
-	
+
+
 ?>
 <!doctype html>
 <html>
@@ -67,7 +67,7 @@
 	<link href="jQueryAssets/jquery.ui.button.min.css" rel="stylesheet" type="text/css">
 	<script src="jQueryAssets/jquery-1.11.1.min.js"></script>
 	<script src="jQueryAssets/jquery.ui-1.10.4.button.min.js"></script>
-	
+
 	  <style>
 	h4.action-link:hover {
 		color: pink;
@@ -77,7 +77,7 @@
 
 <body>
 
-<?php 
+<?php
 	if(isset($_GET["action"]) && $_GET["action"] === "alter" && getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) // &isAdmin
 	{
 		INCLUDE "templates/alter-modal.html";
@@ -99,9 +99,9 @@
       </ul>
     </nav>
   </header>
- 
- 
- 
+
+
+
  <section>
     <h2 class="noDisplay">Main Content</h2>
     <article class="left_article">
@@ -112,12 +112,12 @@
 
     <button type='button' class="btn btn-sm btn-default" style="margin-left:5%;font-size: 15px;">
 		<a href="Dateiupload.php">Ein Musikstück hochladen</a>
-		
+
 	</button>
-	</div>  
+	</div>
 
 	  <?php endif; ?>
-    </div>  
+    </div>
       <div class="stimmgattung"><h4>Stimmgattungen:</h4>
         <div class="checkboxes" id="Stimmgattungen">
 			<form action="" method="post">
@@ -149,23 +149,23 @@
 
         </div>
       </div>
-	   
+
 	  <div>
 		<div class="row">
-					<?php 
+					<?php
 						if(count($files) == 0) {
 							?> <p>Für diese Auswahl wurden keine Dateien gefunden.</p> <?php
 						}
 						foreach($files as $fileId => $file)
-						{							
+						{
 							?>
 								<div class="columns">
 								  <a target="_blank" href="Infos.php?id=<?php echo $fileId?>&action=show"><img src="images/pdficon.png" alt="" class="thumbnail"/></a>
 								  <h4><?php echo $file["name"]?></h4>
-								  
+
 								  <h4>
 								  <?php if($file["properties"] != null && !empty($file["properties"]["youtube-link"])) : ?>
-								  
+
 								  <a href="<?php echo $file["properties"]["youtube-link"]?>" target="_blank">Hörprobe</a>
 								  |
 								  <?php endif; ?>
@@ -180,8 +180,8 @@
 								  </h4>
 
 								</div>
-								
-								
+
+
 							<?php
 						}
 					?>
@@ -189,13 +189,13 @@
 	  </div>
     </article>
 
-    
+
     <aside class="right_article">
     <h3>Chortemine:</h3>
 		<?php INCLUDE "templates/calendar_temp.php"; ?>
     </aside>
 </section>
- 
+
 
   <footer class="footer">
     <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
@@ -207,12 +207,12 @@
 
 <script type="text/javascript">
 $(function() {
-	$( "#Stimmgattungen" ).buttonset(); 
+	$( "#Stimmgattungen" ).buttonset();
 });
 </script>
 <script type="text/javascript">
 $(function() {
-	$( "#Kategorien" ).buttonset(); 
+	$( "#Kategorien" ).buttonset();
 });
 </script>
 </body>

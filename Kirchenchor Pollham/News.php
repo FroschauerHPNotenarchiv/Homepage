@@ -7,43 +7,45 @@
 	INCLUDE_ONCE "templates/news_func.php";
 	require_once "templates/NewsEntry.php";
 
-	// && getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]
-	if(isset($_GET["id"]) && isset($_GET["action"])) {
-		if($_GET["action"] == "delete") {
-			$event = NewsEntry::getEntry($_GET["id"]);
+	if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) {
+		if(isset($_GET["id"]) && isset($_GET["action"])) {
+			if($_GET["action"] == "delete") {
+				$event = NewsEntry::getEntry($_GET["id"]);
+				if($event != null) {
+					$event->delete();
+					if(file_exists($event->imagePath)) {
+						unlink($event->imagePath);
+					}
+					header("Refresh:0; url=News.php");
+				}
+			}
+		}
+
+		if(isset($_POST["editEvent"])) {
+			$event = NewsEntry::getEntry($_POST["inId"]);
 			if($event != null) {
-				$event->delete();
-				if(file_exists($event->imagePath)) {
-					unlink($event->imagePath);
+				$event->title = $_POST["inTitle"];
+				if(!empty($_FILES["inFile"]["tmp_name"])) {
+					if(file_exists($event->imagePath)) {
+						unlink($event->imagePath);
+					}
+					$event->imagePath = handle_file_upload();
 				}
-				header("Refresh:0; url=News.php");
+				$event->description = $_POST["inDescription"];
+				$event->edit();
+
 			}
 		}
-	}
 
-	if(isset($_POST["editEvent"])) {
-		$event = NewsEntry::getEntry($_POST["inId"]);
-		if($event != null) {
+		if(isset($_POST["newEvent"])) {
+			$event = new NewsEntry();
 			$event->title = $_POST["inTitle"];
-			if(!empty($_FILES["inFile"]["tmp_name"])) {
-				if(file_exists($event->imagePath)) {
-					unlink($event->imagePath);
-				}
-				$event->imagePath = handle_file_upload();
-			}
+			$event->imagePath = handle_file_upload();
 			$event->description = $_POST["inDescription"];
-			$event->edit();
-
+			$event->save();
 		}
 	}
 
-	if(isset($_POST["newEvent"])) {
-		$event = new NewsEntry();
-		$event->title = $_POST["inTitle"];
-		$event->imagePath = handle_file_upload();
-		$event->description = $_POST["inDescription"];
-		$event->save();
-	}
 
 ?>
 <!doctype html>
@@ -124,10 +126,13 @@
 
     <div>
       <h3 class="titel_startseite">Unser Kirchenchor:</h3>
+			<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
       <button onclick="onNew()" type="button" class="btn btn-sm btn-default button_bearbeiten"><img class="icon_bearbeiten" src="images/bearbeiten.png" /></button>
+		<?php endif; ?>
     </div>
 
 
+		<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
 		 	<form action="" method="post" enctype="multipart/form-data">
 		 		<div id="eventForm" style="display: none; clear: both">
 		 			<h1 id="heading">Neuer Eintrag</h1>
@@ -140,26 +145,17 @@
 		 	</form>
 			<br/>
 			<br/>
-
+		<?php endif; ?>
      <div class="list_elements">
 
 			 <?php
-
-			 /*
-			 for($i = 0; $i < 10; $i++) {
-				 $e = new NewsEntry();
-				 $e->title = "Fisch";
-				 $e->imagePath = "images/Events/image.jpg";
-				 $e->description = "Yes";
-				 $e->save();
-			 }
-			 */
-
 					foreach(NewsEntry::getEntryList() as $entry) {
 						?>
 						<h4 class="element_titel"><?php echo $entry->title?></h4>
-						<a onclick="onEdit('<?php echo $entry->title?>','<?php echo $entry->description?>','<?php echo $entry->id?>')"><img class="editbtn" src="images/bearbeiten.png"></a>
+					<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
+						<a href="#eventForm" onclick="onEdit('<?php echo $entry->title?>','<?php echo $entry->description?>','<?php echo $entry->id?>')"><img class="editbtn" src="images/bearbeiten.png"></a>
 						<a onclick="return confirm('Wollen Sie dieses Event wirklich entfernen?')" href="News.php?id=<?php echo $entry->id?>&action=delete"><img class="editbtn" src="images/red cross.png"></a>
+					<?php endif; ?>
 					<?php if($entry->imagePath != null) : ?>
 						<img class="image_leftarticle" src="<?php echo $entry->imagePath?>" alt="Picture">
 					<?php endif; ?>
