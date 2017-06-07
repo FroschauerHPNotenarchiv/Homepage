@@ -150,6 +150,7 @@
 
 			 <?php
 					foreach(NewsEntry::getEntryList() as $entry) {
+					foreach(array_reverse(NewsEntry::getEntryList()) as $entry) {
 						?>
 						<h4 class="element_titel"><?php echo $entry->title?></h4>
 					<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>

@@ -1,13 +1,4 @@
 <?php
-  function get_news() {
-    if(!empty($_FILES["inFile"]["tmp_name"])) {
-      echo $_FILES["inFile"]["name"];
-      $type = pathinfo($_FILES["inFile"]["name"], PATHINFO_EXTENSION);
-      echo "   " . $type;
-    }
-
-  }
-
   function handle_file_upload() {
     $target_dir = "images/Events/";
 $type = pathinfo($_FILES["inFile"]["name"], PATHINFO_EXTENSION);

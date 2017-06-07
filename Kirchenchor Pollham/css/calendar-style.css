@@ -1,39 +1,40 @@
-				
+
 
 		.calendar {
 			width: 30%;
 		}
-		
+
 		.event-title {
 			font-family: Arial;
 			font-size: 2em;
 		}
-		
+
 		.calendar-entry {
 			margin-bottom: 3%;
 			padding: 2px 6px;
 			overflow: hidden;
+			width: 300%;
 		}
-		
+
 		.calendar-entry:hover {
 			background: #ffbcbc;
 			cursor: pointer;
 		}
-		
+
 		.entry-date {
-			
+
 			color: gray;
 			font-size: 0.9em;
 			margin-top: -5px;
-			
+
 		}
-		
+
 		.switch-entrys-btn {
 			margin-bottom: 15px;
 		}
-		
+
 		/* The Checkbox */
-		
+
 	.switch {
 	  position: relative;
 	  display: inline-block;
