@@ -253,7 +253,7 @@
 							</tr>
 							<tr class="item">
 								<td class="header" style="width: 25%;">Mitglied seit:</td>
-								<td><input type="date" name="accession_date" value="<?php echo $result[11] ?>" /></td>
+								<td><input type="date" name="accession_date" value="<?php if($editMode) echo $result[11] ?>" /></td>
 							</tr>
 						</table>						
 					</div>
