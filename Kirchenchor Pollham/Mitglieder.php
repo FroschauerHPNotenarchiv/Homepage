@@ -102,7 +102,7 @@
 	<div class="row blockDisplay"> </div>
 		<footer class="footer">
     <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
-    <div class="copyright"><?php include "templates/login_button.php" ?></div>
+    <!-- <div class="copyright"><?php //include "templates/login_button.php" ?></div> -->
   </footer>
 	</div>
 	
@@ -134,5 +134,5 @@
 </html>
 
 <?php
-	require_once "templates/admin_login.php";
+	//require_once "templates/admin_login.php";
 ?>

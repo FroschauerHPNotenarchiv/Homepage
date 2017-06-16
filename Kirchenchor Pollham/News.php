@@ -150,21 +150,21 @@
 
 			 <?php
 					foreach(NewsEntry::getEntryList() as $entry) {
-					foreach(array_reverse(NewsEntry::getEntryList()) as $entry) {
-						?>
-						<h4 class="element_titel"><?php echo $entry->title?></h4>
-					<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
-						<a href="#eventForm" onclick="onEdit('<?php echo $entry->title?>','<?php echo $entry->description?>','<?php echo $entry->id?>')"><img class="editbtn" src="images/bearbeiten.png"></a>
-						<a onclick="return confirm('Wollen Sie dieses Event wirklich entfernen?')" href="News.php?id=<?php echo $entry->id?>&action=delete"><img class="editbtn" src="images/red cross.png"></a>
-					<?php endif; ?>
-					<?php if($entry->imagePath != null) : ?>
-						<img class="image_leftarticle" src="<?php echo $entry->imagePath?>" alt="Picture">
-					<?php endif; ?>
-						<p class="format_leftarticle"><?php echo $entry->description?></p>
+						foreach(array_reverse(NewsEntry::getEntryList()) as $entry) {
+							?>
+							<h4 class="element_titel"><?php echo $entry->title?></h4>
+						<?php if(getUserRole(getUserEmail()) <= $GLOBALS["ROLES_SUBADMIN"]) : ?>
+							<a href="#eventForm" onclick="onEdit('<?php echo $entry->title?>','<?php echo $entry->description?>','<?php echo $entry->id?>')"><img class="editbtn" src="images/bearbeiten.png"></a>
+							<a onclick="return confirm('Wollen Sie dieses Event wirklich entfernen?')" href="News.php?id=<?php echo $entry->id?>&action=delete"><img class="editbtn" src="images/red cross.png"></a>
+						<?php endif; ?>
+						<?php if($entry->imagePath != null) : ?>
+							<img class="image_leftarticle" src="<?php echo $entry->imagePath?>" alt="Picture">
+						<?php endif; ?>
+							<p class="format_leftarticle"><?php echo $entry->description?></p>
 
-						<?php
+							<?php
+						}
 					}
-
 			  ?>
 
      </div>
@@ -186,33 +186,33 @@
 			<?php
 			if(count($events->getItems()) < 1) {
 				echo "Derzeit ist leider nichts eingetragen, sorry!";
-			}
+			} else {
 				/* Fetching calendar events and displaying them */
-					while(true) {
+				while(true) {
 
-						foreach ($events->getItems() as $event) {
-							$lol = $event->getStart()->getDateTime();
-							$date = date("d.m.Y - H:i", strtotime($lol));
-							$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . str_replace("\r\n", "</br>", $event->getDescription()) . "', '" . $date . "', '" . $event->getLocation() . "')\"";
+					foreach ($events->getItems() as $event) {
+						$lol = $event->getStart()->getDateTime();
+						$date = date("d.m.Y - H:i", strtotime($lol));
+						$click = "onclick=\"calendarClick('" . $event->getId() . "', '" . $event->getSummary() . "', '" . str_replace("\r\n", "</br>", $event->getDescription()) . "', '" . $date . "', '" . $event->getLocation() . "')\"";
+						?>
+						<div class="calendar-entry" <?php echo $click ?>>
+
+							<h4 class="list-group-item-heading" style="width: 100%;">  <?php echo $event->getSummary(); ?> </h4>
+							<?php $desc = str_replace("\r\n", "</br>", $event->getDescription());
+								if(strlen($desc) < 1) {
+									$desc = "Keine Beschreibung";
+								} else if(strlen($desc) > 100) {
+									$desc = substr($desc, 0, 100);
+									$desc = $desc . '...';
+								}
 							?>
-							<div class="calendar-entry" <?php echo $click ?>>
-
-								<h4 class="list-group-item-heading" style="width: 100%;">  <?php echo $event->getSummary(); ?> </h4>
-								<?php $desc = str_replace("\r\n", "</br>", $event->getDescription());
-									if(strlen($desc) < 1) {
-										$desc = "Keine Beschreibung";
-									} else if(strlen($desc) > 100) {
-										$desc = substr($desc, 0, 100);
-										$desc = $desc . '...';
-									}
-								?>
-								<p class="list-group-item-text"><?php echo $date ?></p>
-								<p style="text-transform: none;"class="list-group-item-text"><?php echo $desc ?></p>
+							<p class="list-group-item-text"><?php echo $date ?></p>
+							<p style="text-transform: none;"class="list-group-item-text"><?php echo $desc ?></p>
 
 
-							</div>
-							<?php
-						}
+						</div>
+						<?php
+					}
 
 
 					$pageToken = $events->getNextPageToken();
@@ -222,8 +222,8 @@
 					} else {
 						break;
 					}
-		}
-			?>
+				}
+			} ?>
 			</div>
 
      </div>
@@ -232,13 +232,13 @@
 <div class="row blockDisplay"> </div>
 <footer class="footer">
     <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
-    <div class="copyright"><?php include "templates/login_button.php" ?></div>
+    <!-- <div class="copyright"><?php //include "templates/login_button.php" ?></div> -->
   </footer>
 </div>
 </body>
 
 <script type="text/javascript" src="templates/google newsfeed modal.js"></script>
-<?php include "templates/admin_login.php" ?>
+<!--- <?php //include "templates/admin_login.php" ?> -->
 
 <script>
 	function onEdit(title, description, id) {

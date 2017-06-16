@@ -1,5 +1,5 @@
 <?php
-	include "google_drive_func.php";
+	include_once "google_drive_func.php";
 	//include "admin_user_administration_func.php";
 	
 	$service = new Google_Service_Drive(getClient());

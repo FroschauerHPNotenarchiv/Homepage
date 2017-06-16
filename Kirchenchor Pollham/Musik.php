@@ -48,7 +48,7 @@
 		<?php
 		include "templates/music_func.php";
 		include_once "templates/admin_user_administration_func.php";
-		include "templates/google_drive_func.php";
+		include_once "templates/google_drive_func.php";
 		include_once "templates/admin_constants.php";
 		
 		$email = getUserEmail();
@@ -115,7 +115,7 @@
  
   <footer class="footer">
     <div class="copyright">&copy;Lukas Knoll | Niklas Graf| Sebastian Mandl</div>
-    <div class="copyright"><?php include "templates/login_button.php" ?></div>
+    <!-- <div class="copyright"><?php //include "templates/login_button.php" ?></div> -->
   </footer>
 </div>
 </body>
