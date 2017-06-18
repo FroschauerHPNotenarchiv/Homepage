@@ -1,6 +1,6 @@
 <?php
 	if(!isset($_SESSION))
-		session_start();
+		@session_start();
 	include_once 'admin_user_administration_func.php';
 	
 	if(isset($_GET["action"])) {

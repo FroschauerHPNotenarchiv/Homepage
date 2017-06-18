@@ -15,8 +15,8 @@ function default_connect() {
 }
 
 function connect($host, $port, $dbname, $user, $password) {
-	$connection = mysql_connect($host . ":" . $port, $user, $password) or die ("Unable to establish connection");
-	$database = mysql_select_db($dbname) or die ("Unable to establish connection");
+	$connection = new PDO("mysql:host=" . $host . ";port=" . $port . ";dbname=" . $dbname . ";charset=utf8", $user, $password); // 
+	$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	//$connection = /* mysqli_connect($host + ":" + $port, $user, $password, $dbname);*/ new mysqli($host + ":" + $port, $user, $password, $dbname);
 	 
@@ -57,7 +57,7 @@ function convertToSQL($stmType, $tableName,  $values, $conditions = array(1 => 1
 			$stm = substr($stm, 0, strlen($stm) - 1);
 			$stm .= " where ";
 			foreach($conditions as $key => $value) {
-				$stm .= "convert(" . $key . "), char(500)) = \"" . $value . "\" and";
+				$stm .= "convert(" . $key . ", char(500)) = \"" . $value . "\" and";
 			}
 			$stm = substr($stm, 0, strlen($stm) - 4);
 			$stm .= ";";
@@ -75,34 +75,38 @@ function convertToSQL($stmType, $tableName,  $values, $conditions = array(1 => 1
 
 function insert($table_name, $values) {
 	default_connect();
-	mysql_query(convertToSQL($GLOBALS["SQL_INSERT"], $table_name, $values));
+	$stm = $_SESSION[$GLOBALS["DB_CONNECTION"]]->prepare(convertToSQL($GLOBALS["SQL_INSERT"], $table_name, $values));
+	$stm->execute();
 		//print_debug("Insert failed! Try again with different table_name or values!");
 	disconnect();
 }
 
 function delete_entries($table_name, $conditions) {
 	default_connect();
-	mysql_query(convertToSQL($GLOBALS["SQL_DELETE"], $table_name, $conditions));
+	$stm = $_SESSION[$GLOBALS["DB_CONNECTION"]]->prepare(convertToSQL($GLOBALS["SQL_DELETE"], $table_name, $conditions));
+	$stm->execute();
 	//pg_delete($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values);
 	disconnect();
 }
 
 function update($table_name, $values, $conditions) {
 	default_connect();
-	$success = mysql_query(convertToSQL($GLOBALS["SQL_UPDATE"], $table_name, $values, $conditions)); 
+	$stm = $_SESSION[$GLOBALS["DB_CONNECTION"]]->prepare(convertToSQL($GLOBALS["SQL_UPDATE"], $table_name, $values, $conditions)); 
+	$stm->execute();
 	//pg_update($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values, $conditions);
 	disconnect();
-	return $success;
+	return $stm;
 }
 
 function query($sql) {
 	default_connect();
-	$result = mysql_query($sql); // pg_query($_SESSION[$GLOBALS["DB_CONNECTION"]], $sql);
+	$stm = $_SESSION[$GLOBALS["DB_CONNECTION"]]->prepare($sql);
+	$stm->execute(); // pg_query($_SESSION[$GLOBALS["DB_CONNECTION"]], $sql);
 	disconnect();
 	//if($result === null)
 	//	print_debug("Query returned with no return values!");
 	//else
-	return $result;
+	return $stm;
 }
 
 function getUserRole($email) {
@@ -124,7 +128,7 @@ function getUserEmail() {
 }
 
 function fetch_next_row($result_set) {
-	return mysql_fetch_row($result_set);
+	return $result_set->fetch();
 }
 
 function disconnect() {
@@ -132,7 +136,7 @@ function disconnect() {
 		//print_debug("The database connection was closed prior to the invocation of the disconnect function!");
 		return;
 	else {
-		mysql_close($_SESSION[$GLOBALS["DB_CONNECTION"]]);
+		//mysql_close($_SESSION[$GLOBALS["DB_CONNECTION"]]);
 		$_SESSION[$GLOBALS["DB_CONNECTION"]] = null;
 	}
 		
