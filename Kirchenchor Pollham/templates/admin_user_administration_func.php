@@ -11,7 +11,7 @@ function print_debug($message) {
 }
 
 function default_connect() {
-	connect("127.0.0.1", 3306, "db127631_3", "root", "");
+	connect("mysql5.projekt-pollham.at", 3306, "db127631_3", "db127631_3", "Minecraft=0"); // mysql5.projekt-pollham.at, "db127631_3", "Minecraft=0"
 }
 
 function connect($host, $port, $dbname, $user, $password) {
@@ -63,7 +63,7 @@ function convertToSQL($stmType, $tableName,  $values, $conditions = array(1 => 1
 			$stm .= ";";
 			return $stm;
 		case $GLOBALS["SQL_DELETE"]:
-			$stm += "delete from " . $tableName . " where ";
+			$stm .= "delete from " . $tableName . " where ";
 			foreach($conditions as $key => $value) {
 				$stm .= "convert(" . $key . ", char(500)) = \"" . $value . "\" and";
 			}
@@ -83,7 +83,7 @@ function insert($table_name, $values) {
 
 function delete_entries($table_name, $conditions) {
 	default_connect();
-	$stm = $_SESSION[$GLOBALS["DB_CONNECTION"]]->prepare(convertToSQL($GLOBALS["SQL_DELETE"], $table_name, $conditions));
+	$stm = $_SESSION[$GLOBALS["DB_CONNECTION"]]->prepare(convertToSQL($GLOBALS["SQL_DELETE"], $table_name, null, $conditions));
 	$stm->execute();
 	//pg_delete($_SESSION[$GLOBALS["DB_CONNECTION"]], $table_name, $values);
 	disconnect();

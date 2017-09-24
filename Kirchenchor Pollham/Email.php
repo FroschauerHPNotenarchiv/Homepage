@@ -26,11 +26,11 @@
 			$_SESSION[$GLOBALS["PARAM_PASSWORD"]] = $_POST[$GLOBALS["PARAM_PASSWORD"]];
 			$_POST = array();
 		}
-		
+
 		if(isset($_POST["msg"]) && isset($_POST["subject"]) && isset($_SESSION[$GLOBALS["PARAM_PASSWORD"]])) {
-				
-			$mail = new PHPMailer;
 			
+			$mail = new PHPMailer(true);
+
 			if(isset($_POST["recipient"]) && $_POST["recipient"] == "all") {
 				$result = query("SELECT {$GLOBALS["COLUMN_USER_EMAIL"]}
 							 FROM {$GLOBALS["USERS_TABLE"]};");
@@ -50,8 +50,9 @@
 						while($row = fetch_next_row($result)) {
 							$mail->AddAddress($row[0]);
 						}
-					} else // is direct recipient
+					} else if(preg_match("#recipient[0-9]{2}#", $key)){ // is direct recipient and is address
 						$mail->AddAddress($value);
+					}
 				}
 			}
 			
@@ -62,27 +63,30 @@
 			// int preg_match ( string $pattern , string $subject [, array &$matches [, int $flags = 0 [, int $offset = 0 ]]] )
 
 			// Host: Specify main and backup server
-			if(preg_match("#.+\\@gmail\\.com#", $_SESSION["email-host"]))
+			if(preg_match("#.+\\@gmail\\.com#", $_SESSION["email-host"])) {
 				$mail->Host = "smtp.gmail.com";
-			else if(preg_match("#.+\\@a1\\.net#", $_SESSION["email-host"]))
+				$mail->Port = 465;
+			} else if(preg_match("#.+\\@a1\\.net#", $_SESSION["email-host"]))
 				$mail->Host = "smtp.a1.net";
 			else if(preg_match("#.+\\@live\\.com#", $_SESSION["email-host"]))
-				$mail->Host = "smtp.live.com";
+				$mail->Host = "mail.live.com";
 			else if(preg_match("#.+\\@web\\.de#", $_SESSION["email-host"]))
-				$mail->Host = "smtp.web.de";
+				$mail->Host = "mail.web.de";
 			else if(preg_match("#.+\\@yahoo\\.com#", $_SESSION["email-host"]))
-				$mail->Host = "smtp.mail.yahoo.com";
+				$mail->Host = "mail.yahoo.com";
 			else if(preg_match("#.+\\@gmx\\.net#", $_SESSION["email-host"]))
 				$mail->Host = "mail.gmx.net";
+
+			$_SESSION["host"] = $mail->Host;
 			
-			$mail->IsSMTP();                                      // Set mailer to use SMTP
+			//$mail->IsSMTP();                                      // Set mailer to use SMTP
 			$mail->SMTPAuth = true;                               // Enable SMTP authentication
 			$mail->Username = $_SESSION["email-host"];            // SMTP username
 			$mail->Password = $_SESSION[$GLOBALS["PARAM_PASSWORD"]];                 // SMTP password
-			$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
+			$mail->SMTPSecure = 'ssl';                            // Enable encryption, 'ssl' also accepted
 
 			$mail->From = $_SESSION["email-host"];
-			$mail->FromName = 'Sebastian Mandl';
+			$mail->FromName = $_SESSION["email-host"];
 
 			$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
 			$mail->IsHTML(true);                                  // Set email format to HTML
@@ -108,7 +112,7 @@
 			} else {
 				?>
 					<script>
-						$("#popup").html("Email konnte nicht versendet werden!");
+						$("#popup").html("Email konnte nicht versandt werden!");
 						$("#popup").css("color", "rgb(180, 40, 40)");
 						$("#popup").show();
 						$("#popup").fadeIn(2500, function() {
@@ -122,7 +126,7 @@
 			}
 			
 			} catch(Exception $e) {
-				echo $e->errorMessage();
+				die($e->errorMessage());
 			}
 		}
 	
@@ -146,6 +150,7 @@
 				
 				<p>Email-Passwort: <input required type="password" name="<?php echo $GLOBALS["PARAM_PASSWORD"] ?>" /></p>
 				<button type="submit">Bestätigen</button>
+				<br />
 			</form>
 		<?php else:?>
 		
@@ -187,21 +192,33 @@
 		<br />
 		<button type="submit">Senden</button>
 	</form>
+
+	<br />
 	
 	<?php endif; ?>
 	
+	<!--
 	<hr />
 		
 	<h2>Benachrichtigungen</h2>
 	<button style=margin-bottom:3%; type="button" id="refreshButton">Aktualisieren</button> <!--  unset post -->
+
+	<!--
 	<br />
 		
 	<?php
+	/*
 	
 	if(!isset($_SESSION[$GLOBALS["PARAM_PASSWORD"]]))
 		goto ending;
 	
-	$handle = imap_open("{imap.gmx.net/imap2/ssl}INBOX", "sebastian-mandl@gmx.net", $_SESSION[$GLOBALS["PARAM_PASSWORD"]]);
+	if(!isset($_SESSION["host"]))
+		return;
+
+	die(imap_open("{imap.gmail.com:993/novalidate-cert}INBOX", "chorpollham@gmail.com", "kirchenchor123"));
+
+	$handle = imap_open("{imap." . substr($_SESSION["host"], strpos($_SESSION["host"], '.') + 1) . "/ssl/novalidate-cert}INBOX", $_SESSION["email-host"], 
+		$_SESSION[$GLOBALS["PARAM_PASSWORD"]]);
 
 	$msgbox = imap_check($handle);
 
@@ -228,7 +245,9 @@
 		<?php
 	endforeach;?>
 	
-	<?php imap_close($handle); ending:?>
+	<?php imap_close($handle); ending: */?>
+	
+	-->
 
 	<script type="text/javascript">
 		$("#refreshButton").click(function() {
